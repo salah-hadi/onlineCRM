@@ -77,12 +77,13 @@ public class login extends allParameters{
 //    		  driver.wait(2000);
 //    		  }
     			  
-    		 //This will check if "Pending E-mail" message is displayed
+    		 //This will check if "Pending E-mail" message is displayed and dismiss it
     		  if(driver.findElement(By.id("InlineDialog_Iframe")).isDisplayed()) {
     				  driver.switchTo().frame(driver.findElement(By.id("InlineDialog_Iframe")));
     				//Waiting till dismissing button is displayed
     				  WebDriverWait w8=new WebDriverWait(driver, 2);
     	    		  w8.until(ExpectedConditions.presenceOfElementLocated(By.id("butBegin")));
+    	    		  //clicking dismiss button
     	    		  driver.findElement(By.id("butBegin")).click();
     			  }
     	  }catch(NoSuchElementException e) {
