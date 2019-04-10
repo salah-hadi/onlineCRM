@@ -11,10 +11,10 @@ public class NewTest extends allParameters{
   @Test
   public void passParameters() {
 	  driverPath="E:\\automation\\chrome driver\\chromedriver.exe"; 
-	  browser="chrome";
+	  browser="chrome"; //browsers can be "chrome" or "firefox"
 	  crmUrl="http://barqstaging.crm4.dynamics.com";
 	  userName="CRM@barqsystems.com";
-	  PassWord="EME@B@rqportal";
+	  PassWord="EME_B@rq";
 	  l=new login();
   }
   

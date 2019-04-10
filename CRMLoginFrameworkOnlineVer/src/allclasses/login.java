@@ -26,6 +26,8 @@ public class login extends allParameters{
     		  System.setProperty("webdriver.gecko.driver", driverPath);
     		  driver=new FirefoxDriver();
     		  
+    	  }else {
+    		  System.out.println("No such browser");
     	  }
       }
       
@@ -51,8 +53,9 @@ public class login extends allParameters{
     		  Thread.sleep(2000);
     		  
     		//dismissing message that ask to save login by selecting "No"
-    		  isDisplayed =driver.findElement(By.id("idBtn_Back")).isDisplayed(); 
-    		  if(isDisplayed==true) {
+//    		  isDisplayed =driver.findElement(By.id("idBtn_Back")).isDisplayed(); 
+//    		  if(isDisplayed==true) {
+    		  if(driver.findElement(By.id("idBtn_Back")).isDisplayed()) {
         		  driver.findElement(By.id("idBtn_Back")).click();
     		  }
 
@@ -73,20 +76,16 @@ public class login extends allParameters{
 //    		  synchronized(driver) {
 //    		  driver.wait(2000);
 //    		  }
-    		  //switiching to pending E-mail frame
-    		  driver.switchTo().frame(driver.findElement(By.id("InlineDialog_Iframe")));
-    		  
-    		  //Waiting till dismissing button is displayed or It'll timeout
-    		  WebDriverWait w8=new WebDriverWait(driver, 2);
-    		  w8.until(ExpectedConditions.presenceOfElementLocated(By.id("butBegin")));
-    		  
-//    		  isDisplayed=driver.findElement(By.id("butBegin")).isDisplayed();
-//    		  
-//    		  if(isDisplayed==true)
-    			  driver.findElement(By.id("butBegin")).click();
-    		  
+    			  
+    		 //This will check if "Pending E-mail" message is displayed
+    		  if(driver.findElement(By.id("InlineDialog_Iframe")).isDisplayed()) {
+    				  driver.switchTo().frame(driver.findElement(By.id("InlineDialog_Iframe")));
+    				//Waiting till dismissing button is displayed
+    				  WebDriverWait w8=new WebDriverWait(driver, 2);
+    	    		  w8.until(ExpectedConditions.presenceOfElementLocated(By.id("butBegin")));
+    	    		  driver.findElement(By.id("butBegin")).click();
+    			  }
     	  }catch(NoSuchElementException e) {
-    		  //if Element is pending E-mail dismissing button or all the message just ignore the error
     		  System.out.println("No such element:"+e);
     		  }
 //    	  catch(InterruptedException e) {
