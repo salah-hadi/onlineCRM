@@ -1,31 +1,33 @@
-package ngPack;
+package ngpack;
 
 import org.testng.annotations.Test;
-
 import allclasses.allParameters;
 import allclasses.login;
-
+/**
+ * @author Salah @EMEIT
+ * */
 public class NewTest extends allParameters{
-	public static login l;
+	//login class object
+	public static login logg;
 	
+	/**This will set all needed configuration to pass login page*/
   @Test
   public void passParameters() {
 	  driverPath="E:\\automation\\chrome driver\\chromedriver.exe"; 
 	  browser="chrome"; //browsers can be "chrome" or "firefox"
 	  crmUrl="http://barqstaging.crm4.dynamics.com";
 	  userName="CRM@barqsystems.com";
-	  PassWord="EME_B@rq";
-	  l=new login();
+	  passWord="EME_B@rq";
+	  logg=new login();
   }
-  
+  /**
+   * launch browser, open login page, log in with provided credentials,
+   *  and dismiss pending E-mail message
+   * */
   @Test(dependsOnMethods= {"passParameters"})
   public void launchbrowser() {
-	  try {
-	  l.launchingbrowser();
-	  l.navToLoginpage();
-	  l.dismissEmailmsg();
-	  System.out.println(l.getTitle());
-	  }catch(Exception e) {System.out.println(e);}
+	      logg.run1hit();
+		  System.out.println(logg.getTitle());
   }
   
 }
