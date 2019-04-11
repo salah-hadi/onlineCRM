@@ -120,7 +120,6 @@ public class login extends commonParaFun{
     	    		  driver.findElement(By.id("butBegin")).click();
     			  }
     		  logger.log(Level.INFO, "Login has completed successfully");
-
     	  }
 
       catch(IllegalMonitorStateException | TimeoutException | NoSuchElementException w) {

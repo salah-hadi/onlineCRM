@@ -14,10 +14,8 @@ public class commonParaFun {
 		public static String crmUrl;
 		public static String userName;
 		public static String passWord;
-		public Boolean isDisplayed;
 		public String screenTitle;
 		public static Logger logger;
-//		public static boolean CRMsite=false;
 		public static boolean ispresent;
 		
 		
