@@ -1,11 +1,13 @@
 package allclasses;
 import java.util.logging.Logger;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 /**
  * @author Salah @EMEIT
  * */
-public class allParameters {
+public class commonParaFun {
 		public static WebDriver driver;
 		public static String driverPath;
 		public static String browser;
@@ -17,6 +19,22 @@ public class allParameters {
 		public static Logger logger;
 		public static boolean existBrowser=true;
 		public static boolean CRMsite=false;
-		public static boolean ispresent=false;
+		public static boolean ispresent;
+		
+		
+		 /**will check if E-lement is present on the page
+	       * @param ispresent*/
+	      public boolean ispresent(By selector) {
+	    	  
+	    	  try {
+	    		  driver.findElement(selector);
+	    		  ispresent=true;
+	    	  }
+	    	  catch(NoSuchElementException e) {
+	    		  ispresent=false;
+	    	  }
+			  return ispresent;
+
+	      }
 
 }

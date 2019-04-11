@@ -1,12 +1,12 @@
 package ngpack;
 
 import org.testng.annotations.Test;
-import allclasses.allParameters;
+import allclasses.commonParaFun;
 import allclasses.login;
 /**
  * @author Salah @EMEIT
  * */
-public class NewTest extends allParameters{
+public class NewTest extends commonParaFun{
 	//login class object
 	public static login logg;
 	
@@ -16,8 +16,8 @@ public class NewTest extends allParameters{
 	  driverPath="E:\\automation\\chrome driver\\chromedriver.exe"; 
 	  browser="chrome"; //browsers can be "chrome" or "firefox"
 	  crmUrl="http://barqstaging.crm4.dynamics.com";
-	  userName="CRM@barqsystems.com";
-	  passWord="EME_B@rq";
+	  userName="Email";
+	  passWord="password";
 	  logg=new login();
   }
   /**

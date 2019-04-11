@@ -14,7 +14,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 /**
 * @author Salah @EMEIT
 */
-public class login extends allParameters{
+public class login extends commonParaFun{
 	
  /**This will login by calling this function at any code*/
 	public void run1hit() {
@@ -59,35 +59,42 @@ public class login extends allParameters{
     		      driver.manage().window().maximize();
     		      driver.navigate().to(crmUrl);
     		  
-    		  //Entering user name
+    		      //Entering user name
     		      WebElement uNfield=driver.findElement(By.id("i0116"));
     		      uNfield.sendKeys(userName);
     		      uNfield.sendKeys(Keys.ENTER);
+    		      Thread.sleep(2000);
     		      
-//    		      if(driver.findElement(By.xpath("//*[@id=\"usernameError\"]")).i) {
-//    		    	  System.out.println("No existing account");
-//    		      }
+    		      //check if there's any error message is displayed after entering user name(wrong username or not valid E-mail).
     		      if(ispresent(By.xpath("//*[@id=\"usernameError\"]"))==true) {
     		    	  logger.log(Level.WARNING, "Invalid E-mail address");
     		    	  System.exit(0);
     		    	  
     		      }else {
-    		    	  
+    		    	
     		       //Entering password
     		          WebElement PassField=driver.findElement(By.id("i0118")); // NOPMD by Salah on 4/10/19, 1:43 PM
     		          PassField.sendKeys(passWord);
+		              driver.findElement(By.xpath("//*[@id=\"idSIButton9\"]")).click(); //login button
 //    		          PassField.sendKeys(Keys.ENTER);
     		          Thread.sleep(2000);
-
-    		          driver.findElement(By.xpath("//*[@id=\"idSIButton9\"]")).click(); //login button
-    		          Thread.sleep(2000);
-    		  
-    		//dismissing message that ask to save login by selecting "No"
-//    		  isDisplayed =driver.findElement(By.id("idBtn_Back")).isDisplayed(); 
-//    		  if(isDisplayed==true) {
-    		          if(driver.findElement(By.id("idBtn_Back")).isDisplayed()) {
-        		          driver.findElement(By.id("idBtn_Back")).click();
-    		          }
+        		      //check if there's any error message is displayed after entering password(Wrong one).
+        		      if(ispresent(By.xpath("//*[@id=\"passwordError\"]"))==true) {
+        		    	  logger.log(Level.WARNING, "Invalid Password");
+        		    	  System.exit(0);
+        		    	  
+        		      }else {
+        		    	//dismissing message that ask to save login by selecting "No" if existing
+		                  if(ispresent(By.id("idBtn_Back"))==true) {
+		            	      driver.findElement(By.id("idBtn_Back")).click();
+		                  }
+        		    	  Thread.sleep(2000);
+        		    	  //validating if user is in the current organization
+        		    	  if(ispresent(By.id("title_notmemberoforg"))==true){
+        		    		  logger.log(Level.SEVERE, "The current user isn't existing in the current organization.");
+        		    		  System.exit(0);
+        		    	  }
+    		         }
     		      }
     		  }else {
     			  logger.log(Level.SEVERE, "That isn't a CRM Website");
@@ -109,7 +116,7 @@ public class login extends allParameters{
 //    		  }
     			  
     		 //This will check if "Pending E-mail" message is displayed and dismiss it
-    		  if(driver.findElement(By.id("InlineDialog_Iframe")).isDisplayed()) {
+    		  if(ispresent(By.id("InlineDialog_Iframe"))==true) {
     				  driver.switchTo().frame(driver.findElement(By.id("InlineDialog_Iframe")));
     				//Waiting till dismissing button is displayed
     				  WebDriverWait w8=new WebDriverWait(driver, 2);
@@ -117,6 +124,8 @@ public class login extends allParameters{
     	    		  //clicking dismiss button
     	    		  driver.findElement(By.id("butBegin")).click();
     			  }
+    		  logger.log(Level.INFO, "Login has completed successfully");
+
     	  }
 
       catch(IllegalMonitorStateException | TimeoutException | NoSuchElementException w) {
@@ -128,27 +137,5 @@ public class login extends allParameters{
       public String getTitle() {
     	  screenTitle=driver.getTitle();
     	  return screenTitle;
-      }
-      
-//      public boolean isElementPresent(By selector)
-//      {
-//
-//                 return driver.findElements(selector).size()>0;
-//   }
-      
-      
-      /**will check if E-lement is present on the page
-       * @param ispresent*/
-      public boolean ispresent(By selector) {
-    	  
-    	  try {
-    		  driver.findElement(selector);
-    		  ispresent=true;
-    	  }
-    	  catch(NoSuchElementException e) {
-    		  ispresent=false;
-    	  }
-		  return ispresent;
-
-      }
+      }     
 }
