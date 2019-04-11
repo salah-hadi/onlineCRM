@@ -133,9 +133,5 @@ public class login extends commonParaFun{
 		  }
       }
       
-      /** will get any page title*/
-      public String getTitle() {
-    	  screenTitle=driver.getTitle();
-    	  return screenTitle;
-      }     
+        
 }

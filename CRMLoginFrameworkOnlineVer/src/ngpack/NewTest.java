@@ -27,7 +27,7 @@ public class NewTest extends commonParaFun{
   @Test(dependsOnMethods= {"passParameters"})
   public void launchbrowser() {
 	      logg.run1hit();
-		  System.out.println(logg.getTitle());
+		  System.out.println(getTitle());
   }
   
 }

@@ -2,16 +2,16 @@
 <testng-results ignored="0" total="2" passed="2" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2019-04-10T15:18:05Z" name="Default suite" finished-at="2019-04-10T15:18:53Z" duration-ms="48589">
+  <suite started-at="2019-04-11T08:10:20Z" name="Default suite" finished-at="2019-04-11T08:10:56Z" duration-ms="36161">
     <groups>
     </groups>
-    <test started-at="2019-04-10T15:18:05Z" name="Default test" finished-at="2019-04-10T15:18:53Z" duration-ms="48589">
+    <test started-at="2019-04-11T08:10:20Z" name="Default test" finished-at="2019-04-11T08:10:56Z" duration-ms="36161">
       <class name="ngpack.NewTest">
-        <test-method signature="passParameters()[pri:0, instance:ngpack.NewTest@482cd91f]" started-at="2019-04-10T15:18:05Z" name="passParameters" finished-at="2019-04-10T15:18:05Z" duration-ms="34" status="PASS">
+        <test-method signature="passParameters()[pri:0, instance:ngpack.NewTest@12d3a4e9]" started-at="2019-04-11T08:10:20Z" name="passParameters" finished-at="2019-04-11T08:10:20Z" duration-ms="15" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- passParameters -->
-        <test-method signature="launchbrowser()[pri:0, instance:ngpack.NewTest@482cd91f]" started-at="2019-04-10T15:18:05Z" name="launchbrowser" finished-at="2019-04-10T15:18:53Z" depends-on-methods="ngpack.NewTest.passParameters" duration-ms="48493" status="PASS">
+        <test-method signature="launchbrowser()[pri:0, instance:ngpack.NewTest@12d3a4e9]" started-at="2019-04-11T08:10:20Z" name="launchbrowser" finished-at="2019-04-11T08:10:56Z" depends-on-methods="ngpack.NewTest.passParameters" duration-ms="36112" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- launchbrowser -->

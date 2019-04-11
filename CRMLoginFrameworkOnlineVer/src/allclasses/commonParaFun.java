@@ -1,6 +1,6 @@
 package allclasses;
-import java.util.logging.Logger;
 
+import java.util.logging.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -37,4 +37,9 @@ public class commonParaFun {
 
 	      }
 
+	      /** will get any page title*/
+	      public String getTitle() {
+	    	  screenTitle=driver.getTitle();
+	    	  return screenTitle;
+	      }  
 }
