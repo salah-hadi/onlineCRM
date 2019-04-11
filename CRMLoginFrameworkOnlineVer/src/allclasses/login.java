@@ -38,14 +38,10 @@ public class login extends commonParaFun{
     		  driver=new FirefoxDriver();
     		  
     	  }else {
-    		  logger.log(Level.WARNING, "No such browser");
-    		  existBrowser=false;
-    	  }
-    	  //if browser isn't exist code will be stopped
-    	  if(existBrowser==false) {
     		  logger.log(Level.SEVERE, "Code stopped running, Enter valid browser and Run again..");
     		  System.exit(0);
     	  }
+    	 
       }
       
       /**
@@ -55,7 +51,6 @@ public class login extends commonParaFun{
     	  
     	  try {
     		  if(crmUrl.contains(".dynamics.com")) {
-    			  CRMsite=true;
     		      driver.manage().window().maximize();
     		      driver.navigate().to(crmUrl);
     		  

@@ -17,8 +17,7 @@ public class commonParaFun {
 		public Boolean isDisplayed;
 		public String screenTitle;
 		public static Logger logger;
-		public static boolean existBrowser=true;
-		public static boolean CRMsite=false;
+//		public static boolean CRMsite=false;
 		public static boolean ispresent;
 		
 		
