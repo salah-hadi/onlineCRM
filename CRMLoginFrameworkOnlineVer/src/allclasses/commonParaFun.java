@@ -76,7 +76,7 @@ public class commonParaFun {
 	    	  try {
 	    		  Thread.sleep(2000);
 	    	     Screen sc=new Screen();
-	    	     Pattern p=new Pattern("C:\\Users\\Salah\\git\\onlineCRMLogin\\CRMLoginFrameworkOnlineVer\\new.png"); 
+	    	     Pattern p=new Pattern("/CRMLoginFrameworkOnlineVer/new.png"); 
 				sc.click(p);
 			} catch (FindFailed | InterruptedException | StringIndexOutOfBoundsException e) {
 				// TODO Auto-generated catch block
