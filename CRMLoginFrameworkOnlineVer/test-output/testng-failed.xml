@@ -5,8 +5,8 @@
     <classes>
       <class name="ngpack.NewTest">
         <methods>
-          <include name="launchbrowser"/>
           <include name="passParameters"/>
+          <include name="openURLNew"/>
         </methods>
       </class> <!-- ngpack.NewTest -->
     </classes>
