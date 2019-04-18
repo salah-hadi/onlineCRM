@@ -69,14 +69,16 @@ public class commonParaFun {
 	    	  return screenTitle;
 	      }  
 	      
+	      /**
+	       * create New record
+	       * */
 	      public static void createNew() {
-	    	  
 	    	  try {
 	    		  Thread.sleep(2000);
 	    	     Screen sc=new Screen();
-	    	     Pattern p=new Pattern("new.png"); 
+	    	     Pattern p=new Pattern("C:\\Users\\Salah\\git\\onlineCRMLogin\\CRMLoginFrameworkOnlineVer\\new.png"); 
 				sc.click(p);
-			} catch (FindFailed | InterruptedException e) {
+			} catch (FindFailed | InterruptedException | StringIndexOutOfBoundsException e) {
 				// TODO Auto-generated catch block
 				logger.log(Level.WARNING, "", e);;
 			}
@@ -86,7 +88,7 @@ public class commonParaFun {
 	      public static void openURL(String URL) {
 	    	  try {
 	    	      driver.navigate().to(URL);
-	    	  }catch(NullPointerException e) {
+	    	  }catch(NullPointerException | ExceptionInInitializerError e) {
 	    		  logger.log(Level.WARNING, "", e);
 	    	  }
 	      }

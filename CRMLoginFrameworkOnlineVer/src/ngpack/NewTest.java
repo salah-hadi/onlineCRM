@@ -17,9 +17,9 @@ public class NewTest{
 	  Assert.assertEquals(commonParaFun.getTitle(), "Dashboards: Marketing Social Dashboard - Microsoft Dynamics 365");
   }
   
-//  @Test(dependsOnMethods={"passParameters"})
-//  public void openURLNew() {
-//	  commonParaFun.openURL("https://barqstaging.crm4.dynamics.com/main.aspx?etn=account&id={3CB594EA-5907-E911-A963-000D3ABA21E5}&pagetype=entityrecord");
-//	  commonParaFun.createNew();
-//  }
+  @Test(dependsOnMethods={"passParameters"})
+  public void openURLNew() {
+	  commonParaFun.openURL("https://barqstaging.crm4.dynamics.com/main.aspx?etn=account&id={3CB594EA-5907-E911-A963-000D3ABA21E5}&pagetype=entityrecord");
+	  commonParaFun.createNew();
+  }
 }
