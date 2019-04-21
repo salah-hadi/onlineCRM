@@ -1,13 +1,20 @@
 package allclasses;
 
+import java.awt.Image;
+import java.io.IOException;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.imageio.ImageIO;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
+
 /**
  * @author Salah @EMEIT
  * */
@@ -48,7 +55,7 @@ public class commonParaFun {
 			}
 
 		}
-		 /**will check if E-lement is present on the page
+		 /**will check if Element is present on the page
 	       * @param ispresent*/
 	      public static boolean ispresent(By selector) {
 	    	  
@@ -74,11 +81,12 @@ public class commonParaFun {
 	       * */
 	      public static void createNew() {
 	    	  try {
+	    		  URL urlImg=new URL("https://raw.githubusercontent.com/salah-hadi/onlineCRM/master/CRMLoginFrameworkOnlineVer/src/allclasses/new.png");
 	    		  Thread.sleep(2000);
 	    	     Screen sc=new Screen();
-	    	     Pattern p=new Pattern("/CRMLoginFrameworkOnlineVer/new.png"); 
+	    	     Pattern p=new Pattern(urlImg); 
 				sc.click(p);
-			} catch (FindFailed | InterruptedException | StringIndexOutOfBoundsException e) {
+			} catch (FindFailed | InterruptedException | StringIndexOutOfBoundsException | IOException e) {
 				// TODO Auto-generated catch block
 				logger.log(Level.WARNING, "", e);;
 			}
