@@ -1,13 +1,9 @@
 package allclasses;
 
-import java.awt.Image;
 import java.io.IOException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.imageio.ImageIO;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -31,7 +27,11 @@ public class commonParaFun {
 		
 		
 		/**
-		 * This function configuring Selenium driver and pass website URL*/
+		 * This function configuring Selenium driver and pass website URL
+		 * @param driverPath
+		 * @param browser
+		 * @param crmUrl
+		 */
 		public static void configDriver(String driverPath, String browser, String crmUrl) {
 			
 			commonParaFun.driverPath=driverPath;
@@ -40,7 +40,10 @@ public class commonParaFun {
 		}
 		/**
 		 * This pass login parameters
-		 * */
+		 * @param userName
+		 * @param passWord
+		 * @param runOnce
+		 */
 		public static void getLogin(String userName, String passWord, boolean runOnce) {
 			logger = Logger.getLogger(commonParaFun.class.getName());
 			commonParaFun.userName=userName;
@@ -55,8 +58,10 @@ public class commonParaFun {
 			}
 
 		}
-		 /**will check if Element is present on the page
-	       * @param ispresent*/
+		 /**will check if Element is present on the page 
+		 * @param selector
+		 * @return ispresent to show if element is present on page or not
+		 */
 	      public static boolean ispresent(By selector) {
 	    	  
 	    	  try {
@@ -70,7 +75,8 @@ public class commonParaFun {
 
 	      }
 
-	      /** will get any page title*/
+	      /** will get any page title
+	       * @return current page title*/
 	      public static String getTitle() {
 	    	  screenTitle=driver.getTitle();
 	    	  return screenTitle;
@@ -87,12 +93,13 @@ public class commonParaFun {
 	    	     Pattern p=new Pattern(urlImg); 
 				sc.click(p);
 			} catch (FindFailed | InterruptedException | StringIndexOutOfBoundsException | IOException e) {
-				// TODO Auto-generated catch block
 				logger.log(Level.WARNING, "", e);;
 			}
 	      }
 	      
-	      /**This will open any URL in browser*/
+	      /**This will open any URL in browser
+	       * @param URL
+	       */
 	      public static void openURL(String URL) {
 	    	  try {
 	    	      driver.navigate().to(URL);

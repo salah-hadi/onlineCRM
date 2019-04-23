@@ -3,6 +3,7 @@ package ngpack;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+//import allclasses.commonParaFun;
 import allclasses.commonParaFun;
 /**
  * @author Salah @EMEIT
@@ -12,7 +13,7 @@ public class NewTest{
 	/**This will set all needed configuration to pass login page*/
   @Test
   public void passParameters() {
-	  commonParaFun.configDriver("E:\\\\automation\\\\chrome driver\\\\chromedriver.exe", "chrome", "http://barqstaging.crm4.dynamics.com");
+	  commonParaFun.configDriver("E:\\automation\\chrome driver\\chromedriver.exe", "chrome", "http://barqstaging.crm4.dynamics.com");
 	  commonParaFun.getLogin("crm@barqsystems.com", "EME_B@rq",true);
 	  Assert.assertEquals(commonParaFun.getTitle(), "Dashboards: Marketing Social Dashboard - Microsoft Dynamics 365");
   }
