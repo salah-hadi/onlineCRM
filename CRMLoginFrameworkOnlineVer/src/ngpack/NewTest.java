@@ -14,7 +14,7 @@ public class NewTest{
   @Test
   public void passParameters() {
 	  commonParaFun.configDriver("E:\\automation\\chrome driver\\chromedriver.exe", "chrome", "http://barqstaging.crm4.dynamics.com");
-	  commonParaFun.getLogin("crm@barqsystems.com", "EME_B@rq",true);
+	  commonParaFun.getLogin("userName", "Password",true);
 	  Assert.assertEquals(commonParaFun.getTitle(), "Dashboards: Marketing Social Dashboard - Microsoft Dynamics 365");
   }
   
