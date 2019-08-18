@@ -76,7 +76,7 @@ public class NewTest{
 //	  Thread.sleep(3000);
 	  commonParaFun.driver.switchTo().frame("contentIFrame0");
 	  commonParaFun.driver.findElement(By.xpath("//*[@id=\"gridBodyTable\"]/tbody/tr[1]/td[1]")).click();
-	  commonParaFun.HomePageButtons("contact", "Edit");
+	  commonParaFun.HomePageButtons("contact", "Deactivate");
 
 
   }

@@ -223,7 +223,7 @@ public class commonParaFun {
 		    		     .findElement(By.cssSelector("#"+entity+"\\|NoRelationship\\|HomePageGrid\\|Mscrm\\.HomepageGrid\\."+entity+"\\."+button+" > span"))
 		    		     .click();
 		    		     //If button has pop-up go throw this if
-		    		     if(button=="Deactivate"||button=="Delete") {
+		    		     if(button=="Deactivate"||button=="DeleteMenu") {
 		    		         //switching to pop-up frame
 		    		         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("InlineDialog_Iframe")));
 		    		         driver.switchTo().frame("InlineDialog_Iframe");
