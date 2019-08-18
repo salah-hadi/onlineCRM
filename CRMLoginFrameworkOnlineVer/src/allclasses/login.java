@@ -25,7 +25,7 @@ public class login{
 		dismissEmailmsg();
 	}
 	
-	/**opening specific browser according to the submitted parameters*/
+	/**opening specific browser according to the configuration*/
       public static void launchingbrowser() {
     	  commonParaFun.logger = Logger.getLogger(login.class.getName());
     	  
