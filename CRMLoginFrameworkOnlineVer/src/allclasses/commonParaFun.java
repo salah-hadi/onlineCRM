@@ -164,12 +164,13 @@ public class commonParaFun {
 	  	
 		  	
 		  	/**
-		  	 * will press any button from header ones
+		  	 * will press any button at any form
 		  	 * @param entity logical name for entity
 		  	 * @param button button logical name*/
-		  public static void pHeaderButtons(String entity, String button) {
+		  public static void pFormButtons(String entity, String button) {
 
 		  		try {
+					  driver.switchTo().parentFrame();
 		  			 WebDriverWait wait=new WebDriverWait(driver, 5);
 		  			 wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(entity+"|NoRelationship|Form|Mscrm.Form."+entity+"."+button)));
 		  		      Thread.sleep(2000);		    		  
@@ -208,6 +209,49 @@ public class commonParaFun {
 					logger.log(Level.WARNING, "", e);;
 				}
 		  	}
+		  /**Pressing any button in entity Home Page
+		   * @param entity entity logical name
+		   * @param button button logical name
+		   * */
+		  public static void HomePageButtons(String entity, String button) {
+			  try {
+				  driver.switchTo().parentFrame();
+		  			 WebDriverWait wait=new WebDriverWait(driver, 5);
+		  			 wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(entity+"|NoRelationship|HomePageGrid|Mscrm.HomepageGrid."+entity+"."+button)));
+		  		      Thread.sleep(2000);		    		  
+		    		     driver.findElement(By.id(entity+"|NoRelationship|HomePageGrid|Mscrm.HomepageGrid."+entity+"."+button))
+		    		     .findElement(By.cssSelector("#"+entity+"\\|NoRelationship\\|HomePageGrid\\|Mscrm\\.HomepageGrid\\."+entity+"\\."+button+" > span"))
+		    		     .click();
+		    		     //If button has pop-up go throw this if
+		    		     if(button=="Deactivate"||button=="Delete") {
+		    		         //switching to pop-up frame
+		    		         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("InlineDialog_Iframe")));
+		    		         driver.switchTo().frame("InlineDialog_Iframe");
+		    		     
+		    		         if(button=="Deactivate") {	 
+			    		         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ok_id")));
+			    		         driver.findElement(By.id("ok_id")).click();
+			    		         logger.log(Level.WARNING, "Deactivate completed successfully");	    		     
+		    		         }else if(button=="DeleteMenu") {
+		    		    	     wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("butBegin")));
+			    		         driver.findElement(By.id("butBegin")).click();
+			    		         logger.log(Level.WARNING, "Delete completed successfully");
+			    		         }
+		  		         }else {
+		  		        	if(button=="Activate") {
+				    		     logger.log(Level.WARNING, "Activating completed successfully");	    		     
+			    		     }else if(button=="NewRecord") {
+			    		    	 logger.log(Level.WARNING, "Press new button completed successfully");	
+			    		     }else if(button=="Edit") {
+			    		    	 logger.log(Level.WARNING, "Press Edit button completed successfully");	
+			    		     }
+		  		        	
+		  		}
+		    	    
+				} catch (Exception e) {
+					logger.log(Level.WARNING, "", e);;
+				}
+		  }
 	  	
 	  	/**
 	  	 * Will search in main entity

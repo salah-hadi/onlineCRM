@@ -26,7 +26,7 @@ public class NewTest{
   @Test
   public void passParameters() {
 	  commonParaFun.configDriver("E:\\automation\\chrome driver\\chromedriver.exe", "chrome", "http://barqstaging.crm4.dynamics.com");
-	  commonParaFun.getLogin("username", "password",true);
+	  commonParaFun.getLogin("crm@barqsystems.com", "EME_B@rq",true);
 //	  Assert.assertEquals(commonParaFun.getTitle(), "Dashboards: Marketing Social Dashboard - Microsoft Dynamics 365");
   }
   
@@ -39,7 +39,7 @@ public class NewTest{
 	  
 	  /**creating department*/
 //	  commonParaFun.openURL("https://barqstaging.crm4.dynamics.com/main.aspx?pagetype=entityrecord&etc=10021&id=%7bB30E4744-F3B8-E911-A83F-000D3AB86229%7d&sitemappath=MA%7cExtensions%7cnew_department&extraqs=&newWindow=true&histKey=625052938#253069517");
-	  commonParaFun.Navigate("BARQ Marketing","Accounts");
+	  commonParaFun.Navigate("BARQ Marketing","Contacts");
 //	  commonParaFun.createNew("new_department");
 //	  Thread.sleep(1000);
 //	  commonParaFun.driver.switchTo().frame("contentIFrame1");
@@ -72,7 +72,11 @@ public class NewTest{
 
 //	  commonParaFun.pHeaderButtons("new_department", "Delete");
 //	  commonParaFun.searchMainscreen("2313213");
-	  commonParaFun.switchView("Excluded Accounts Campaigns");
+//	  commonParaFun.switchView("Excluded Accounts Campaigns");
+//	  Thread.sleep(3000);
+	  commonParaFun.driver.switchTo().frame("contentIFrame0");
+	  commonParaFun.driver.findElement(By.xpath("//*[@id=\"gridBodyTable\"]/tbody/tr[1]/td[1]")).click();
+	  commonParaFun.HomePageButtons("contact", "Edit");
 
 
   }
