@@ -74,9 +74,13 @@ public class NewTest{
 //	  commonParaFun.searchMainscreen("2313213");
 //	  commonParaFun.switchView("Excluded Accounts Campaigns");
 //	  Thread.sleep(3000);
-	  commonParaFun.driver.switchTo().frame("contentIFrame0");
-	  commonParaFun.driver.findElement(By.xpath("//*[@id=\"gridBodyTable\"]/tbody/tr[1]/td[1]")).click();
-	  commonParaFun.HomePageButtons("contact", "Deactivate");
+//	  commonParaFun.driver.switchTo().frame("contentIFrame0");
+	  commonParaFun.switchFrame("contentIFrame0");
+//	  commonParaFun.driver.findElement(By.xpath("//*[@id=\"gridBodyTable\"]/tbody/tr[1]/td[1]")).click();
+	  Thread.sleep(2000);
+	  commonParaFun.findElement(By.xpath("//*[@id=\"gridBodyTable\"]/tbody/tr[1]/td[1]")).click();
+	  commonParaFun.refresh();
+//	  commonParaFun.HomePageButtons("contact", "Deactivate");
 
 
   }
