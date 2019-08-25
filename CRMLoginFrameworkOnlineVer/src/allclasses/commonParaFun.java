@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.script.ScriptException;
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -83,7 +85,7 @@ public class commonParaFun {
 		try {
 			driver.findElement(selector);
 			ispresent = true;
-		} catch (NoSuchElementException e) {
+		} catch (NoSuchElementException|ElementNotVisibleException e) {
 			ispresent = false;
 		}
 		return ispresent;
@@ -107,11 +109,16 @@ public class commonParaFun {
 	 * 
 	 * @param imageURL Path to the image you want to click
 	 */
-	public static void sikuliClickButton(String imageURL) throws IOException, FindFailed {
+	public static void sikuliClickButton(String imagePath) throws IOException, FindFailed {
 		/* find button by its image */
-		URL urlImg = new URL(imageURL);
 		Screen sc = new Screen();
-		Pattern p = new Pattern(urlImg);
+		Pattern p;
+		if(imagePath.contains("http")) {
+			URL urlImg = new URL(imagePath);
+			p=new Pattern(urlImg);
+		}else {
+			p=new Pattern(imagePath);
+		}
 		sc.click(p);
 	}
 
@@ -134,12 +141,17 @@ public class commonParaFun {
 	 * run JS code
 	 * 
 	 * @param JS your JS code
+	 * @return It will return an object with the result.
+	 * @throws ScriptException 
 	 */
-	public static void JSCode(String JS) {
+	public static Object JSCode(String JS) throws ScriptException {
 		JavascriptExecutor js1 = (JavascriptExecutor) driver;
-		String x = (String) js1.executeScript(JS);
-		System.out.println("JS result is: " + x);
-
+		if(js1 instanceof WebDriver) {
+			
+			return js1.executeScript(JS);
+		}else {
+			return 0;
+		}
 	}
 
 	/**
@@ -150,8 +162,35 @@ public class commonParaFun {
 	 */
 	public static void Navigate(String menuName, String entityName) throws InterruptedException, AWTException {
 		driver.findElement(By.id("TabMA")).click();
-		driver.findElement(By.linkText(menuName)).click();
-		driver.findElement(By.linkText(entityName)).click();
+//check if menu is existing
+		if(ispresent(By.linkText(menuName))) {
+			driver.findElement(By.linkText(menuName)).click();
+			//check if screen is existing in the current form
+			if(ispresent(By.linkText(entityName))) {
+				driver.findElement(By.linkText(entityName)).click();
+				logger.log(Level.WARNING, "The provided Entity is existing in the current form");
+			}else {
+				if(ispresent(By.id("detailActionGroupControl_rightNavContainer"))) {					
+				//if not existing and nagivate buttion to right is existing click it
+				    while(ispresent(By.id("detailActionGroupControl_rightNavContainer"))){					
+					    driver.findElement(By.id("detailActionGroupControl_rightNavContainer")).click();
+					//is entity existing in the new screen
+					    if(ispresent(By.linkText(entityName))) {
+						   driver.findElement(By.linkText(entityName)).click();
+						   logger.log(Level.WARNING, "The provided Entity is existing in the current form");
+						   break;
+					    }else {
+					    	logger.log(Level.WARNING, "The provided Entity isn't existing in the current form");
+					    }
+				    }				    
+				}else {
+					logger.log(Level.WARNING, "The provided Entity isn't existing");
+				}
+
+			}
+		}else {
+			logger.log(Level.WARNING, "The provided menu isn't existing");
+		}
 
 	}
 
@@ -160,7 +199,7 @@ public class commonParaFun {
 	 * 
 	 * @param driver selenium WebDriver
 	 */
-	public static Boolean isLoaded(WebDriver driver) {
+	public static Boolean isLoaded() {
 		return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
 	}
 
@@ -178,47 +217,49 @@ public class commonParaFun {
 	}
 
 	/**
-	 * will press any button at any form
+	 * will press any button at any form(inside the record)
 	 * 
 	 * @param entity logical name for entity
 	 * @param button button logical name
 	 */
-	public static void pFormButtons(String entity, String button) {
+	public static void pFormButtons(String entityLogName, String buttonlogName) {
 
 		try {
 			driver.switchTo().parentFrame();
 			WebDriverWait wait = new WebDriverWait(driver, 5);
 			wait.until(ExpectedConditions.visibilityOfElementLocated(
-					By.id(entity + "|NoRelationship|Form|Mscrm.Form." + entity + "." + button)));
+					By.id(entityLogName + "|NoRelationship|Form|Mscrm.Form." + entityLogName + "." + buttonlogName)));
 			Thread.sleep(2000);
-			driver.findElement(By.id(entity + "|NoRelationship|Form|Mscrm.Form." + entity + "." + button))
-					.findElement(By.cssSelector("#" + entity + "\\|NoRelationship\\|Form\\|Mscrm\\.Form\\." + entity
-							+ "\\." + button + " > span"))
+			driver.findElement(By.id(entityLogName + "|NoRelationship|Form|Mscrm.Form." + entityLogName + "." + buttonlogName))
+					.findElement(By.cssSelector("#" + entityLogName + "\\|NoRelationship\\|Form\\|Mscrm\\.Form\\." + entityLogName
+							+ "\\." + buttonlogName + " > span"))
 					.click();
 			// If button has pop-up go throw this if
-			if (button == "Deactivate" || button == "Delete") {
+			if (buttonlogName == "Deactivate" || buttonlogName == "Delete") {
 				// switching to pop-up frame
 				wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("InlineDialog_Iframe")));
 				driver.switchTo().frame("InlineDialog_Iframe");
 
-				if (button == "Deactivate") {
+				if (buttonlogName == "Deactivate") {
 					wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ok_id")));
 					driver.findElement(By.id("ok_id")).click();
 					logger.log(Level.WARNING, "Deactivate completed successfully");
-				} else if (button == "Delete") {
+				} else if (buttonlogName == "Delete") {
 					wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("butBegin")));
 					driver.findElement(By.id("butBegin")).click();
 					logger.log(Level.WARNING, "Delete completed successfully");
 				}
 			} else {
-				if (button == "Activate") {
+				if (buttonlogName == "Activate") {
 					logger.log(Level.WARNING, "Activating completed successfully");
-				} else if (button == "Save") {
+				} else if (buttonlogName == "Save") {
 					logger.log(Level.WARNING, "Saving completed successfully");
-				} else if (button == "SaveAndClose") {
+				} else if (buttonlogName == "SaveAndClose") {
 					logger.log(Level.WARNING, "Saving and close completed successfully");
-				} else if (button == "NewRecord") {
+				} else if (buttonlogName == "NewRecord") {
 					logger.log(Level.WARNING, "Press new button completed successfully");
+				}else {
+					logger.log(Level.WARNING, "button is pressed successfully");
 				}
 
 			}
@@ -235,41 +276,42 @@ public class commonParaFun {
 	 * @param entity entity logical name
 	 * @param button button logical name
 	 */
-	public static void HomePageButtons(String entity, String button) {
+	public static void HomePageButtons(String entityLogName, String buttonLogName) {
 		try {
 			driver.switchTo().parentFrame();
 			WebDriverWait wait = new WebDriverWait(driver, 5);
 			wait.until(ExpectedConditions.visibilityOfElementLocated(
-					By.id(entity + "|NoRelationship|HomePageGrid|Mscrm.HomepageGrid." + entity + "." + button)));
+					By.id(entityLogName + "|NoRelationship|HomePageGrid|Mscrm.HomepageGrid." + entityLogName + "." + buttonLogName)));
 			Thread.sleep(2000);
 			driver.findElement(
-					By.id(entity + "|NoRelationship|HomePageGrid|Mscrm.HomepageGrid." + entity + "." + button))
+					By.id(entityLogName + "|NoRelationship|HomePageGrid|Mscrm.HomepageGrid." + entityLogName + "." + buttonLogName))
 					.findElement(
-							By.cssSelector("#" + entity + "\\|NoRelationship\\|HomePageGrid\\|Mscrm\\.HomepageGrid\\."
-									+ entity + "\\." + button + " > span"))
+							By.cssSelector("#" + entityLogName + "\\|NoRelationship\\|HomePageGrid\\|Mscrm\\.HomepageGrid\\."
+									+ entityLogName + "\\." + buttonLogName + " > span"))
 					.click();
 			// If button has pop-up go throw this if
-			if (button == "Deactivate" || button == "DeleteMenu") {
+			if (buttonLogName == "Deactivate" || buttonLogName == "DeleteMenu") {
 				// switching to pop-up frame
 				wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("InlineDialog_Iframe")));
 				driver.switchTo().frame("InlineDialog_Iframe");
-
-				if (button == "Deactivate") {
+				if (buttonLogName == "Deactivate") {
 					wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ok_id")));
 					driver.findElement(By.id("ok_id")).click();
 					logger.log(Level.WARNING, "Deactivate completed successfully");
-				} else if (button == "DeleteMenu") {
+				} else if (buttonLogName == "DeleteMenu") {
 					wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("butBegin")));
 					driver.findElement(By.id("butBegin")).click();
 					logger.log(Level.WARNING, "Delete completed successfully");
 				}
 			} else {
-				if (button == "Activate") {
+				if (buttonLogName == "Activate") {
 					logger.log(Level.WARNING, "Activating completed successfully");
-				} else if (button == "NewRecord") {
+				} else if (buttonLogName == "NewRecord") {
 					logger.log(Level.WARNING, "Press new button completed successfully");
-				} else if (button == "Edit") {
+				} else if (buttonLogName == "Edit") {
 					logger.log(Level.WARNING, "Press Edit button completed successfully");
+				}else {
+					logger.log(Level.WARNING, "Button is pressed successfully");
 				}
 
 			}
@@ -358,16 +400,46 @@ public class commonParaFun {
 	}
 	
 	/**Switching to frame
-	 * @param frame Id or title of frame you want to switch to
+	 * @param frame Id or title of Iframe you want to switch to
 	 * */
 	public static void switchFrame(String frame) {
 		driver.switchTo().frame(frame);
+	}
+	
+	/**It will switch to Parent Iframe
+	 * */
+	public static void switchToParent() {
+		driver.switchTo().parentFrame();
 	}
 	
 	/**Will refresh the current page
 	 * */
 	public static void refresh() {
 		driver.navigate().refresh();
+	}
+	
+	/**Create new record at any provided page
+	 * @param menu Menu Name that contain the entity
+	 * @param entity entity you want to create record in
+	 * @param entityLogName entity logical name
+	 * @throws AWTException 
+	 * @throws InterruptedException 
+	 * */
+	public static void createNewRecord(String menu, String entity, String entityLogName) throws InterruptedException, AWTException {
+		Navigate(menu, entity);
+		Thread.sleep(1000);
+		HomePageButtons(entityLogName, "NewRecord");
+	}
+	/**delete any record by provided URL
+	 * @param url URL to the record you want to delete
+	 * @param entityLogName entity logical Name
+	 * @throws InterruptedException 
+	 * */
+	public static void deleteRecord(String url, String entityLogName) throws InterruptedException {
+		openURL(url);
+		Thread.sleep(1000);
+		pFormButtons(entityLogName, "Delete");
+		logger.log(Level.WARNING, "Record is deleted successfully");
 	}
 
 }

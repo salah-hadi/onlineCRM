@@ -3,7 +3,6 @@ package allclasses;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
@@ -52,6 +51,7 @@ public class login{
       public static void navToLoginpage() {
     	  
     	  try {
+    		  
     		  if(commonParaFun.crmUrl.contains(".dynamics.com")) {
     			  commonParaFun.driver.manage().window().maximize();
     			  commonParaFun.driver.navigate().to(commonParaFun.crmUrl);
@@ -59,7 +59,8 @@ public class login{
     		      //Entering user name
     		      WebElement uNfield=commonParaFun.driver.findElement(By.id("i0116"));
     		      uNfield.sendKeys(commonParaFun.userName);
-    		      uNfield.sendKeys(Keys.ENTER);
+    		      Thread.sleep(2000);
+    		      commonParaFun.driver.findElement(By.xpath("//*[@id=\"idSIButton9\"]")).click();
     		      Thread.sleep(2000);
     		      
     		      //check if there's any error message is displayed after entering user name(wrong username or not valid E-mail).
@@ -75,6 +76,7 @@ public class login{
     		          commonParaFun.driver.findElement(By.xpath("//*[@id=\"idSIButton9\"]")).click(); //login button
 //    		          PassField.sendKeys(Keys.ENTER);
     		          Thread.sleep(2000);
+    		        
         		      //check if there's any error message is displayed after entering password(Wrong one).
         		      if(commonParaFun.ispresent(By.xpath("//*[@id=\"passwordError\"]"))==true) {
         		    	  commonParaFun.logger.log(Level.WARNING, "Invalid Password");
