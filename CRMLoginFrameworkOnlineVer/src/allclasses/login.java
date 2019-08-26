@@ -15,7 +15,7 @@ import allclasses.commonParaFun;;
 * @author Salah @EMEIT
 */
 public class login{
-	
+ static commonParaFun c=new commonParaFun();
 	
  /**This will login by calling this function at any code*/
 	public static void run1hit() {
@@ -64,7 +64,7 @@ public class login{
     		      Thread.sleep(2000);
     		      
     		      //check if there's any error message is displayed after entering user name(wrong username or not valid E-mail).
-    		      if(commonParaFun.ispresent(By.xpath("//*[@id=\"usernameError\"]"))==true) {
+    		      if(c.ispresent(By.xpath("//*[@id=\"usernameError\"]"))==true) {
     		    	  commonParaFun.logger.log(Level.WARNING, "Invalid E-mail address");
     		    	  System.exit(0);
     		    	  
@@ -78,18 +78,18 @@ public class login{
     		          Thread.sleep(2000);
     		        
         		      //check if there's any error message is displayed after entering password(Wrong one).
-        		      if(commonParaFun.ispresent(By.xpath("//*[@id=\"passwordError\"]"))==true) {
+        		      if(c.ispresent(By.xpath("//*[@id=\"passwordError\"]"))==true) {
         		    	  commonParaFun.logger.log(Level.WARNING, "Invalid Password");
         		    	  System.exit(0);
         		    	  
         		      }else {
         		    	//dismissing message that ask to save login by selecting "No" if existing
-		                  if(commonParaFun.ispresent(By.id("idBtn_Back"))==true) {
+		                  if(c.ispresent(By.id("idBtn_Back"))==true) {
 		                	  commonParaFun.driver.findElement(By.id("idBtn_Back")).click();
 		                  }
         		    	  Thread.sleep(2000);
         		    	  //validating if user is in the current organization
-        		    	  if(commonParaFun.ispresent(By.id("title_notmemberoforg"))==true){
+        		    	  if(c.ispresent(By.id("title_notmemberoforg"))==true){
         		    		  commonParaFun.logger.log(Level.SEVERE, "The current user isn't existing in the current organization.");
         		    		  System.exit(0);
         		    	  }
@@ -115,7 +115,7 @@ public class login{
 //    		  }
     			  
     		 //This will check if "Pending E-mail" message is displayed and dismiss it
-    		  if(commonParaFun.ispresent(By.id("InlineDialog_Iframe"))==true) {
+    		  if(c.ispresent(By.id("InlineDialog_Iframe"))==true) {
     			     commonParaFun.driver.switchTo().frame(commonParaFun.driver.findElement(By.id("InlineDialog_Iframe")));
     				//Waiting till dismissing button is displayed
     				  WebDriverWait w8=new WebDriverWait(commonParaFun.driver, 2);

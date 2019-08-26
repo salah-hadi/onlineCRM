@@ -24,15 +24,15 @@ import org.sikuli.script.Screen;
  * @author Salah @EMEIT
  */
 public class commonParaFun {
-	public static WebDriver driver;
-	public static String driverPath;
-	public static String browser;
-	public static String crmUrl;
-	public static String userName;
-	public static String passWord;
-	public static String screenTitle;
-	public static Logger logger;
-	public static boolean ispresent;
+	public  static WebDriver driver;
+	public  static String driverPath;
+	public  static String browser;
+	public  static String crmUrl;
+	public  static String userName;
+	public  static String passWord;
+	public  static String screenTitle;
+	public  static Logger logger;
+	public  static boolean ispresent;
 
 	/**
 	 * This function configuring Selenium driver and pass website URL
@@ -42,7 +42,7 @@ public class commonParaFun {
 	 *                   browsers(chrome/firefox)
 	 * @param crmUrl     MS dynamic CRM environment URL
 	 */
-	public static void configDriver(String driverPath, String browser, String crmUrl) {
+	public void configDriver(String driverPath, String browser, String crmUrl) {
 
 		commonParaFun.driverPath = driverPath;
 		commonParaFun.browser = browser;
@@ -58,7 +58,7 @@ public class commonParaFun {
 	 *                 E-mail message on login if existing else, it will configure
 	 *                 login credintals only
 	 */
-	public static void getLogin(String userName, String passWord, boolean runOnce) {
+	public void getLogin(String userName, String passWord, boolean runOnce) {
 		logger = Logger.getLogger(commonParaFun.class.getName());
 		commonParaFun.userName = userName;
 		commonParaFun.passWord = passWord;
@@ -80,7 +80,7 @@ public class commonParaFun {
 	 * @param selector Element selector
 	 * @return ispresent to show if element is present on page or not
 	 */
-	public static boolean ispresent(By selector) {
+	public boolean ispresent(By selector) {
 
 		try {
 			driver.findElement(selector);
@@ -97,7 +97,7 @@ public class commonParaFun {
 	 * 
 	 * @return current page title
 	 */
-	public static String getTitle() {
+	public String getTitle() {
 		screenTitle = driver.getTitle();
 		return screenTitle;
 	}
@@ -109,7 +109,7 @@ public class commonParaFun {
 	 * 
 	 * @param imageURL Path to the image you want to click
 	 */
-	public static void sikuliClickButton(String imagePath) throws IOException, FindFailed {
+	public void sikuliClickButton(String imagePath) throws IOException, FindFailed {
 		/* find button by its image */
 		Screen sc = new Screen();
 		Pattern p;
@@ -129,7 +129,7 @@ public class commonParaFun {
 	 *            won't be able to find any element by selector at any language the
 	 *            only way is to use sikuli script )
 	 */
-	public static void openURL(String URL) {
+	public void openURL(String URL) {
 		try {
 			driver.navigate().to(URL);
 		} catch (NullPointerException | ExceptionInInitializerError e) {
@@ -144,7 +144,7 @@ public class commonParaFun {
 	 * @return It will return an object with the result.
 	 * @throws ScriptException 
 	 */
-	public static Object JSCode(String JS) throws ScriptException {
+	public Object JSCode(String JS) throws ScriptException {
 		JavascriptExecutor js1 = (JavascriptExecutor) driver;
 		if(js1 instanceof WebDriver) {
 			
@@ -160,7 +160,7 @@ public class commonParaFun {
 	 * @param menuName   menu displayed name
 	 * @param entityName entity displayed name
 	 */
-	public static void Navigate(String menuName, String entityName) throws InterruptedException, AWTException {
+	public void Navigate(String menuName, String entityName) throws InterruptedException, AWTException {
 		driver.findElement(By.id("TabMA")).click();
 //check if menu is existing
 		if(ispresent(By.linkText(menuName))) {
@@ -199,7 +199,7 @@ public class commonParaFun {
 	 * 
 	 * @param driver selenium WebDriver
 	 */
-	public static Boolean isLoaded() {
+	public Boolean isLoaded() {
 		return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
 	}
 
@@ -208,7 +208,7 @@ public class commonParaFun {
 	 * 
 	 * @throws AWTException
 	 */
-	public static void Save() throws AWTException {
+	public void Save() throws AWTException {
 		Robot r = new Robot();
 		r.keyPress(KeyEvent.VK_CONTROL);
 		r.keyPress(KeyEvent.VK_S);
@@ -217,12 +217,12 @@ public class commonParaFun {
 	}
 
 	/**
-	 * will press any button at any form(inside the record)
-	 * 
+	 * It will press any button at any form(inside the record)
+	 * It can be used with CRM buttons only.
 	 * @param entity logical name for entity
 	 * @param button button logical name
 	 */
-	public static void pFormButtons(String entityLogName, String buttonlogName) {
+	public void FormCRMButtons(String entityLogName, String buttonlogName) {
 
 		try {
 			driver.switchTo().parentFrame();
@@ -272,11 +272,11 @@ public class commonParaFun {
 
 	/**
 	 * Pressing any button in entity Home Page
-	 * 
+	 * It can be used only with CRM default buttons
 	 * @param entity entity logical name
 	 * @param button button logical name
 	 */
-	public static void HomePageButtons(String entityLogName, String buttonLogName) {
+	public void HomePageCRMButtons(String entityLogName, String buttonLogName) {
 		try {
 			driver.switchTo().parentFrame();
 			WebDriverWait wait = new WebDriverWait(driver, 5);
@@ -329,7 +329,7 @@ public class commonParaFun {
 	 * @throws AWTException
 	 * @throws InterruptedException
 	 */
-	public static void searchMainscreen(String searchValue) throws AWTException, InterruptedException {
+	public void searchMainscreen(String searchValue) throws AWTException, InterruptedException {
 		// will search for frame id existing will switch to, if it contains the search
 		// box will search.
 		for (int i = 0; i < 4; i++) {
@@ -364,7 +364,7 @@ public class commonParaFun {
 	 * @param viewName View name you want to switch to.
 	 * @throws InterruptedException
 	 */
-	public static void switchView(String viewName) throws InterruptedException {
+	public void switchView(String viewName) throws InterruptedException {
 		for (int i = 0; i < 4; i++) {
 			if (ispresent(By.id("contentIFrame" + i))) {
 				driver.switchTo().frame("contentIFrame" + i);
@@ -388,33 +388,33 @@ public class commonParaFun {
 	
 	/**This will quite the browser
 	 * */
-	public static void quit() {
+	public void quit() {
 		driver.quit();
 	}
 	
 	/**This will find the element on the page
 	 * @param locator 
 	 * */
-	public static WebElement findElement(By locator) {
+	public WebElement element(By locator) {
 		return driver.findElement(locator);	
 	}
 	
 	/**Switching to frame
-	 * @param frame Id or title of Iframe you want to switch to
+	 * @param frame Id or title of Frame you want to switch to
 	 * */
-	public static void switchFrame(String frame) {
+	public void switchFrame(String frame) {
 		driver.switchTo().frame(frame);
 	}
 	
-	/**It will switch to Parent Iframe
+	/**It will switch to Parent Frame
 	 * */
-	public static void switchToParent() {
+	public void switchToParent() {
 		driver.switchTo().parentFrame();
 	}
 	
 	/**Will refresh the current page
 	 * */
-	public static void refresh() {
+	public void refresh() {
 		driver.navigate().refresh();
 	}
 	
@@ -425,21 +425,38 @@ public class commonParaFun {
 	 * @throws AWTException 
 	 * @throws InterruptedException 
 	 * */
-	public static void createNewRecord(String menu, String entity, String entityLogName) throws InterruptedException, AWTException {
+	public void createNewRecord(String menu, String entity, String entityLogName) throws InterruptedException, AWTException {
 		Navigate(menu, entity);
 		Thread.sleep(1000);
-		HomePageButtons(entityLogName, "NewRecord");
+		HomePageCRMButtons(entityLogName, "NewRecord");
 	}
 	/**delete any record by provided URL
 	 * @param url URL to the record you want to delete
 	 * @param entityLogName entity logical Name
 	 * @throws InterruptedException 
 	 * */
-	public static void deleteRecord(String url, String entityLogName) throws InterruptedException {
+	public void deleteRecord(String url, String entityLogName) throws InterruptedException {
 		openURL(url);
 		Thread.sleep(1000);
-		pFormButtons(entityLogName, "Delete");
+		FormCRMButtons(entityLogName, "Delete");
 		logger.log(Level.WARNING, "Record is deleted successfully");
 	}
 
+	/**Used to press any button not from CRM default buttons
+	 * @param ButtID Button's ID
+	 * */
+	public void pressButt(String ButtID) {
+		if(ispresent(By.id(ButtID))) {
+			driver.findElement(By.id(ButtID)).click();
+			logger.log(Level.WARNING, "Button is pressed successfully");
+		}else {
+			logger.log(Level.WARNING, "Button isn't existing");
+		}
+	}
+	
+	/**This will wait till the presense of specific element*/
+	public void waitElement(By selector,int WaitingTime) {
+		WebDriverWait wait=new WebDriverWait(driver, WaitingTime);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(selector));
+	}
 }

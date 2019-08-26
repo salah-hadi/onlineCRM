@@ -25,12 +25,15 @@ import allclasses.login;
  * @author Salah @EMEIT
  * */
 public class NewTest{
-	
+	commonParaFun c=new commonParaFun();
 	/**This will set all needed configuration to pass login page*/
   @Test
   public void passParameters() {
-	  commonParaFun.configDriver("E:\\automation\\chrome driver\\chromedriver.exe", "chrome", "http://barqstaging.crm4.dynamics.com");
-	  commonParaFun.getLogin("crm@barqsystems.com", "EME_B@rq",true);
+	  
+//	  commonParaFun.configDriver("E:\\automation\\chrome driver\\chromedriver.exe", "chrome", "http://barqstaging.crm4.dynamics.com");
+//	  commonParaFun.getLogin("crm@barqsystems.com", "EME_B@rq",true);
+	  c.configDriver("E:\\automation\\chrome driver\\chromedriver.exe", "chrome", "https://efbstaging.crm4.dynamics.com/main.aspx?etn=eme_deliverygenerator&id={C6441715-D0C4-E911-A849-000D3AB2DDD3}&pagetype=entityrecord");
+	  c.getLogin("dagent@egyptianfoodbank.onmicrosoft.com", "efbPass123",true);
 //	  Assert.assertEquals(commonParaFun.getTitle(), "Dashboards: Marketing Social Dashboard - Microsoft Dynamics 365");
   }
   
@@ -129,11 +132,15 @@ public class NewTest{
 //	  commonParaFun.switchFrame("contentIFrame0");
 //	  Object o=commonParaFun.JSCode("return Xrm.Page.getAttribute('new_abbreviation').getValue();");
 //	  System.out.println(o);
-	  commonParaFun.deleteRecord("https://barqstaging.crm4.dynamics.com/main.aspx?pagetype=entityrecord&etc=10016&id=%7b19CC26EE-A364-E711-8114-70106FA5FD51%7d&sitemappath=Settings%7cNewGroup_65d3f8e3%7cnew_country&extraqs=&newWindow=true&histKey=871009899#394126894", "new_country");
-	  
+//	  commonParaFun.deleteRecord("https://barqstaging.crm4.dynamics.com/main.aspx?pagetype=entityrecord&etc=10016&id=%7b19CC26EE-A364-E711-8114-70106FA5FD51%7d&sitemappath=Settings%7cNewGroup_65d3f8e3%7cnew_country&extraqs=&newWindow=true&histKey=871009899#394126894", "new_country");
+//	  commonParaFun.pFormCRMButtons("eme_deliverygenerator", "NewRecord");
+	  c.pressButt("eme_deliverygenerator|NoRelationship|Form|eme.eme_deliverygenerator.MonthlyDelivery.Button");
+	  Thread.sleep(2000);
+	  commonParaFun.driver.switchTo().alert().accept();
 	  
 
   }
+  
   
   
 }
