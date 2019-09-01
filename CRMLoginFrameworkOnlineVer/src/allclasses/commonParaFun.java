@@ -2,6 +2,9 @@ package allclasses;
 
 import java.awt.AWTException;
 import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.URL;
@@ -28,8 +31,6 @@ public class commonParaFun {
 	public  static String driverPath;
 	public  static String browser;
 	public  static String crmUrl;
-	public  static String userName;
-	public  static String passWord;
 	public  static String screenTitle;
 	public  static Logger logger;
 	public  static boolean ispresent;
@@ -54,23 +55,12 @@ public class commonParaFun {
 	 * 
 	 * @param userName username used to login
 	 * @param passWord username password
-	 * @param runOnce  if true will launch browser, navigate to Login, and dismiss
-	 *                 E-mail message on login if existing else, it will configure
-	 *                 login credintals only
 	 */
-	public void getLogin(String userName, String passWord, boolean runOnce) {
+	public void getLogin(String userName, String passWord) {
 		logger = Logger.getLogger(commonParaFun.class.getName());
-		commonParaFun.userName = userName;
-		commonParaFun.passWord = passWord;
-		/**
-		 * If true will run complete login to CRM dynamics, else will pass configuration
-		 * and stop
-		 */
-		if (runOnce == true) {
-			login.run1hit();
-		} else {
-			logger.log(Level.WARNING, "Configuring login credintals is completed successfully!!!");
-		}
+		login.launchingbrowser();
+		login.navToLoginpage(userName,passWord);
+		login.dismissEmailmsg();		
 
 	}
 
@@ -161,8 +151,9 @@ public class commonParaFun {
 	 * @param entityName entity displayed name
 	 */
 	public void Navigate(String menuName, String entityName) throws InterruptedException, AWTException {
-		driver.findElement(By.id("TabMA")).click();
+		driver.findElement(By.name("TabHome")).click();
 //check if menu is existing
+		Thread.sleep(1000);
 		if(ispresent(By.linkText(menuName))) {
 			driver.findElement(By.linkText(menuName)).click();
 			//check if screen is existing in the current form
@@ -175,6 +166,7 @@ public class commonParaFun {
 				    while(ispresent(By.id("detailActionGroupControl_rightNavContainer"))){					
 					    driver.findElement(By.id("detailActionGroupControl_rightNavContainer")).click();
 					//is entity existing in the new screen
+						Thread.sleep(1000);
 					    if(ispresent(By.linkText(entityName))) {
 						   driver.findElement(By.linkText(entityName)).click();
 						   logger.log(Level.WARNING, "The provided Entity is existing in the current form");
@@ -223,7 +215,7 @@ public class commonParaFun {
 	 * @param button button logical name
 	 */
 	public void FormCRMButtons(String entityLogName, String buttonlogName) {
-
+		
 		try {
 			driver.switchTo().parentFrame();
 			WebDriverWait wait = new WebDriverWait(driver, 5);
@@ -454,9 +446,34 @@ public class commonParaFun {
 		}
 	}
 	
-	/**This will wait till the presense of specific element*/
+	/**This will wait till the presence of specific element*/
 	public void waitElement(By selector,int WaitingTime) {
 		WebDriverWait wait=new WebDriverWait(driver, WaitingTime);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(selector));
 	}
+	
+	/**Logout from the current user
+	 * @throws InterruptedException */
+	public void logOut() throws InterruptedException {
+		driver.findElement(By.id("navTabButtonChangeProfileImageLink")).click();
+		Thread.sleep(2000);
+		driver.findElement(By.id("navTabButtonUserInfoSignOutId")).click();
+		logger.log(Level.WARNING, "you have logged out from user.");
+	}
+	/**This will copy and paste any provided value
+	 * @param copyValue the value you want to copy and paste
+	 * @throws AWTException */
+	public void copyPaste(String copyValue) throws AWTException {
+		 StringSelection ss=new StringSelection(copyValue);
+			Clipboard cli=Toolkit.getDefaultToolkit().getSystemClipboard();
+			cli.setContents(ss, ss);
+			Robot r=new Robot();
+			r.keyPress(KeyEvent.VK_CONTROL);
+			r.keyPress(KeyEvent.VK_V);
+			r.keyRelease(KeyEvent.VK_V);
+			r.keyRelease(KeyEvent.VK_CONTROL);
+	}
+	
+
+
 }

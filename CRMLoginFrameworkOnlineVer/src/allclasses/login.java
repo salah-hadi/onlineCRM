@@ -17,12 +17,7 @@ import allclasses.commonParaFun;;
 public class login{
  static commonParaFun c=new commonParaFun();
 	
- /**This will login by calling this function at any code*/
-	public static void run1hit() {
-		launchingbrowser();
-		navToLoginpage();
-		dismissEmailmsg();
-	}
+ 
 	
 	/**opening specific browser according to the configuration*/
       public static void launchingbrowser() {
@@ -47,8 +42,10 @@ public class login{
       
       /**
 	   * open CRM online version Login page and log in using the provided credentials 
+	   *  @param userName username used to login
+	 * @param passWord username password
 	   * */
-      public static void navToLoginpage() {
+      public static void navToLoginpage(String userName, String passWord) {
     	  
     	  try {
     		  
@@ -58,7 +55,7 @@ public class login{
     		  
     		      //Entering user name
     		      WebElement uNfield=commonParaFun.driver.findElement(By.id("i0116"));
-    		      uNfield.sendKeys(commonParaFun.userName);
+    		      uNfield.sendKeys(userName);
     		      Thread.sleep(2000);
     		      commonParaFun.driver.findElement(By.xpath("//*[@id=\"idSIButton9\"]")).click();
     		      Thread.sleep(2000);
@@ -72,7 +69,7 @@ public class login{
     		    	
     		       //Entering password
     		          WebElement PassField=commonParaFun.driver.findElement(By.id("i0118")); // NOPMD by Salah on 4/10/19, 1:43 PM
-    		          PassField.sendKeys(commonParaFun.passWord);
+    		          PassField.sendKeys(passWord);
     		          commonParaFun.driver.findElement(By.xpath("//*[@id=\"idSIButton9\"]")).click(); //login button
 //    		          PassField.sendKeys(Keys.ENTER);
     		          Thread.sleep(2000);
