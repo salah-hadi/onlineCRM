@@ -29,7 +29,7 @@ public class NewTest{
   
   @Test(dependsOnMethods={"passParameters"})
   public void openURLNew() throws Exception {
-	  c.quit();
+//	  c.quit();
 //	  commonParaFun.openURL("https://barqstaging.crm4.dynamics.com/main.aspx?etn=contact&id={ADC5E89B-6E07-E911-A963-000D3ABA21E5}&pagetype=entityrecord");
 //	  commonParaFun.createNew();
 //	  Thread.sleep(2000);
@@ -137,7 +137,9 @@ public class NewTest{
 //	  c.Navigate("BARQ Settings", "Country");
 //	  c.Navigate("BARQ Sales", "Leads");
 //	  c.createIssue("Arado", 8787l, "test", "hello");
-	  compareExcel c1=new compareExcel();
-	  c1.compareExcelFiles("C:\\Users\\Salah\\Downloads\\Account Advanced Find View.xlsx","C:\\Users\\Salah\\Downloads\\Account Advanced Find View2.xlsx","Account Advanced Find View","Account Advanced Find View", "E:\\result.txt");
+//	  compareExcel c1=new compareExcel();
+//	  c1.compareExcelFiles("C:\\Users\\Salah\\Downloads\\Account Advanced Find View.xlsx","C:\\Users\\Salah\\Downloads\\Account Advanced Find View2.xlsx","Account Advanced Find View","Account Advanced Find View", "E:\\result.txt");
+//	  c.importExcel("BARQ Settings", "C:\\Users\\Salah\\Downloads\\Account Advanced Find View.xlsx", true);
+	  c.deactivate("https://barqstaging.crm4.dynamics.com/main.aspx?pagetype=entityrecord&etc=1&id=%7b516D29CC-2756-E911-A829-000D3AB86978%7d&sitemappath=SFA%7cCustomers%7cnav_accts&extraqs=&newWindow=true&histKey=641339688#345020286", "account");
   }
 }

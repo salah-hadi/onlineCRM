@@ -34,7 +34,7 @@ public class commonParaFun {
 	public  static String screenTitle;
 	public  static Logger logger;
 	public  static boolean ispresent;
-
+    public static boolean afterW8;
 	/**
 	 * This function configuring Selenium driver and pass website URL
 	 * 
@@ -155,12 +155,15 @@ public class commonParaFun {
 //check if menu is existing
 		Thread.sleep(1000);
 		if(ispresent(By.linkText(menuName))) {
+			Thread.sleep(1000);
 			driver.findElement(By.linkText(menuName)).click();
 			//check if screen is existing in the current form
+			Thread.sleep(1000);
 			if(ispresent(By.linkText(entityName))) {
 				driver.findElement(By.linkText(entityName)).click();
 				logger.log(Level.WARNING, "The provided Entity is existing in the current form");
 			}else {
+				Thread.sleep(1000);
 				if(ispresent(By.id("detailActionGroupControl_rightNavContainer"))) {					
 				//if not existing and nagivate buttion to right is existing click it
 				    while(ispresent(By.id("detailActionGroupControl_rightNavContainer"))){					
@@ -446,7 +449,9 @@ public class commonParaFun {
 		}
 	}
 	
-	/**This will wait till the presence of specific element*/
+	/**This will wait till the presence of specific element
+	 * @param selector Element locator
+	 * @param WaitingTime time driver will wait in seconds*/
 	public void waitElement(By selector,int WaitingTime) {
 		WebDriverWait wait=new WebDriverWait(driver, WaitingTime);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(selector));
@@ -474,4 +479,149 @@ public class commonParaFun {
 			r.keyRelease(KeyEvent.VK_CONTROL);
 	}
 	
+	/**This will import Excel sheet inside CRM
+	 * @param menuName Menu name which contains "Data management" entity
+	 * @param ExcelFile Path to excel file you want to import
+	 * @param allowDuplication pas True to allow duplication in imported data.
+	 * @throws AWTException 
+	 * @throws InterruptedException */
+	public void importExcel(String menuName, String ExcelFile, boolean allowDuplication) throws InterruptedException, AWTException {
+		Navigate(menuName, "Data Management");
+		for (int i = 0; i < 4; i++) {
+			if (ispresent(By.id("contentIFrame" + i))) {
+				driver.switchTo().frame("contentIFrame" + i);
+				if (ispresent(By.linkText("Imports"))) {
+					Thread.sleep(2000);
+					driver.findElement(By.linkText("Imports")).click();
+					logger.log(Level.WARNING, "openning import Screen...");
+					break;
+				} else {
+					logger.log(Level.WARNING, "Import screen isn't avilable at the current Iframe");
+					driver.switchTo().parentFrame();
+				}
+			} else {
+				logger.log(Level.WARNING, "Import screen isn't avilable at the current screen");
+			}
+
+		}
+		HomePageCRMButtons("importfile", "Import");
+		//loader
+
+		if(iDAW8(By.id("InlineDialog_Iframe"), 5)){
+			switchFrame("InlineDialog_Iframe");
+			while(ispresent(By.id("DialogLoadingDivImg"))) {
+				
+			}
+		}
+//		waitElement(By.id("InlineDialog_Iframe"), 5);
+		
+		String winHandleBefore = driver.getWindowHandle();
+		//		switchToParent();
+		waitElement(By.id("wizardpageframe"), 5);
+		switchFrame("wizardpageframe");
+		switchFrame("uploadFileFrame");
+		driver.findElement(By.id("uploadFileNameId")).click();
+		Thread.sleep(2000);
+		copyPaste(ExcelFile);
+		Robot r=new Robot();
+		r.keyPress(KeyEvent.VK_ENTER);
+		r.keyRelease(KeyEvent.VK_ENTER);
+		
+		driver.switchTo().window(winHandleBefore);
+		switchToParent();
+		if(iDAW8(By.id("InlineDialog_Iframe"), 5)){
+			switchFrame("InlineDialog_Iframe");
+			while(ispresent(By.id("DialogLoadingDivImg"))) {
+				
+			}
+		}
+//		waitElement(By.id("InlineDialog_Iframe"), 5);
+//		switchFrame("InlineDialog_Iframe");
+//		switchFrame("InlineDialog_Iframe");
+		switchFrame("wizardpageframe");
+//		waitElement(By.id("wizardpageframe"), 5);
+//		switchFrame("wizardpageframe");
+		driver.findElement(By.id("buttonNext")).click();
+		//--
+		//loading bar
+		switchToParent();
+		if(iDAW8(By.id("InlineDialog_Iframe"), 5)){
+			switchFrame("InlineDialog_Iframe");
+			while(ispresent(By.id("DialogLoadingDivImg"))) {
+				
+			}
+		}
+//		waitElement(By.id("InlineDialog_Iframe"), 5);
+//		switchFrame("InlineDialog_Iframe");
+//        while(ispresent(By.id("DialogLoadingDivImg"))) {
+//			
+//		}
+        //error message
+		switchToParent();
+        if(ispresent(By.id("InlineDialog1_Iframe"))) {
+        	switchFrame("InlineDialog1_Iframe");
+        	if(ispresent(By.id("butBegin"))) {
+        	    logger.log(Level.SEVERE, "An Error has occured on importing");
+        	    
+        	}
+        }else {
+        		//allow duplication or not 
+        	switchToParent();
+        	switchFrame("InlineDialog_Iframe");
+        	switchFrame("wizardpageframe");
+        	if(allowDuplication==true) {       		
+        		driver.findElement(By.id("deDupDisabled")).click();
+        	}else {
+        		driver.findElement(By.id("deDupEnabled")).click();
+        	}
+        	//submit button
+        	driver.findElement(By.id("buttonNext")).click();
+        	//loading
+        	switchToParent();
+        	if(iDAW8(By.id("InlineDialog_Iframe"), 5)){
+    			switchFrame("InlineDialog_Iframe");
+    			while(ispresent(By.id("DialogLoadingDivImg"))) {
+    				
+    			}
+    		}
+//        	waitElement(By.id("InlineDialog_Iframe"), 5);
+//    		switchFrame("InlineDialog_Iframe");
+//            while(ispresent(By.id("DialogLoadingDivImg"))) {
+//    			
+//    		}
+            //open import list screen
+//        	switchFrame("InlineDialog_Iframe");
+        	switchFrame("wizardpageframe");
+            driver.findElement(By.id("buttonNext")).click();
+            logger.log(Level.SEVERE, "Importing wizard is completed, find progress on CRM");
+        }
+
+        
+	}
+	
+	/**Will return true if it's displayed in wait
+	 * @param selector Element locator
+	 * @param WaitingTime time driver will wait in seconds
+	 * */
+    public boolean iDAW8(By selector,int WaitingTime) {
+    	try {
+    	WebDriverWait wait=new WebDriverWait(driver, WaitingTime);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(selector));
+		afterW8=true;
+    	}catch(Exception e) {
+    		afterW8=false;
+    	}
+    	return afterW8;
+    }
+    
+    /**This will deactivate any record by provided URL
+     * @param URL Record URL 
+     * @param entityLogName scheme Name
+     * @throws InterruptedException */
+    public void deactivate(String URL, String entityLogName) throws InterruptedException {
+    	openURL(URL);
+		Thread.sleep(1000);
+    	FormCRMButtons(entityLogName, "Deactivate");
+    	logger.log(Level.SEVERE, "Record is Deactivated successfully");
+    }
 }
