@@ -474,6 +474,4 @@ public class commonParaFun {
 			r.keyRelease(KeyEvent.VK_CONTROL);
 	}
 	
-
-
 }

@@ -1,25 +1,11 @@
 package ngpack;
 
-import java.awt.AWTException;
-import java.awt.Robot;
-import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
-import java.awt.event.KeyEvent;
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
-import javax.script.ScriptException;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
-import org.sikuli.script.FindFailed;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 //import allclasses.commonParaFun;
 import allclasses.commonParaFun;
+import allclasses.compareExcel;
 import allclasses.login;
 /**
  * @author Salah @EMEIT
@@ -27,11 +13,12 @@ import allclasses.login;
 public class NewTest{
 	commonParaFun c=new commonParaFun();
 	/**This will set all needed configuration to pass login page*/
+	
   @Test
   public void passParameters() {
 	  
 	  c.configDriver("E:\\automation\\chrome driver\\chromedriver.exe", "chrome", "http://barqstaging.crm4.dynamics.com");
-//	  c.getLogin("crm@barqsystems.com", "EME_B@rq");
+////	  c.getLogin("crm@barqsystems.com", "EME_B@rq");
 	  login.launchingbrowser();
 	  login.navToLoginpage("crm@barqsystems.com", "EME_B@rq");
 	  login.dismissEmailmsg();
@@ -41,7 +28,8 @@ public class NewTest{
   }
   
   @Test(dependsOnMethods={"passParameters"})
-  public void openURLNew() throws InterruptedException, AWTException, FindFailed, IOException, ScriptException {
+  public void openURLNew() throws Exception {
+	  c.quit();
 //	  commonParaFun.openURL("https://barqstaging.crm4.dynamics.com/main.aspx?etn=contact&id={ADC5E89B-6E07-E911-A963-000D3ABA21E5}&pagetype=entityrecord");
 //	  commonParaFun.createNew();
 //	  Thread.sleep(2000);
@@ -146,11 +134,10 @@ public class NewTest{
 //      c.switchFrame("contentIFrame1");
 //      c.element(By.id("salutation")).sendKeys("dskjd");
 //	  c.logOut();
-	  c.Navigate("BARQ Settings", "Country");
-	  c.Navigate("BARQ Sales", "Leads");
-
+//	  c.Navigate("BARQ Settings", "Country");
+//	  c.Navigate("BARQ Sales", "Leads");
+//	  c.createIssue("Arado", 8787l, "test", "hello");
+	  compareExcel c1=new compareExcel();
+	  c1.compareExcelFiles("C:\\Users\\Salah\\Downloads\\Account Advanced Find View.xlsx","C:\\Users\\Salah\\Downloads\\Account Advanced Find View2.xlsx","Account Advanced Find View","Account Advanced Find View", "E:\\result.txt");
   }
-  
-  
-  
 }
