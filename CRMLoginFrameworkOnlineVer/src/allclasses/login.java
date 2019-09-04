@@ -1,5 +1,6 @@
 package allclasses;
 
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.openqa.selenium.By;
@@ -45,7 +46,7 @@ public class login{
 	   *  @param userName username used to login
 	 * @param passWord username password
 	   * */
-      public static void navToLoginpage(String userName, String passWord) {
+      public static void navToLoginpageOnline(String userName, String passWord) {
     	  
     	  try {
     		  
@@ -103,6 +104,17 @@ public class login{
     		  }
       }
       
+      /**This will login to CRM onPrememise Version
+     * @throws IOException */
+      public static void navToLoginpageOnpremise(String autoit) throws IOException {
+    	  try {
+    		  commonParaFun.driver.manage().window().maximize();
+    		  Runtime.getRuntime().exec(autoit);
+    		  commonParaFun.driver.navigate().to(commonParaFun.crmUrl);
+    	  }catch(NoSuchElementException e) {
+    		  commonParaFun.logger.log(Level.SEVERE, "", e);
+    		  }
+      }
       /**Dismissing pending E-mail message*/
       public static void dismissEmailmsg() {
     	  try {

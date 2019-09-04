@@ -51,18 +51,29 @@ public class commonParaFun {
 	}
 
 	/**
-	 * This pass login parameters
+	 * This pass login parameters and login online CRM version
 	 * 
 	 * @param userName username used to login
 	 * @param passWord username password
 	 */
-	public void getLogin(String userName, String passWord) {
+	public void LoginOnline(String userName, String passWord) {
 		logger = Logger.getLogger(commonParaFun.class.getName());
 		login.launchingbrowser();
-		login.navToLoginpage(userName,passWord);
+		login.navToLoginpageOnline(userName,passWord);
 		login.dismissEmailmsg();		
 
 	}
+	
+	/**This should login in CRM onpremise
+	 * @throws IOException 
+	 * */
+	public void loginOnpremise(String autoit) throws IOException {
+		logger = Logger.getLogger(commonParaFun.class.getName());
+		login.launchingbrowser();
+		login.navToLoginpageOnpremise(autoit);
+		login.dismissEmailmsg();	
+	}
+
 
 	/**
 	 * will check if Element is present on the page
@@ -523,9 +534,13 @@ public class commonParaFun {
 		driver.findElement(By.id("uploadFileNameId")).click();
 		Thread.sleep(2000);
 		copyPaste(ExcelFile);
-		Robot r=new Robot();
-		r.keyPress(KeyEvent.VK_ENTER);
-		r.keyRelease(KeyEvent.VK_ENTER);
+		Robot r2=new Robot();
+		//the following two lines should be commented on converting to c#
+		r2.keyPress(KeyEvent.VK_ENTER);
+		r2.keyRelease(KeyEvent.VK_ENTER);
+		//Enter keyCode is 10 in Java and 13 in c#, so it should be uncommented on converting to DLL
+//		r2.keyPress(13);
+//		r2.keyRelease(13);
 		
 		driver.switchTo().window(winHandleBefore);
 		switchToParent();
