@@ -3,17 +3,18 @@ package ngpack;
 
 import java.io.IOException;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 
 //import allclasses.commonParaFun;
-import allclasses.commonParaFun;
-import allclasses.compareExcel;
-import allclasses.login;
+import allclasses.CommonParaFun;
+import allclasses.CompareExcel;
+import allclasses.Login;
 /**
  * @author Salah @EMEIT
  * */
 public class NewTestOnline{
-	commonParaFun c=new commonParaFun();
+	CommonParaFun c=new CommonParaFun();
 	/**This will set all needed configuration to pass login page
 	 * @throws IOException */
 	
@@ -21,14 +22,10 @@ public class NewTestOnline{
   public void passParameters() throws IOException {
 	  
 //	  c.configDriver("E:\\automation\\chrome driver\\chromedriver.exe", "chrome", "http://barqstaging.crm4.dynamics.com");
-	  c.configDriver("E:\\automation\\chrome driver\\chromedriver.exe", "chrome", "http://41.41.31.190:6725/barqtest2");
-	  c.loginOnpremise("E:\\md3ka yazmily\\BarqAdmin.exe");
-//	  c.getLogin("crm@barqsystems.com", "EME_B@rq");
+//	  c.configDriver("E:\\automation\\chrome driver\\chromedriver.exe", "chrome", "http://41.41.31.190:6725/barqtest2");
 //	  login.launchingbrowser();
-//	  login.navToLoginpageOnline("crm@barqsystems.com", "EME_B@rq");
 //	  login.dismissEmailmsg();
 //	  c.configDriver("E:\\automation\\chrome driver\\chromedriver.exe", "chrome", "https://efbstaging.crm4.dynamics.com/main.aspx?etn=eme_deliverygenerator&id={C6441715-D0C4-E911-A849-000D3AB2DDD3}&pagetype=entityrecord");
-//	  c.getLogin("dagent@egyptianfoodbank.onmicrosoft.com", "efbPass123",true);
 //	  Assert.assertEquals(commonParaFun.getTitle(), "Dashboards: Marketing Social Dashboard - Microsoft Dynamics 365");
   }
   
@@ -144,7 +141,7 @@ public class NewTestOnline{
 //	  c.createIssue("Arado", 8787l, "test", "hello");
 //	  compareExcel c1=new compareExcel();
 //	  c1.compareExcelFiles("C:\\Users\\Salah\\Downloads\\Account Advanced Find View.xlsx","C:\\Users\\Salah\\Downloads\\Account Advanced Find View2.xlsx","Account Advanced Find View","Account Advanced Find View", "E:\\result.txt");
-	  c.importExcel("BARQ Settings", "C:\\Users\\Salah\\Downloads\\Account Advanced Find View.xlsx", true);
+//	  c.importExcel("BARQ Settings", "C:\\Users\\Salah\\Downloads\\Account Advanced Find View.xlsx", true);
 //	  c.deactivate("https://barqstaging.crm4.dynamics.com/main.aspx?pagetype=entityrecord&etc=1&id=%7b516D29CC-2756-E911-A829-000D3AB86978%7d&sitemappath=SFA%7cCustomers%7cnav_accts&extraqs=&newWindow=true&histKey=641339688#345020286", "account");
   }
 }

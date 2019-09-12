@@ -19,7 +19,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * @author Salah @EMEIT
  * **/
 
-public class compareExcel {	
+public class CompareExcel {	
 	XSSFSheet worksheet1;
 	XSSFSheet worksheet2;
 	XSSFWorkbook workbook1;
@@ -49,7 +49,7 @@ public class compareExcel {
 	 * @throws IOException -used to handle FileNotFoundException and InvalidPathException
 	 * **/	
 	public void compareExcelFiles(String file1, String file2, String sheet1, String sheet2, String resultFilePath) throws IOException {
-		commonParaFun.logger = java.util.logging.Logger.getLogger(commonParaFun.class.getName());
+		CommonParaFun.logger = java.util.logging.Logger.getLogger(CommonParaFun.class.getName());
 			 //Reading in first Excel sheet
 			fileInputStream1 = Files.newInputStream(Paths.get(file1));
 //			FileInputStream fileInputStream1 = new FileInputStream(file1); //will cause a garbage
@@ -67,13 +67,13 @@ public class compareExcel {
 	        	        }else {
 	        	        	//If sheet not existing
 	        	        	if(i1==workbook1.getNumberOfSheets()-1) {
-	        	        		commonParaFun.logger.log(Level.SEVERE, "the provide first sheet isn't avilable in the First Excel file");
+	        	        		CommonParaFun.logger.log(Level.SEVERE, "the provide first sheet isn't avilable in the First Excel file");
 	        	        		System.exit(0);
 	        	        	}
 	        	        }	        	      
 	            	}
 	            }else {
-	        		commonParaFun.logger.log(Level.SEVERE, "Excel File has no sheets");
+	        		CommonParaFun.logger.log(Level.SEVERE, "Excel File has no sheets");
 	            }
 	        
 	      //Reading in second Excel sheet
@@ -130,14 +130,14 @@ public class compareExcel {
   	        	                     //if values in both cells isn't equal
   	        	                     if(!cellValue1.equals(cellValue2))
   	        	                     {
-  	        	                         commonParaFun.logger.log(Level.SEVERE, "[ERROR] : there're cells aren't the same, Row "+(i+1)+" cell: "+(cell+1)+",cell 1:"+cellValue1+" ,cell 2:"+cellValue2);
+  	        	                         CommonParaFun.logger.log(Level.SEVERE, "[ERROR] : there're cells aren't the same, Row "+(i+1)+" cell: "+(cell+1)+",cell 1:"+cellValue1+" ,cell 2:"+cellValue2);
 //  	        	                         run.addCarriageReturn();
 //  	        	                         run.setText("[ERROR] : there're cells aren't the same, Row "+(i+1)+" cell: "+(cell+1)+",cell 1:"+cellValue1+" ,cell 2:"+cellValue2);
   	        	                         writer.write("[ERROR] : there're cells aren't the same, Row "+(i+1)+" cell: "+(cell+1)+",cell 1:"+cellValue1+" ,cell 2:"+cellValue2+System.getProperty("line.separator"));
   	        	                     
   	        	                     }else {
-  	        	                    	 commonParaFun.logger.log(Level.SEVERE, "both cells have the same value");
-  	        	                    	 commonParaFun.logger.log(Level.SEVERE,"Row: "+(i+1)+" cell: "+(cell+1)+",cell 1:"+cellValue1+" ,cell 2:"+cellValue2);
+  	        	                    	 CommonParaFun.logger.log(Level.SEVERE, "both cells have the same value");
+  	        	                    	 CommonParaFun.logger.log(Level.SEVERE,"Row: "+(i+1)+" cell: "+(cell+1)+",cell 1:"+cellValue1+" ,cell 2:"+cellValue2);
 //  	        	                       run.addCarriageReturn();
 //  	        	                       run.setText("both cells have the same value \n"
 //  	        	                                     +"Row: "+(i+1)+" cell: "+(cell+1)+",cell 1:"+cellValue1+" ,cell 2:"+cellValue2);
@@ -156,21 +156,21 @@ public class compareExcel {
   	        	        	writer.flush();
   	        	        	writer.close();
   	        	        }else {
-  	        	        	commonParaFun.logger.log(Level.SEVERE, "Rows aren't equal in both files, # of rows in first sheet:"+rowCount1+" ,# rows in second sheet:"+rowCount2);
+  	        	        	CommonParaFun.logger.log(Level.SEVERE, "Rows aren't equal in both files, # of rows in first sheet:"+rowCount1+" ,# rows in second sheet:"+rowCount2);
   	        	        }
   	        	        workbook1.close();
   	        	        workbook2.close();
   	        	        break; 
   	            		}else {
 	        	        	if(i2==workbook2.getNumberOfSheets()-1) {
-	        	        		commonParaFun.logger.log(Level.SEVERE, "the provide second sheet isn't avilable in the second Excel file");
+	        	        		CommonParaFun.logger.log(Level.SEVERE, "the provide second sheet isn't avilable in the second Excel file");
 	        	        		System.exit(0);
 	        	        	}
   	            		}
 	        		}
 	        		
 	        	}else {
-	        		commonParaFun.logger.log(Level.SEVERE, "Excel File has no sheets");
+	        		CommonParaFun.logger.log(Level.SEVERE, "Excel File has no sheets");
 	        	}
 	        
 	        

@@ -11,31 +11,31 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import allclasses.commonParaFun;;
+import allclasses.CommonParaFun;;
 /**
 * @author Salah @EMEIT
 */
-public class login{
- static commonParaFun c=new commonParaFun();
+public class Login{
+ static CommonParaFun c=new CommonParaFun();
 	
  
 	
 	/**opening specific browser according to the configuration*/
       public static void launchingbrowser() {
-    	  commonParaFun.logger = Logger.getLogger(login.class.getName());
+    	  CommonParaFun.logger = Logger.getLogger(Login.class.getName());
     	  
-    	  if("chrome".equals(commonParaFun.browser)) {
+    	  if("chrome".equals(CommonParaFun.browser)) {
     		  //configure Chrome driver
-    		  System.setProperty("webdriver.chrome.driver", commonParaFun.driverPath);
-    		  commonParaFun.driver=new ChromeDriver();
+    		  System.setProperty("webdriver.chrome.driver", CommonParaFun.driverPath);
+    		  CommonParaFun.driver=new ChromeDriver();
     		  
-    	  }else if("firefox".equals(commonParaFun.browser)){
+    	  }else if("firefox".equals(CommonParaFun.browser)){
     		  //configure firefox driver
-    		  System.setProperty("webdriver.gecko.driver", commonParaFun.driverPath);
-    		  commonParaFun.driver=new FirefoxDriver();
+    		  System.setProperty("webdriver.gecko.driver", CommonParaFun.driverPath);
+    		  CommonParaFun.driver=new FirefoxDriver();
     		  
     	  }else {
-    		  commonParaFun.logger.log(Level.SEVERE, "Code stopped running, Enter valid browser and Run again..");
+    		  CommonParaFun.logger.log(Level.SEVERE, "Code stopped running, Enter valid browser and Run again..");
     		  System.exit(0);
     	  }
     	 
@@ -50,57 +50,57 @@ public class login{
     	  
     	  try {
     		  
-    		  if(commonParaFun.crmUrl.contains(".dynamics.com")) {
-    			  commonParaFun.driver.manage().window().maximize();
-    			  commonParaFun.driver.navigate().to(commonParaFun.crmUrl);
+    		  if(CommonParaFun.crmUrl.contains(".dynamics.com")) {
+    			  CommonParaFun.driver.manage().window().maximize();
+    			  CommonParaFun.driver.navigate().to(CommonParaFun.crmUrl);
     		  
     		      //Entering user name
-    		      WebElement uNfield=commonParaFun.driver.findElement(By.id("i0116"));
+    		      WebElement uNfield=CommonParaFun.driver.findElement(By.id("i0116"));
     		      uNfield.sendKeys(userName);
     		      Thread.sleep(2000);
-    		      commonParaFun.driver.findElement(By.xpath("//*[@id=\"idSIButton9\"]")).click();
+    		      CommonParaFun.driver.findElement(By.xpath("//*[@id=\"idSIButton9\"]")).click();
     		      Thread.sleep(2000);
     		      
     		      //check if there's any error message is displayed after entering user name(wrong username or not valid E-mail).
     		      if(c.ispresent(By.xpath("//*[@id=\"usernameError\"]"))==true) {
-    		    	  commonParaFun.logger.log(Level.WARNING, "Invalid E-mail address");
+    		    	  CommonParaFun.logger.log(Level.WARNING, "Invalid E-mail address");
     		    	  System.exit(0);
     		    	  
     		      }else {
     		    	
     		       //Entering password
-    		          WebElement PassField=commonParaFun.driver.findElement(By.id("i0118")); // NOPMD by Salah on 4/10/19, 1:43 PM
+    		          WebElement PassField=CommonParaFun.driver.findElement(By.id("i0118")); // NOPMD by Salah on 4/10/19, 1:43 PM
     		          PassField.sendKeys(passWord);
-    		          commonParaFun.driver.findElement(By.xpath("//*[@id=\"idSIButton9\"]")).click(); //login button
+    		          CommonParaFun.driver.findElement(By.xpath("//*[@id=\"idSIButton9\"]")).click(); //login button
 //    		          PassField.sendKeys(Keys.ENTER);
     		          Thread.sleep(2000);
     		        
         		      //check if there's any error message is displayed after entering password(Wrong one).
         		      if(c.ispresent(By.xpath("//*[@id=\"passwordError\"]"))==true) {
-        		    	  commonParaFun.logger.log(Level.WARNING, "Invalid Password");
+        		    	  CommonParaFun.logger.log(Level.WARNING, "Invalid Password");
         		    	  System.exit(0);
         		    	  
         		      }else {
         		    	//dismissing message that ask to save login by selecting "No" if existing
 		                  if(c.ispresent(By.id("idBtn_Back"))==true) {
-		                	  commonParaFun.driver.findElement(By.id("idBtn_Back")).click();
+		                	  CommonParaFun.driver.findElement(By.id("idBtn_Back")).click();
 		                  }
         		    	  Thread.sleep(2000);
         		    	  //validating if user is in the current organization
         		    	  if(c.ispresent(By.id("title_notmemberoforg"))==true){
-        		    		  commonParaFun.logger.log(Level.SEVERE, "The current user isn't existing in the current organization.");
+        		    		  CommonParaFun.logger.log(Level.SEVERE, "The current user isn't existing in the current organization.");
         		    		  System.exit(0);
         		    	  }
     		         }
     		      }
     		  }else {
-    			  commonParaFun.logger.log(Level.SEVERE, "That isn't a CRM Website");
-    			  commonParaFun.driver.quit();
+    			  CommonParaFun.logger.log(Level.SEVERE, "That isn't a CRM Website");
+    			  CommonParaFun.driver.quit();
     			  System.exit(0);
     		  }
     		  
     	  }catch(NoSuchElementException | InterruptedException e) {
-    		  commonParaFun.logger.log(Level.SEVERE, "", e);
+    		  CommonParaFun.logger.log(Level.SEVERE, "", e);
     		  }
       }
       
@@ -108,11 +108,11 @@ public class login{
      * @throws IOException */
       public static void navToLoginpageOnpremise(String autoit) throws IOException {
     	  try {
-    		  commonParaFun.driver.manage().window().maximize();
+    		  CommonParaFun.driver.manage().window().maximize();
     		  Runtime.getRuntime().exec(autoit);
-    		  commonParaFun.driver.navigate().to(commonParaFun.crmUrl);
+    		  CommonParaFun.driver.navigate().to(CommonParaFun.crmUrl);
     	  }catch(NoSuchElementException e) {
-    		  commonParaFun.logger.log(Level.SEVERE, "", e);
+    		  CommonParaFun.logger.log(Level.SEVERE, "", e);
     		  }
       }
       /**Dismissing pending E-mail message*/
@@ -125,18 +125,18 @@ public class login{
     			  
     		 //This will check if "Pending E-mail" message is displayed and dismiss it
     		  if(c.ispresent(By.id("InlineDialog_Iframe"))==true) {
-    			     commonParaFun.driver.switchTo().frame(commonParaFun.driver.findElement(By.id("InlineDialog_Iframe")));
+    			     CommonParaFun.driver.switchTo().frame(CommonParaFun.driver.findElement(By.id("InlineDialog_Iframe")));
     				//Waiting till dismissing button is displayed
-    				  WebDriverWait w8=new WebDriverWait(commonParaFun.driver, 2);
+    				  WebDriverWait w8=new WebDriverWait(CommonParaFun.driver, 2);
     	    		  w8.until(ExpectedConditions.presenceOfElementLocated(By.id("butBegin")));
     	    		  //clicking dismiss button
-    	    		  commonParaFun.driver.findElement(By.id("butBegin")).click();
+    	    		  CommonParaFun.driver.findElement(By.id("butBegin")).click();
     			  }
-    		  commonParaFun.logger.log(Level.INFO, "Login has completed successfully");
+    		  CommonParaFun.logger.log(Level.INFO, "Login has completed successfully");
     	  }
 
       catch(IllegalMonitorStateException | TimeoutException | NoSuchElementException w) {
-    	  commonParaFun.logger.log(Level.SEVERE, "", w);
+    	  CommonParaFun.logger.log(Level.SEVERE, "", w);
 		  }
       }
       

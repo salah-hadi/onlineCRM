@@ -26,7 +26,7 @@ import org.sikuli.script.Screen;
 /**
  * @author Salah @EMEIT
  */
-public class commonParaFun {
+public class CommonParaFun {
 	public  static WebDriver driver;
 	public  static String driverPath;
 	public  static String browser;
@@ -45,9 +45,9 @@ public class commonParaFun {
 	 */
 	public void configDriver(String driverPath, String browser, String crmUrl) {
 
-		commonParaFun.driverPath = driverPath;
-		commonParaFun.browser = browser;
-		commonParaFun.crmUrl = crmUrl;
+		CommonParaFun.driverPath = driverPath;
+		CommonParaFun.browser = browser;
+		CommonParaFun.crmUrl = crmUrl;
 	}
 
 	/**
@@ -57,10 +57,10 @@ public class commonParaFun {
 	 * @param passWord username password
 	 */
 	public void LoginOnline(String userName, String passWord) {
-		logger = Logger.getLogger(commonParaFun.class.getName());
-		login.launchingbrowser();
-		login.navToLoginpageOnline(userName,passWord);
-		login.dismissEmailmsg();		
+		logger = Logger.getLogger(CommonParaFun.class.getName());
+		Login.launchingbrowser();
+		Login.navToLoginpageOnline(userName,passWord);
+		Login.dismissEmailmsg();		
 
 	}
 	
@@ -68,10 +68,10 @@ public class commonParaFun {
 	 * @throws IOException 
 	 * */
 	public void loginOnpremise(String autoit) throws IOException {
-		logger = Logger.getLogger(commonParaFun.class.getName());
-		login.launchingbrowser();
-		login.navToLoginpageOnpremise(autoit);
-		login.dismissEmailmsg();	
+		logger = Logger.getLogger(CommonParaFun.class.getName());
+		Login.launchingbrowser();
+		Login.navToLoginpageOnpremise(autoit);
+		Login.dismissEmailmsg();	
 	}
 
 
@@ -347,8 +347,12 @@ public class commonParaFun {
 					searchBox.clear();
 					searchBox.sendKeys(searchValue);
 					Robot r = new Robot();
+					//the following two lines should be commented on converting to c#
 					r.keyPress(KeyEvent.VK_ENTER);
 					r.keyRelease(KeyEvent.VK_ENTER);
+					//Enter keyCode is 10 in Java and 13 in c#, so it should be uncommented on converting to DLL
+//					r.keyPress(13);
+//					r.keyRelease(13);
 					logger.log(Level.WARNING, "search completed successfully");
 					break;
 				} else {
