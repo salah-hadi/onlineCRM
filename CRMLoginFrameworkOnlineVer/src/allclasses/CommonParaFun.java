@@ -23,7 +23,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
-import org.sikuli.script.support.RunTime;
 
 /**
  * @author Salah @EMEIT
