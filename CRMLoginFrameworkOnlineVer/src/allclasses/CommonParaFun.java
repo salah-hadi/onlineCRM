@@ -14,6 +14,7 @@ import javax.script.ScriptException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -22,6 +23,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
+import org.sikuli.script.support.RunTime;
 
 /**
  * @author Salah @EMEIT
@@ -162,42 +164,49 @@ public class CommonParaFun {
 	 * @param entityName entity displayed name
 	 */
 	public void Navigate(String menuName, String entityName) throws InterruptedException, AWTException {
+		String defaultMenuName=element(By.id("TabSFA-main")).getText();
 		driver.findElement(By.name("TabHome")).click();
-//check if menu is existing
-		Thread.sleep(1000);
-		if(ispresent(By.linkText(menuName))) {
+		if(menuName.equals(defaultMenuName)) {
 			Thread.sleep(1000);
-			driver.findElement(By.linkText(menuName)).click();
-			//check if screen is existing in the current form
-			Thread.sleep(1000);
-			if(ispresent(By.linkText(entityName))) {
-				driver.findElement(By.linkText(entityName)).click();
-				logger.log(Level.WARNING, "The provided Entity is existing in the current form");
-			}else {
-				Thread.sleep(1000);
-				if(ispresent(By.id("detailActionGroupControl_rightNavContainer"))) {					
-				//if not existing and nagivate buttion to right is existing click it
-				    while(ispresent(By.id("detailActionGroupControl_rightNavContainer"))){					
-					    driver.findElement(By.id("detailActionGroupControl_rightNavContainer")).click();
-					//is entity existing in the new screen
-						Thread.sleep(1000);
-					    if(ispresent(By.linkText(entityName))) {
-						   driver.findElement(By.linkText(entityName)).click();
-						   logger.log(Level.WARNING, "The provided Entity is existing in the current form");
-						   break;
-					    }else {
-					    	logger.log(Level.WARNING, "The provided Entity isn't existing in the current form");
-					    }
-				    }				    
-				}else {
-					logger.log(Level.WARNING, "The provided Entity isn't existing");
-				}
-
-			}
+			checkEntityExist(entityName);
 		}else {
-			logger.log(Level.WARNING, "The provided menu isn't existing");
+			Thread.sleep(1000);
+			if(ispresent(By.linkText(menuName))) {
+				driver.findElement(By.linkText(menuName)).click();
+				Thread.sleep(1000);
+				checkEntityExist(entityName);
+			}else {
+				logger.log(Level.SEVERE, "the Provided entity isn't existing");
+			}	
 		}
-
+	}
+	
+	/**check if entity is existing the current open menu
+	 * @throws InterruptedException*/
+	public void checkEntityExist(String entityName) throws InterruptedException {
+		if(ispresent(By.linkText(entityName))) {
+			driver.findElement(By.linkText(entityName)).click();
+			logger.log(Level.WARNING, "The provided Entity is existing in the current form");
+		}else {
+			Thread.sleep(1000);
+			if(ispresent(By.id("detailActionGroupControl_rightNavContainer"))) {					
+			//if not existing and nagivate buttion to right is existing click it
+			    while(ispresent(By.id("detailActionGroupControl_rightNavContainer"))){					
+				    driver.findElement(By.id("detailActionGroupControl_rightNavContainer")).click();
+				//is entity existing in the new screen
+					Thread.sleep(1000);
+				    if(ispresent(By.linkText(entityName))) {
+					   driver.findElement(By.linkText(entityName)).click();
+					   logger.log(Level.WARNING, "The provided Entity is existing in the current form");
+					   break;
+				    }else {
+				    	logger.log(Level.WARNING, "The provided Entity isn't existing in the current form");
+				    }
+			    }				    
+			}else {
+				logger.log(Level.WARNING, "The provided Entity isn't existing");
+			}
+		}
 	}
 
 	/**
@@ -643,4 +652,16 @@ public class CommonParaFun {
     	FormCRMButtons(entityLogName, "Deactivate");
     	logger.log(Level.SEVERE, "Record is Deactivated successfully");
     }
+    
+    /**check if there's any allert is displayed*/
+    public boolean isAlertPresent() 
+	{ 
+	    try 
+	    { 
+	        driver.switchTo().alert(); 
+	        return true; 
+	    }catch (NoAlertPresentException Ex) { 
+	        return false; 
+	    }
+	}
 }

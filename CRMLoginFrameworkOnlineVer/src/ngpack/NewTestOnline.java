@@ -4,6 +4,8 @@ package ngpack;
 import java.io.IOException;
 
 import org.openqa.selenium.By;
+//import org.sikuli.script.Pattern;
+//import org.sikuli.script.Screen;
 import org.testng.annotations.Test;
 
 //import allclasses.commonParaFun;
@@ -21,12 +23,14 @@ public class NewTestOnline{
   @Test
   public void passParameters() throws IOException {
 	  
-//	  c.configDriver("E:\\automation\\chrome driver\\chromedriver.exe", "chrome", "http://barqstaging.crm4.dynamics.com");
+	  c.configDriver("E:\\automation\\chrome driver\\chromedriver.exe", "chrome", "http://barqstaging.crm4.dynamics.com");
 //	  c.configDriver("E:\\automation\\chrome driver\\chromedriver.exe", "chrome", "http://41.41.31.190:6725/barqtest2");
 //	  login.launchingbrowser();
 //	  login.dismissEmailmsg();
 //	  c.configDriver("E:\\automation\\chrome driver\\chromedriver.exe", "chrome", "https://efbstaging.crm4.dynamics.com/main.aspx?etn=eme_deliverygenerator&id={C6441715-D0C4-E911-A849-000D3AB2DDD3}&pagetype=entityrecord");
 //	  Assert.assertEquals(commonParaFun.getTitle(), "Dashboards: Marketing Social Dashboard - Microsoft Dynamics 365");
+		c.LoginOnline("crm1@barqsystems.com","P@ssw0rd1");
+
   }
   
   @Test(dependsOnMethods={"passParameters"})
@@ -91,7 +95,8 @@ public class NewTestOnline{
 //	  System.out.println(o);
 //	  commonParaFun.driver.switchTo().parentFrame();
 //	  commonParaFun.quit();
-//	  commonParaFun.sikuliClickButton("https://raw.githubusercontent.com/salah-hadi/onlineCRM/master/CRMLoginFrameworkOnlineVer/src/allclasses/new.png");
+//	  CommonParaFun c=new CommonParaFun();
+//	  c.sikuliClickButton("https://raw.githubusercontent.com/salah-hadi/onlineCRM/master/CRMLoginFrameworkOnlineVer/src/allclasses/new.png");
 //	  commonParaFun.HomePageButtons("contact", "Deactivate");
 //	  commonParaFun.openURL("https://barqstaging.crm4.dynamics.com/main.aspx?etn=new_department&id={489926FB-F4B8-E911-A839-000D3AB86DE1}&pagetype=entityrecord");
 //	  commonParaFun.Navigate("BARQ Sales", "Leads");
@@ -137,11 +142,15 @@ public class NewTestOnline{
 //      c.element(By.id("salutation")).sendKeys("dskjd");
 //	  c.logOut();
 //	  c.Navigate("BARQ Settings", "Country");
-//	  c.Navigate("BARQ Sales", "Leads");
+	  c.Navigate("BARQ Sales", "Sales Lead");
 //	  c.createIssue("Arado", 8787l, "test", "hello");
 //	  compareExcel c1=new compareExcel();
 //	  c1.compareExcelFiles("C:\\Users\\Salah\\Downloads\\Account Advanced Find View.xlsx","C:\\Users\\Salah\\Downloads\\Account Advanced Find View2.xlsx","Account Advanced Find View","Account Advanced Find View", "E:\\result.txt");
 //	  c.importExcel("BARQ Settings", "C:\\Users\\Salah\\Downloads\\Account Advanced Find View.xlsx", true);
 //	  c.deactivate("https://barqstaging.crm4.dynamics.com/main.aspx?pagetype=entityrecord&etc=1&id=%7b516D29CC-2756-E911-A829-000D3AB86978%7d&sitemappath=SFA%7cCustomers%7cnav_accts&extraqs=&newWindow=true&histKey=641339688#345020286", "account");
+//	  c.createNewRecord("BARQ Sales", "Sales Lead", "new_preopportunity");
+//	  String x=c.element(By.id("TabSFA-main")).getText();
+//System.out.println("Menu name is : "+x);		
+
   }
 }
