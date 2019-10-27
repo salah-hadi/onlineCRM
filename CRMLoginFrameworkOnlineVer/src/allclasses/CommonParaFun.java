@@ -17,12 +17,17 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
+
+import allclasses.creatingActivities.Direction;
+import allclasses.creatingActivities.Priority;
 
 /**
  * @author Salah @EMEIT
@@ -163,7 +168,8 @@ public class CommonParaFun {
 	 * @param entityName entity displayed name
 	 */
 	public void Navigate(String menuName, String entityName) throws InterruptedException, AWTException {
-		String defaultMenuName=element(By.id("TabSFA-main")).getText();
+//		String defaultMenuName=element(By.id("TabSFA-main")).getText(); 
+		String defaultMenuName=element(By.cssSelector(".navTabButton.navTabButtonLeft.AreaNodePadding")).getText();
 		driver.findElement(By.name("TabHome")).click();
 		if(menuName.equals(defaultMenuName)) {
 			Thread.sleep(1000);
@@ -236,10 +242,11 @@ public class CommonParaFun {
 	 * @param entity logical name for entity
 	 * @param button button logical name
 	 */
-	public void FormCRMButtons(String entityLogName, String buttonlogName) {
-		
+	public void FormCRMButtons(String buttonlogName) {
+		String entityLogName="";
 		try {
-			driver.switchTo().parentFrame();
+			entityLogName=entityName();
+			switchTodefaultContent();
 			WebDriverWait wait = new WebDriverWait(driver, 5);
 			wait.until(ExpectedConditions.visibilityOfElementLocated(
 					By.id(entityLogName + "|NoRelationship|Form|Mscrm.Form." + entityLogName + "." + buttonlogName)));
@@ -280,7 +287,7 @@ public class CommonParaFun {
 
 		} catch (Exception e) {
 			logger.log(Level.WARNING, "", e);
-			;
+			
 		}
 	}
 
@@ -290,9 +297,11 @@ public class CommonParaFun {
 	 * @param entity entity logical name
 	 * @param button button logical name
 	 */
-	public void HomePageCRMButtons(String entityLogName, String buttonLogName) {
+	public void HomePageCRMButtons(String buttonLogName) {
+		String entityLogName="";
 		try {
-			driver.switchTo().parentFrame();
+			entityLogName=entityName();
+			switchTodefaultContent();
 			WebDriverWait wait = new WebDriverWait(driver, 5);
 			wait.until(ExpectedConditions.visibilityOfElementLocated(
 					By.id(entityLogName + "|NoRelationship|HomePageGrid|Mscrm.HomepageGrid." + entityLogName + "." + buttonLogName)));
@@ -332,7 +341,7 @@ public class CommonParaFun {
 
 		} catch (Exception e) {
 			logger.log(Level.WARNING, "", e);
-			;
+			
 		}
 	}
 
@@ -430,6 +439,10 @@ public class CommonParaFun {
 		driver.switchTo().parentFrame();
 	}
 	
+	/**will switch to top of document*/
+	public void switchTodefaultContent() {
+		driver.switchTo().defaultContent();
+	}
 	/**Will refresh the current page
 	 * */
 	public void refresh() {
@@ -443,20 +456,21 @@ public class CommonParaFun {
 	 * @throws AWTException 
 	 * @throws InterruptedException 
 	 * */
-	public void createNewRecord(String menu, String entity, String entityLogName) throws InterruptedException, AWTException {
+	public void createNewRecord(String menu, String entity) throws InterruptedException, AWTException {
+		Thread.sleep(2000);
 		Navigate(menu, entity);
 		Thread.sleep(1000);
-		HomePageCRMButtons(entityLogName, "NewRecord");
+		HomePageCRMButtons("NewRecord");
 	}
 	/**delete any record by provided URL
 	 * @param url URL to the record you want to delete
 	 * @param entityLogName entity logical Name
 	 * @throws InterruptedException 
 	 * */
-	public void deleteRecord(String url, String entityLogName) throws InterruptedException {
+	public void deleteRecord(String url) throws InterruptedException {
 		openURL(url);
 		Thread.sleep(1000);
-		FormCRMButtons(entityLogName, "Delete");
+		FormCRMButtons("Delete");
 		logger.log(Level.WARNING, "Record is deleted successfully");
 	}
 
@@ -527,7 +541,7 @@ public class CommonParaFun {
 			}
 
 		}
-		HomePageCRMButtons("importfile", "Import");
+		HomePageCRMButtons("Import");
 		//loader
 
 		if(iDAW8(By.id("InlineDialog_Iframe"), 5)){
@@ -645,10 +659,10 @@ public class CommonParaFun {
      * @param URL Record URL 
      * @param entityLogName scheme Name
      * @throws InterruptedException */
-    public void deactivate(String URL, String entityLogName) throws InterruptedException {
+    public void deactivate(String URL) throws InterruptedException {
     	openURL(URL);
 		Thread.sleep(1000);
-    	FormCRMButtons(entityLogName, "Deactivate");
+    	FormCRMButtons("Deactivate");
     	logger.log(Level.SEVERE, "Record is Deactivated successfully");
     }
     
@@ -663,4 +677,204 @@ public class CommonParaFun {
 	        return false; 
 	    }
 	}
+    
+    /**Get record GUID
+     * @throws ScriptException */
+    public String recordGUID(){
+    	switchTodefaultContent();
+	    String GUID="";
+    	try {
+    	    for(int i=0;i<5;i++) {
+    		    if(ispresent(By.id("contentIFrame"+i))) {
+    			   switchFrame("contentIFrame"+i);
+    			   GUID=(String)JSCode("return Xrm.Page.data.entity.getId();");
+    			   if(GUID!=null) {
+    				  break;
+    			   }
+    		    }
+    	   }
+    	   if("".equals(GUID)) {
+			   GUID=(String)JSCode("return Xrm.Page.data.entity.getId();");
+    		   logger.log(Level.SEVERE, "Record GUID is:"+GUID);
+    	    }else {
+    		   GUID=GUID.substring(1, GUID.length()-1);
+    		   logger.log(Level.SEVERE, "Record GUID is:"+GUID);
+    	    }
+    	}catch(ScriptException|WebDriverException s) {
+    		GUID="There's no open record to retrieve its GUID";
+ 		   logger.log(Level.SEVERE, "There's no open record to retrieve its GUID");
+    	}
+    	return GUID;
+    }
+    
+    /**Get record URL
+     * @throws ScriptException */
+    public String recordURL() throws ScriptException {
+    	String URL="";
+    	try {
+    		switchTodefaultContent();
+        	String orgURL = (String)JSCode("return Xrm.Page.context.getClientUrl();");
+        	String recordID=recordGUID();
+        	String entityName = (String)JSCode("return Xrm.Page.data.entity.getEntityName();");
+        	URL=orgURL  + "/main.aspx?etn="+entityName+
+        			"&id=%7b" + recordID + "%7d&pagetype=entityrecord";
+    	}catch(ScriptException|WebDriverException s) {
+    		logger.log(Level.SEVERE, "There's no open record to retriev its URL");
+    		URL="There's no open record to retriev its URL";
+    	}
+    	return URL;
+
+    }
+    
+    /**retrieve entity name
+     * @throws  
+     * @throws ScriptException */
+    public String entityName() throws InterruptedException{
+		String entityName="";
+    	try {
+    		switchTodefaultContent();
+        	 for(int i=0;i<5;i++) {
+     		    if(ispresent(By.id("contentIFrame"+i))) {
+     			   switchFrame("contentIFrame"+i);
+     			   entityName=(String)JSCode("return Xrm.Page.data.entity.getEntityName();");
+     			   if(entityName!=null) {
+     				   break;
+     			   }
+     		    }
+        	 }
+        	 if("".equals(entityName)) {
+   			   entityName=(String)JSCode("return Xrm.Page.data.entity.getEntityName();");
+      		 logger.log(Level.SEVERE, "entity name is "+entityName);
+        	 }else {
+        		 logger.log(Level.SEVERE, "entity name is "+entityName);
+        	 }
+        	 
+    	}catch(ScriptException|WebDriverException s) {
+        	switchTodefaultContent();
+        	Thread.sleep(2000);
+    		if(ispresent(By.xpath("/html/body/div[6]/div[2]/div/ul/li[1]"))){
+    			WebElement firstButton=CommonParaFun.driver.findElement(By.xpath("/html/body/div[6]/div[2]/div/ul/li[1]"));
+    			   entityName=firstButton.getAttribute("id");
+    			   entityName=entityName.substring(0, entityName.indexOf("|"));
+          		 logger.log(Level.SEVERE, "entity name is "+entityName);
+    		}else {
+    		       logger.log(Level.SEVERE, "Couldn't retrive entity name from the current page");
+    		       entityName="Couldn't retrive entity name from the current page";
+    		}
+    	}
+    	return entityName;
+    	
+    }
+
+	
+    /**Notes 
+	 * @param title Note title
+	 * @param note Note body
+	 * @throws InterruptedException 
+	 * @throws AWTException */
+    public void addNote(String title, String note) throws InterruptedException, AWTException {
+		switchTodefaultContent();
+		boolean posted=false;
+		for(int i=0;i<5;i++) {
+			if(ispresent(By.id("contentIFrame"+i))) {
+				Thread.sleep(1000);
+				switchFrame("contentIFrame"+i);
+				element(By.linkText("NOTES")).click();
+				
+				Thread.sleep(1000);
+				element(By.id("createNote_notesTextBox")).sendKeys(note);
+				Thread.sleep(1000);
+				element(By.id("createNote_notesTitleBox")).sendKeys(title);
+		
+				Thread.sleep(2000);
+				switchTodefaultContent();
+				for(int f=0;f<5;f++) {
+					if(ispresent(By.id("contentIFrame"+f))) {
+						switchFrame("contentIFrame"+f);
+						if(ispresent(By.id("postButton"))) {
+//When using the following line it shows the following error: org.openqa.selenium.ElementNotVisibleException: element not interactable
+//so I use interactions.Actions instead
+//							element(By.id("postButton")).click();
+							
+							WebElement post=driver.findElement(By.id("postButton"));
+							Actions a=new Actions(driver);
+							a.moveToElement(post);
+							a.click();
+							a.perform();
+							break;
+						}else {
+							switchTodefaultContent();
+						}
+					}
+				
+					
+				}
+			}
+		}
+		if(posted==false) {
+			logger.log(Level.SEVERE, "There's a problem on writting Note");
+		}
+		logger.log(Level.SEVERE, "Your Note has been created successfully");
+	}
+
+    /**adding activity*/
+	/**Add phone Add due date and add validator if phoe call is displayed or open the mneu with "..."
+	 * @throws InterruptedException */
+	public void addPhoneActivity(String callWith,Direction direction,String callDescription, boolean leftVoice, String subject) throws InterruptedException {
+		creatingActivities ad=new creatingActivities();
+		if(ad.activityOptionExist("activityLabelinlineactivitybar4210")) {
+			//callWith
+			element(By.id("quickCreateActivity4210controlId_to")).sendKeys(callWith);
+			//direction
+			String dirValue=element(By.id("quickCreateActivity4210controlId_directioncode")).getText();
+			if(dirValue.equals(direction.toString())) {
+				
+			}else {
+				element(By.id("quickCreateActivity4210controlId_directioncode")).click();
+			}
+			
+			//Subject
+			element(By.id("quickCreateActivity4210controlId_subject_i")).sendKeys(subject);
+			//Call description
+			element(By.id("quickCreateActivity4210controlId_description")).sendKeys(callDescription);
+			
+			//Left Voice E-mail
+			if(leftVoice==true) {
+				element(By.id("PhoneCallQuickformleftvoiceCheckBoxContol")).click();
+			}
+			
+			//press Ok button
+			element(By.className("activity-button-container")).click();
+			logger.log(Level.SEVERE, "your activity has been created successfully");
+
+		}
+			
+	}
+	
+	/**add task
+	 * @throws InterruptedException */
+	public void addTask(String subject,String due,Priority priority) throws InterruptedException {
+		creatingActivities ad=new creatingActivities();
+		if(ad.activityOptionExist("AddtaskButton")) {
+			Thread.sleep(1000);
+			//sending data here
+			//Due
+			element(By.id("quickCreateActivity4212controlId_scheduledend")).sendKeys(due);
+			//Priority
+			element(By.id("quickCreateActivity4212controlId_prioritycode")).click();
+			Thread.sleep(1000);
+			element(By.xpath("//option[. = '"+priority+"']")).click();
+//			element(By.linkText(priority.toString())).click();
+			Thread.sleep(1000);
+
+			//subject 
+			element(By.id("quickCreateActivity4212controlId_subject")).sendKeys(subject);
+			
+			//OK
+			element(By.id("save4212QuickCreateButton")).click();
+			logger.log(Level.SEVERE, "Task is added successfully");
+			//desc //priority
+		}
+	}
+   
 }

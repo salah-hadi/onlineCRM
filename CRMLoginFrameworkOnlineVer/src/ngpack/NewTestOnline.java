@@ -2,16 +2,28 @@ package ngpack;
 
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
+
+import javax.swing.text.DateFormatter;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 //import org.sikuli.script.Pattern;
 //import org.sikuli.script.Screen;
 import org.testng.annotations.Test;
 
+
 //import allclasses.commonParaFun;
 import allclasses.CommonParaFun;
-import allclasses.CompareExcel;
-import allclasses.Login;
+import allclasses.creatingActivities;
+import allclasses.creatingActivities.Direction;
+import allclasses.creatingActivities.Priority;
+import allclasses.buttonsHome;
+import net.bytebuddy.implementation.bytecode.Addition;
 /**
  * @author Salah @EMEIT
  * */
@@ -29,7 +41,8 @@ public class NewTestOnline{
 //	  login.dismissEmailmsg();
 //	  c.configDriver("E:\\automation\\chrome driver\\chromedriver.exe", "chrome", "https://efbstaging.crm4.dynamics.com/main.aspx?etn=eme_deliverygenerator&id={C6441715-D0C4-E911-A849-000D3AB2DDD3}&pagetype=entityrecord");
 //	  Assert.assertEquals(commonParaFun.getTitle(), "Dashboards: Marketing Social Dashboard - Microsoft Dynamics 365");
-		c.LoginOnline("crm1@barqsystems.com","P@ssw0rd1");
+	  ///
+		c.LoginOnline("crm@barqsystems.com","EME_B@rq");
 
   }
   
@@ -142,7 +155,8 @@ public class NewTestOnline{
 //      c.element(By.id("salutation")).sendKeys("dskjd");
 //	  c.logOut();
 //	  c.Navigate("BARQ Settings", "Country");
-	  c.Navigate("BARQ Sales", "Sales Lead");
+//	  Thread.sleep(2000);
+//	  c.Navigate("BARQ Sales", "Sales Lead");
 //	  c.createIssue("Arado", 8787l, "test", "hello");
 //	  compareExcel c1=new compareExcel();
 //	  c1.compareExcelFiles("C:\\Users\\Salah\\Downloads\\Account Advanced Find View.xlsx","C:\\Users\\Salah\\Downloads\\Account Advanced Find View2.xlsx","Account Advanced Find View","Account Advanced Find View", "E:\\result.txt");
@@ -151,6 +165,60 @@ public class NewTestOnline{
 //	  c.createNewRecord("BARQ Sales", "Sales Lead", "new_preopportunity");
 //	  String x=c.element(By.id("TabSFA-main")).getText();
 //System.out.println("Menu name is : "+x);		
-
+//	  c.openURL("https://barqstaging.crm4.dynamics.com/main.aspx?etn=account&id={3CB594EA-5907-E911-A963-000D3ABA21E5}&pagetype=entityrecord");
+//	  String id=c.recordGUID();
+//	  /**get entity information first if valid get the GUID*/
+//	  System.out.println("GUID is:"+id);
+//	  String url=c.recordURL();
+//	  Robot r=new Robot();
+//	  r.keyPress(KeyEvent.VK_CONTROL);
+//	  r.keyPress(KeyEvent.VK_T);
+//	  r.keyRelease(KeyEvent.VK_T);
+//	  r.keyRelease(KeyEvent.VK_CONTROL);
+//	  c.openURL(url);
+//	  Thread.sleep(5000);
+//	  System.out.println(c.entityName());
+//	  System.out.println(c.recordGUID());
+//	  System.out.println(c.recordURL());
+//	  Thread.sleep(2000);	
+//	  c.FormCRMButtons(buttonsForm.NewRecord.toString());
+//	  Thread.sleep(5000);
+//	  Select s=new Select(c.driver.findElement(By.className("ms-crm-CommandBar-Menu")));
+//	  s.selectByIndex(1);
+//	   List<WebElement> w=c.driver.findElements(By.tagName("title"));
+//	  String id=w.getAttribute("id");
+//	  System.out.println("ID is:"+id);
+//	   WebElement x=CommonParaFun.driver.findElement(By.xpath("/html/body/div[6]/div[2]/div/ul/li[1]"));
+//	   String y=x.getAttribute("id");
+//	   y=y.substring(0, y.indexOf("|"));
+//	   System.out.println(x.getAttribute("id"));
+//	   System.out.println(y);
+//	  String n=c.entityName();
+//	  System.out.println(n);
+	  //
+	  c.openURL("https://barqstaging.crm4.dynamics.com/main.aspx?etn=account&id={3CB594EA-5907-E911-A963-000D3ABA21E5}&pagetype=entityrecord");
+//	  n=c.entityName();
+//	  System.out.println(n);
+//	  c.HomePageCRMButtons(buttonsHome.DeleteMenu.toString());
+//	  c.createNewRecord("BARQ Sales", "Sales Lead");
+	  
+	  Thread.sleep(1000);
+	  creatingActivities ad=new creatingActivities();
+//	  ad.addPost("hello baby");
+//	  Thread.sleep(1000);
+//	  ad.addNote("Title hello","hello baby", "E:\\multi\\AccountStatement.xls");
+//	  ad.addNote("sdsd", "dsd");
+//	  LocalDate d;
+//	  d=LocalDate.of(2019, 11, 30);
+//	  
+//	  ad.addPhoneActivity("050 Telecom", Direction.Incoming, "hell baby description", true, "subject","12/12/2019");
+//	  Thread.sleep(1000);
+//	  ad.addPhoneActivity("050 Telecom", Direction.Incoming, "hell baby description", true, "subject");
+//	  
+//	  
+//	  ad.addTask("subject", "12/12/2019", Priority.High);
+//	  Thread.sleep(1000);
+//	  ad.addTask("hhhhh", "desc", "12/12/2019", Priority.High);
+	  ad.addEmail("CRM #", "", "Hello", "hello that's body", true);
   }
 }
