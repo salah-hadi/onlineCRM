@@ -2,16 +2,16 @@
 <testng-results ignored="0" total="2" passed="2" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2019-10-23T09:35:15Z" name="Default suite" finished-at="2019-10-23T09:36:42Z" duration-ms="86613">
+  <suite started-at="2019-11-26T12:46:58Z" name="Default suite" finished-at="2019-11-26T12:47:59Z" duration-ms="61083">
     <groups>
     </groups>
-    <test started-at="2019-10-23T09:35:15Z" name="Default test" finished-at="2019-10-23T09:36:42Z" duration-ms="86613">
+    <test started-at="2019-11-26T12:46:58Z" name="Default test" finished-at="2019-11-26T12:47:59Z" duration-ms="61083">
       <class name="ngpack.NewTestOnline">
-        <test-method signature="passParameters()[pri:0, instance:ngpack.NewTestOnline@3c153a1]" started-at="2019-10-23T09:35:15Z" name="passParameters" finished-at="2019-10-23T09:35:58Z" duration-ms="42909" status="PASS">
+        <test-method signature="passParameters()[pri:0, instance:ngpack.NewTestOnline@3c153a1]" started-at="2019-11-26T12:46:58Z" name="passParameters" finished-at="2019-11-26T12:47:28Z" duration-ms="30690" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- passParameters -->
-        <test-method signature="openURLNew()[pri:0, instance:ngpack.NewTestOnline@3c153a1]" started-at="2019-10-23T09:35:58Z" name="openURLNew" finished-at="2019-10-23T09:36:42Z" depends-on-methods="ngpack.NewTestOnline.passParameters" duration-ms="43639" status="PASS">
+        <test-method signature="openURLNew()[pri:0, instance:ngpack.NewTestOnline@3c153a1]" started-at="2019-11-26T12:47:28Z" name="openURLNew" finished-at="2019-11-26T12:47:59Z" depends-on-methods="ngpack.NewTestOnline.passParameters" duration-ms="30343" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- openURLNew -->

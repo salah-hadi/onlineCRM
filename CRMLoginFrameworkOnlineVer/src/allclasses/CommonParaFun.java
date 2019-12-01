@@ -8,12 +8,15 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.script.ScriptException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -49,7 +52,7 @@ public class CommonParaFun {
 	 *                   browsers(chrome/firefox)
 	 * @param crmUrl     MS dynamic CRM environment URL
 	 */
-	public void configDriver(String driverPath, String browser, String crmUrl) {
+	public final void configDriver(String driverPath, String browser, String crmUrl) {
 
 		CommonParaFun.driverPath = driverPath;
 		CommonParaFun.browser = browser;
@@ -90,7 +93,7 @@ public class CommonParaFun {
 	public boolean ispresent(By selector) {
 
 		try {
-			driver.findElement(selector);
+			element(selector);
 			ispresent = true;
 		} catch (NoSuchElementException|ElementNotVisibleException e) {
 			ispresent = false;
@@ -170,14 +173,14 @@ public class CommonParaFun {
 	public void Navigate(String menuName, String entityName) throws InterruptedException, AWTException {
 //		String defaultMenuName=element(By.id("TabSFA-main")).getText(); 
 		String defaultMenuName=element(By.cssSelector(".navTabButton.navTabButtonLeft.AreaNodePadding")).getText();
-		driver.findElement(By.name("TabHome")).click();
+		element(By.name("TabHome")).click();
 		if(menuName.equals(defaultMenuName)) {
 			Thread.sleep(1000);
 			checkEntityExist(entityName);
 		}else {
 			Thread.sleep(1000);
 			if(ispresent(By.linkText(menuName))) {
-				driver.findElement(By.linkText(menuName)).click();
+				element(By.linkText(menuName)).click();
 				Thread.sleep(1000);
 				checkEntityExist(entityName);
 			}else {
@@ -190,18 +193,18 @@ public class CommonParaFun {
 	 * @throws InterruptedException*/
 	public void checkEntityExist(String entityName) throws InterruptedException {
 		if(ispresent(By.linkText(entityName))) {
-			driver.findElement(By.linkText(entityName)).click();
+			element(By.linkText(entityName)).click();
 			logger.log(Level.WARNING, "The provided Entity is existing in the current form");
 		}else {
 			Thread.sleep(1000);
 			if(ispresent(By.id("detailActionGroupControl_rightNavContainer"))) {					
 			//if not existing and nagivate buttion to right is existing click it
 			    while(ispresent(By.id("detailActionGroupControl_rightNavContainer"))){					
-				    driver.findElement(By.id("detailActionGroupControl_rightNavContainer")).click();
+				    element(By.id("detailActionGroupControl_rightNavContainer")).click();
 				//is entity existing in the new screen
 					Thread.sleep(1000);
 				    if(ispresent(By.linkText(entityName))) {
-					   driver.findElement(By.linkText(entityName)).click();
+					  element(By.linkText(entityName)).click();
 					   logger.log(Level.WARNING, "The provided Entity is existing in the current form");
 					   break;
 				    }else {
@@ -251,7 +254,7 @@ public class CommonParaFun {
 			wait.until(ExpectedConditions.visibilityOfElementLocated(
 					By.id(entityLogName + "|NoRelationship|Form|Mscrm.Form." + entityLogName + "." + buttonlogName)));
 			Thread.sleep(2000);
-			driver.findElement(By.id(entityLogName + "|NoRelationship|Form|Mscrm.Form." + entityLogName + "." + buttonlogName))
+			element(By.id(entityLogName + "|NoRelationship|Form|Mscrm.Form." + entityLogName + "." + buttonlogName))
 					.findElement(By.cssSelector("#" + entityLogName + "\\|NoRelationship\\|Form\\|Mscrm\\.Form\\." + entityLogName
 							+ "\\." + buttonlogName + " > span"))
 					.click();
@@ -259,15 +262,15 @@ public class CommonParaFun {
 			if (buttonlogName == "Deactivate" || buttonlogName == "Delete") {
 				// switching to pop-up frame
 				wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("InlineDialog_Iframe")));
-				driver.switchTo().frame("InlineDialog_Iframe");
+				switchFrame("InlineDialog_Iframe");
 
 				if (buttonlogName == "Deactivate") {
 					wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ok_id")));
-					driver.findElement(By.id("ok_id")).click();
+					element(By.id("ok_id")).click();
 					logger.log(Level.WARNING, "Deactivate completed successfully");
 				} else if (buttonlogName == "Delete") {
 					wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("butBegin")));
-					driver.findElement(By.id("butBegin")).click();
+					element(By.id("butBegin")).click();
 					logger.log(Level.WARNING, "Delete completed successfully");
 				}
 			} else {
@@ -306,7 +309,7 @@ public class CommonParaFun {
 			wait.until(ExpectedConditions.visibilityOfElementLocated(
 					By.id(entityLogName + "|NoRelationship|HomePageGrid|Mscrm.HomepageGrid." + entityLogName + "." + buttonLogName)));
 			Thread.sleep(2000);
-			driver.findElement(
+			element(
 					By.id(entityLogName + "|NoRelationship|HomePageGrid|Mscrm.HomepageGrid." + entityLogName + "." + buttonLogName))
 					.findElement(
 							By.cssSelector("#" + entityLogName + "\\|NoRelationship\\|HomePageGrid\\|Mscrm\\.HomepageGrid\\."
@@ -316,14 +319,14 @@ public class CommonParaFun {
 			if (buttonLogName == "Deactivate" || buttonLogName == "DeleteMenu") {
 				// switching to pop-up frame
 				wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("InlineDialog_Iframe")));
-				driver.switchTo().frame("InlineDialog_Iframe");
+				switchFrame("InlineDialog_Iframe");
 				if (buttonLogName == "Deactivate") {
 					wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ok_id")));
-					driver.findElement(By.id("ok_id")).click();
+					element(By.id("ok_id")).click();
 					logger.log(Level.WARNING, "Deactivate completed successfully");
 				} else if (buttonLogName == "DeleteMenu") {
 					wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("butBegin")));
-					driver.findElement(By.id("butBegin")).click();
+					element(By.id("butBegin")).click();
 					logger.log(Level.WARNING, "Delete completed successfully");
 				}
 			} else {
@@ -357,7 +360,7 @@ public class CommonParaFun {
 		// box will search.
 		for (int i = 0; i < 4; i++) {
 			if (ispresent(By.id("contentIFrame" + i))) {
-				driver.switchTo().frame("contentIFrame" + i);
+				switchFrame("contentIFrame" + i);
 				if (ispresent(By.id("crmGrid_findCriteria"))) {
 					Thread.sleep(2000);
 					WebElement searchBox = driver.findElement(By.id("crmGrid_findCriteria"));
@@ -374,7 +377,7 @@ public class CommonParaFun {
 					break;
 				} else {
 					logger.log(Level.WARNING, "field isn't existing");
-					driver.switchTo().parentFrame();
+					switchToParent();
 				}
 
 			} else {
@@ -394,16 +397,16 @@ public class CommonParaFun {
 	public void switchView(String viewName) throws InterruptedException {
 		for (int i = 0; i < 4; i++) {
 			if (ispresent(By.id("contentIFrame" + i))) {
-				driver.switchTo().frame("contentIFrame" + i);
+				switchFrame("contentIFrame" + i);
 				if (ispresent(By.id("crmGrid_SavedNewQuerySelector"))) {
 					Thread.sleep(2000);
-					driver.findElement(By.id("crmGrid_SavedNewQuerySelector")).click();
-					driver.findElement(By.linkText(viewName)).click();
+					element(By.id("crmGrid_SavedNewQuerySelector")).click();
+					element(By.linkText(viewName)).click();
 					logger.log(Level.WARNING, "View is changed successfully");
 					break;
 				} else {
 					logger.log(Level.WARNING, "changing views isn't allowed");
-					driver.switchTo().parentFrame();
+					switchToParent();
 				}
 
 			} else {
@@ -479,7 +482,7 @@ public class CommonParaFun {
 	 * */
 	public void pressButt(String ButtID) {
 		if(ispresent(By.id(ButtID))) {
-			driver.findElement(By.id(ButtID)).click();
+			element(By.id(ButtID)).click();
 			logger.log(Level.WARNING, "Button is pressed successfully");
 		}else {
 			logger.log(Level.WARNING, "Button isn't existing");
@@ -497,9 +500,9 @@ public class CommonParaFun {
 	/**Logout from the current user
 	 * @throws InterruptedException */
 	public void logOut() throws InterruptedException {
-		driver.findElement(By.id("navTabButtonChangeProfileImageLink")).click();
+		element(By.id("navTabButtonChangeProfileImageLink")).click();
 		Thread.sleep(2000);
-		driver.findElement(By.id("navTabButtonUserInfoSignOutId")).click();
+		element(By.id("navTabButtonUserInfoSignOutId")).click();
 		logger.log(Level.WARNING, "you have logged out from user.");
 	}
 	/**This will copy and paste any provided value
@@ -526,15 +529,15 @@ public class CommonParaFun {
 		Navigate(menuName, "Data Management");
 		for (int i = 0; i < 4; i++) {
 			if (ispresent(By.id("contentIFrame" + i))) {
-				driver.switchTo().frame("contentIFrame" + i);
+				switchFrame("contentIFrame" + i);
 				if (ispresent(By.linkText("Imports"))) {
 					Thread.sleep(2000);
-					driver.findElement(By.linkText("Imports")).click();
+					element(By.linkText("Imports")).click();
 					logger.log(Level.WARNING, "openning import Screen...");
 					break;
 				} else {
 					logger.log(Level.WARNING, "Import screen isn't avilable at the current Iframe");
-					driver.switchTo().parentFrame();
+					switchToParent();
 				}
 			} else {
 				logger.log(Level.WARNING, "Import screen isn't avilable at the current screen");
@@ -557,7 +560,7 @@ public class CommonParaFun {
 		waitElement(By.id("wizardpageframe"), 5);
 		switchFrame("wizardpageframe");
 		switchFrame("uploadFileFrame");
-		driver.findElement(By.id("uploadFileNameId")).click();
+		element(By.id("uploadFileNameId")).click();
 		Thread.sleep(2000);
 		copyPaste(ExcelFile);
 		Robot r2=new Robot();
@@ -611,12 +614,12 @@ public class CommonParaFun {
         	switchFrame("InlineDialog_Iframe");
         	switchFrame("wizardpageframe");
         	if(allowDuplication==true) {       		
-        		driver.findElement(By.id("deDupDisabled")).click();
+        		element(By.id("deDupDisabled")).click();
         	}else {
-        		driver.findElement(By.id("deDupEnabled")).click();
+        		element(By.id("deDupEnabled")).click();
         	}
         	//submit button
-        	driver.findElement(By.id("buttonNext")).click();
+        	element(By.id("buttonNext")).click();
         	//loading
         	switchToParent();
         	if(iDAW8(By.id("InlineDialog_Iframe"), 5)){
@@ -633,7 +636,7 @@ public class CommonParaFun {
             //open import list screen
 //        	switchFrame("InlineDialog_Iframe");
         	switchFrame("wizardpageframe");
-            driver.findElement(By.id("buttonNext")).click();
+            element(By.id("buttonNext")).click();
             logger.log(Level.SEVERE, "Importing wizard is completed, find progress on CRM");
         }
 
@@ -876,5 +879,118 @@ public class CommonParaFun {
 			//desc //priority
 		}
 	}
+	
+	/**check displayed error message beside field
+	 * @param fieldID Id for the field you want to check error message for*/
+	public boolean errMsgDisplayed(String fieldID) {
+		boolean errDisplayed=false;
+		if(element(By.id(fieldID+"_warnSpan")).isDisplayed()) {
+			errDisplayed=true;
+		}
+		return errDisplayed;
+	}
    
+	/**This will execute list of actions for list of elements*/
+	public void executeActions(ArrayList<Object> selector,ArrayList<Object> selectorValue,ArrayList<Object> action, ArrayList<Object> fieldValue) {
+		try {
+//			System.out.println("List size is: "+elementList.size());
+//			System.out.println("first index is"+elementList.get(1).get(1));
+//			for(Object o:elementList) {
+//				System.out.println(o);
+//			}
+			List<ArrayList<Object>> elementList=new ArrayList<>();
+			elementList.add(selector);
+			elementList.add(selectorValue);
+			elementList.add(action);
+			elementList.add(fieldValue);
+			
+			WebElement field;
+//			System.out.println("First list size: "+elementList.get(0).size());
+			for(int i=0;i<elementList.get(0).size();i++) {
+				
+				///////
+//				System.out.println("Is it ID:"+elementList.get(0).get(i));
+				By s=setSelector(elementList, i);
+//				System.out.println(s);
+//				System.out.println("The element ID is:"+elementList.get(1).get(i).toString());
+				Thread.sleep(2000);
+				if(ispresent(s)) {
+					
+					field=element(s);
+					completeAction(field, elementList, i);
+				}
+				
+                else{
+                    Thread.sleep(1000);
+                	for(int frame=0;frame<5;frame++) {
+                
+				       if(ispresent(By.id("contentIFrame"+frame))) {
+				        	Thread.sleep(1000);
+				        	switchFrame("contentIFrame"+frame);
+				        	Thread.sleep(2000);
+				        	if(ispresent(s)) {
+								field=element(s);
+								completeAction(field, elementList, i);
+						break;
+					}
+					switchTodefaultContent();
+				}else {
+					logger.log(Level.SEVERE,"Element isn't Present in the current frame: "+elementList.get(1).get(i).toString());
+				}
+			 }
+			}
+				///////////////////////
+			}
+		}catch(Exception e) {
+			logger.log(Level.SEVERE,"An error has occured:"+e);
+		}
+		
+	}
+	
+	/**This will do actions for the field, Clear and sendKeys only
+	 * @param elementList contains list of elements, actions will be done on them, and values if exist
+	 * @param i # of elements in selector list*/
+	public void completeAction(WebElement field,List<ArrayList<Object>> elementList, int i) {
+		if(iDAW8(By.id(elementList.get(1).get(i).toString()), 5)) {
+			if(elementList.get(2).get(i)=="clear") {
+				field.sendKeys(Keys.DELETE);
+				logger.log(Level.SEVERE,"element is cleared");
+		
+			}else if(elementList.get(2).get(i)=="sendKeys") {
+		
+				String sv=elementList.get(3).get(i).toString();
+				field.sendKeys(sv);
+				logger.log(Level.SEVERE,"value is sent to element");
+			}
+		}else {
+			logger.log(Level.SEVERE, "element isn't displayed after wait: "+elementList.get(1).get(i).toString());
+		}
+		
+	}
+	/**This will return the selector to find element by
+	 * @param elementList contains list of elements, actions will be done on them, and values if exist
+	 * @param i # of elements in selector list
+	 * */
+	public By setSelector(List<ArrayList<Object>> elementList, int i) {
+		By selector = null;
+		String selectorValue=elementList.get(0).get(i).toString();
+		if(selectorValue=="id") {
+			selector=By.id(elementList.get(1).get(i).toString());
+		}else if(selectorValue=="className"){
+			selector=By.className(elementList.get(1).get(i).toString());
+		}
+		else if(selectorValue=="cssSelector"){
+			selector=By.cssSelector(elementList.get(1).get(i).toString());
+		}
+		else if(selectorValue=="linkText"){
+			selector=By.linkText(elementList.get(1).get(i).toString());
+		}
+		else if(selectorValue=="partialLinkText"){
+			selector=By.partialLinkText(elementList.get(1).get(i).toString());
+		}
+		else if(selectorValue=="xpath"){
+			selector=By.xpath(elementList.get(1).get(i).toString());
+		}
+		return selector;
+	}
 }

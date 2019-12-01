@@ -21,7 +21,7 @@ public class Login{
  
 	
 	/**opening specific browser according to the configuration*/
-      public static void launchingbrowser() {
+      public final static void launchingbrowser() {
     	  CommonParaFun.logger = Logger.getLogger(Login.class.getName());
     	  
     	  if("chrome".equals(CommonParaFun.browser)) {

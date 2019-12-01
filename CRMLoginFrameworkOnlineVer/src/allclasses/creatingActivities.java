@@ -9,10 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import com.lowagie.text.Element;
 
 
 public class creatingActivities extends CommonParaFun {
@@ -21,6 +18,7 @@ public class creatingActivities extends CommonParaFun {
 	/**adding activity*/
 	
 	/**Add phone
+	 * overloading addPhoneActivity from super class
 	 * @throws InterruptedException */
 	public void addPhoneActivity(String callWith,Direction direction,String callDescription, boolean leftVoice, String subject, String duedate) throws InterruptedException {
 		if(activityOptionExist("activityLabelinlineactivitybar4210")) {
@@ -55,6 +53,7 @@ public class creatingActivities extends CommonParaFun {
 	}
 	
 	/**add task
+	 * overloading addTask from super class
 	 * @throws InterruptedException */
 	public void addTask(String subject,String desc,String due,Priority priority) throws InterruptedException {
 		if(activityOptionExist("AddtaskButton")) {
@@ -121,15 +120,46 @@ public class creatingActivities extends CommonParaFun {
 			}
 		}
 	}
+	
 	/**Add appointment
+	 * @throws InterruptedException 
 	 * */
+	public void addAppointment(String subject , String sdate ,String edate) throws InterruptedException {
+		if(activityOptionExist("AddappointmentButton")) {
+			Thread.sleep(1000);
+			switchTodefaultContent();
+			for(int i=0;i<5;i++) {
+				if(ispresent(By.id("contentIFrame"+i))) {
+					Thread.sleep(1000);
+					switchFrame("contentIFrame"+i);
+					if(ispresent(By.id("subject"))) {
+//						element(By.id("scheduledstart")).click();
+						element(By.id("scheduledstart")).sendKeys(sdate);
+						element(By.id("scheduledstart")).click();
+						element(By.id("scheduledstart_iTimeInput")).clear();
+						element(By.id("scheduledstart_iTimeInput")).sendKeys("10:30 PM");
+						logger.log(Level.SEVERE, "scheduledstart_iDateInput is exist");
+						element(By.id("scheduledend_iDateInput")).sendKeys(edate);
+						element(By.id("subject")).sendKeys(subject);
+						
+						break;
+					}else {
+						logger.log(Level.SEVERE, "Appointment fields aren't present");
+					}
+					
+				}
+			}
+		}
+		
+	}
 	
 	/**Notes
+	 * Overloading addNote in super class
 	 * @param title Note title
 	 * @param note Note body
 	 * @param attachments Path to attachments
 	 * @throws InterruptedException 
-	 * @throws AWTException */
+	 * @throws AWTException */	
 	public void addNote(String title, String note, String attachments) throws InterruptedException, AWTException {
 		switchTodefaultContent();
 		boolean posted=false;
@@ -240,7 +270,7 @@ public class creatingActivities extends CommonParaFun {
 							element(By.id("moreActivitiesList")).findElement(By.id(optionID)).click();
 								x=true;
 						}else {
-							logger.log(Level.SEVERE,"the provide avtivity isn't existing");
+							logger.log(Level.SEVERE,"the provide activity isn't existing");
 							x=false;
 						}
 						

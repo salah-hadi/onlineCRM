@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -197,13 +199,20 @@ public class NewTestOnline{
 //	  System.out.println(n);
 	  //
 	  c.openURL("https://barqstaging.crm4.dynamics.com/main.aspx?etn=account&id={3CB594EA-5907-E911-A963-000D3ABA21E5}&pagetype=entityrecord");
+//	  Object o=CommonParaFun.driver.getPageSource();
+//	  c.switchFrame("contentIFrame0");
+//	  c.element(By.id("name")).sendKeys(" ");
+//	  c.Save();
+//	  System.out.println(c.errMsgDisplayed("name"));
+//	  Object z=CommonParaFun.driver.getPageSource();
+
 //	  n=c.entityName();
 //	  System.out.println(n);
 //	  c.HomePageCRMButtons(buttonsHome.DeleteMenu.toString());
 //	  c.createNewRecord("BARQ Sales", "Sales Lead");
 	  
-	  Thread.sleep(1000);
-	  creatingActivities ad=new creatingActivities();
+//	  Thread.sleep(1000);
+//	  creatingActivities ad=new creatingActivities();
 //	  ad.addPost("hello baby");
 //	  Thread.sleep(1000);
 //	  ad.addNote("Title hello","hello baby", "E:\\multi\\AccountStatement.xls");
@@ -219,6 +228,50 @@ public class NewTestOnline{
 //	  ad.addTask("subject", "12/12/2019", Priority.High);
 //	  Thread.sleep(1000);
 //	  ad.addTask("hhhhh", "desc", "12/12/2019", Priority.High);
-	  ad.addEmail("CRM #", "", "Hello", "hello that's body", true);
+//	  ad.addEmail("CRM #", "", "Hello", "hello that's body", true);
+//	  ad.addAppointment("subject", "12/12/2019", "12/12/2019");
+//	  List<ArrayList<Object>> o=new ArrayList<>();
+	  
+	  ArrayList<Object> selector=new ArrayList<Object>();
+	  selector.add("id");
+	  selector.add("id");
+	  selector.add("id");
+	  selector.add("id");
+	  
+	  ArrayList<Object> selectorValue=new ArrayList<Object>();
+	  selectorValue.add("new_landline1");
+	  selectorValue.add("new_noofemployees");
+//	  selectorValue.add("new_noofemployees");
+	  selectorValue.add("websiteurl");
+//	  selectorValue.add("websiteurl");
+	  selectorValue.add("test");
+	  
+	  ArrayList<Object> action=new ArrayList<Object>();
+	  action.add("sendKeys");
+	  action.add("sendKeys");
+//	  action.add("click");
+	  action.add("clear");
+//	  action.add("");
+//	  action.add("bugg");
+	  
+	  ArrayList<Object> fieldValue=new ArrayList<Object>();
+	  fieldValue.add("triplex");
+	  fieldValue.add("33");
+//	  fieldValue.add("test2C");
+//	  fieldValue.add("test3f");
+//	  
+//	  Object[] l=a.toArray();
+//	  ArrayList<Object> x=(ArrayList<Object>) Arrays.asList(l);
+	  
+//	  o.add(selector);
+//	  o.add(selectorValue);
+//	  o.add(action);
+//	  o.add(fieldValue);
+	  c.executeActions(selector,selectorValue,action,fieldValue);
+//	  Thread.sleep(5000);
+//	  c.switchFrame("contentIFrame0");
+//	  Thread.sleep(2000);
+//	  c.element(By.id("websiteurl")).clear();
+	  
   }
 }
