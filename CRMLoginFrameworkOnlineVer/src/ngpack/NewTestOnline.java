@@ -1,31 +1,18 @@
 package ngpack;
 
 
+import allclasses.CommonParaFun;
+import allclasses.DataGenerator;
+import allclasses.generetorDatatype;
+import org.testng.annotations.Test;
+//import org.junit.Test;
+
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 
-import javax.swing.text.DateFormatter;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 //import org.sikuli.script.Pattern;
 //import org.sikuli.script.Screen;
-import org.testng.annotations.Test;
-
-
 //import allclasses.commonParaFun;
-import allclasses.CommonParaFun;
-import allclasses.creatingActivities;
-import allclasses.creatingActivities.Direction;
-import allclasses.creatingActivities.Priority;
-import allclasses.buttonsHome;
-import net.bytebuddy.implementation.bytecode.Addition;
 /**
  * @author Salah @EMEIT
  * */
@@ -44,7 +31,7 @@ public class NewTestOnline{
 //	  c.configDriver("E:\\automation\\chrome driver\\chromedriver.exe", "chrome", "https://efbstaging.crm4.dynamics.com/main.aspx?etn=eme_deliverygenerator&id={C6441715-D0C4-E911-A849-000D3AB2DDD3}&pagetype=entityrecord");
 //	  Assert.assertEquals(commonParaFun.getTitle(), "Dashboards: Marketing Social Dashboard - Microsoft Dynamics 365");
 	  ///
-		c.LoginOnline("crm@barqsystems.com","EME_B@rq");
+	//////	c.LoginOnline("crm@barqsystems.com","EME_B@rq");
 
   }
   
@@ -198,7 +185,7 @@ public class NewTestOnline{
 //	  String n=c.entityName();
 //	  System.out.println(n);
 	  //
-	  c.openURL("https://barqstaging.crm4.dynamics.com/main.aspx?etn=account&id={3CB594EA-5907-E911-A963-000D3ABA21E5}&pagetype=entityrecord");
+	  //c.openURL("https://barqstaging.crm4.dynamics.com/main.aspx?etn=account&id={3CB594EA-5907-E911-A963-000D3ABA21E5}&pagetype=entityrecord");
 //	  Object o=CommonParaFun.driver.getPageSource();
 //	  c.switchFrame("contentIFrame0");
 //	  c.element(By.id("name")).sendKeys(" ");
@@ -267,11 +254,13 @@ public class NewTestOnline{
 //	  o.add(selectorValue);
 //	  o.add(action);
 //	  o.add(fieldValue);
-	  c.executeActions(selector,selectorValue,action,fieldValue);
+	 //c.executeActions(selector,selectorValue,action,fieldValue);
 //	  Thread.sleep(5000);
 //	  c.switchFrame("contentIFrame0");
 //	  Thread.sleep(2000);
 //	  c.element(By.id("websiteurl")).clear();
-	  
+	  System.out.println(DataGenerator.randomValue(200, generetorDatatype.number));
+	  System.err.println("starting string generating... \n");
+	  System.out.println(DataGenerator.randomValue(300, generetorDatatype.string));
   }
 }
