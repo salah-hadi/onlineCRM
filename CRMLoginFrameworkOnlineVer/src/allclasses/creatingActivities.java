@@ -41,7 +41,7 @@ public class creatingActivities extends CommonParaFun {
 			//Due Date
 			element(By.id("quickCreateActivity4210controlId_scheduledend")).sendKeys(duedate);
 			//Left Voice E-mail
-			if(leftVoice==true) {
+			if(leftVoice) {
 				element(By.id("PhoneCallQuickformleftvoiceCheckBoxContol")).click();
 			}
 			
@@ -86,11 +86,11 @@ public class creatingActivities extends CommonParaFun {
 		if(activityOptionExist("AddemailButton")) {
 			switchTodefaultContent();
 			for(int i=0;i<5;i++) {
-				if(ispresent(By.id("contentIFrame"+i))) {
+				if(isPresent(By.id("contentIFrame"+i))) {
 					Thread.sleep(1000);
 					switchFrame("contentIFrame"+i);
 					//From
-					if(ispresent(By.id("from"))) {
+					if(isPresent(By.id("from"))) {
 						element(By.id("from")).sendKeys(from);
 						
 						//to
@@ -104,7 +104,7 @@ public class creatingActivities extends CommonParaFun {
 						FormCRMButtons(buttonsForm.Save.toString());
 						logger.log(Level.SEVERE, "E-mail is created successfully");
 						Thread.sleep(2000);
-						if(send==true) {
+						if(send) {
 							//send
 							FormCRMButtons(buttonsForm.Send.toString());
 							logger.log(Level.SEVERE, "E-mail is Sent successfully");
@@ -129,10 +129,10 @@ public class creatingActivities extends CommonParaFun {
 			Thread.sleep(1000);
 			switchTodefaultContent();
 			for(int i=0;i<5;i++) {
-				if(ispresent(By.id("contentIFrame"+i))) {
+				if(isPresent(By.id("contentIFrame"+i))) {
 					Thread.sleep(1000);
 					switchFrame("contentIFrame"+i);
-					if(ispresent(By.id("subject"))) {
+					if(isPresent(By.id("subject"))) {
 //						element(By.id("scheduledstart")).click();
 						element(By.id("scheduledstart")).sendKeys(sdate);
 						element(By.id("scheduledstart")).click();
@@ -164,7 +164,7 @@ public class creatingActivities extends CommonParaFun {
 		switchTodefaultContent();
 		boolean posted=false;
 		for(int i=0;i<5;i++) {
-			if(ispresent(By.id("contentIFrame"+i))) {
+			if(isPresent(By.id("contentIFrame"+i))) {
 				Thread.sleep(1000);
 				switchFrame("contentIFrame"+i);
 				element(By.linkText("NOTES")).click();
@@ -192,9 +192,9 @@ public class creatingActivities extends CommonParaFun {
 				Thread.sleep(2000);
 				switchTodefaultContent();
 				for(int f=0;f<5;f++) {
-					if(ispresent(By.id("contentIFrame"+f))) {
+					if(isPresent(By.id("contentIFrame"+f))) {
 						switchFrame("contentIFrame"+f);
-						if(ispresent(By.id("postButton"))) {
+						if(isPresent(By.id("postButton"))) {
 //When using the following line it shows the following error: org.openqa.selenium.ElementNotVisibleException: element not interactable
 //so I use interactions.Actions instead
 //							element(By.id("postButton")).click();
@@ -229,7 +229,7 @@ public class creatingActivities extends CommonParaFun {
 		switchTodefaultContent();
 		boolean posted=false;
 		for(int i=0;i<5;i++) {
-			if(ispresent(By.id("contentIFrame"+i))) {
+			if(isPresent(By.id("contentIFrame"+i))) {
 				Thread.sleep(1000);
 				switchFrame("contentIFrame"+i);
 				element(By.linkText("POSTS")).click();
@@ -252,7 +252,7 @@ public class creatingActivities extends CommonParaFun {
 		boolean x=false;
 		switchTodefaultContent();
 		for(int i=0;i<5;i++) {
-			if(ispresent(By.id("contentIFrame"+i))) {
+			if(isPresent(By.id("contentIFrame"+i))) {
 				Thread.sleep(1000);
 				switchFrame("contentIFrame"+i);
 				element(By.linkText("ACTIVITIES")).click();
@@ -261,10 +261,10 @@ public class creatingActivities extends CommonParaFun {
 					element(By.id(optionID)).click();
 					x=true;
 				}else {
-					if(ispresent(By.id("moreActivitiesButton"))) {
+					if(isPresent(By.id("moreActivitiesButton"))) {
 						element(By.id("moreActivitiesButton")).click();
 						Thread.sleep(2000);						
-						if(ispresent(By.id(optionID))) {
+						if(isPresent(By.id(optionID))) {
 							logger.log(Level.SEVERE, "yes activity is present");
 
 							element(By.id("moreActivitiesList")).findElement(By.id(optionID)).click();

@@ -42,7 +42,7 @@ public class CommonParaFun {
 	public  static String crmUrl;
 	public  static String screenTitle;
 	public  static Logger logger;
-	public  static boolean ispresent;
+	//public  static boolean ispresent;
     public static boolean afterW8;
 	/**
 	 * This function configuring Selenium driver and pass website URL
@@ -90,15 +90,16 @@ public class CommonParaFun {
 	 * @param selector Element selector
 	 * @return ispresent to show if element is present on page or not
 	 */
-	public boolean ispresent(By selector) {
+	public boolean isPresent(By selector) {
+	    boolean present;
 
 		try {
 			element(selector);
-			ispresent = true;
+			present = true;
 		} catch (NoSuchElementException|ElementNotVisibleException e) {
-			ispresent = false;
+			present = false;
 		}
-		return ispresent;
+		return present;
 
 	}
 
@@ -117,7 +118,7 @@ public class CommonParaFun {
 	 * sample of how input should be: New button
 	 * "https://raw.githubusercontent.com/salah-hadi/onlineCRM/master/CRMLoginFrameworkOnlineVer/src/allclasses/new.png"
 	 * 
-	 * @param imageURL Path to the image you want to click
+	 * @param imagePath Path to the image you want to click
 	 */
 	public void sikuliClickButton(String imagePath) throws IOException, FindFailed {
 		/* find button by its image */
@@ -179,31 +180,31 @@ public class CommonParaFun {
 			checkEntityExist(entityName);
 		}else {
 			Thread.sleep(1000);
-			if(ispresent(By.linkText(menuName))) {
+			if(isPresent(By.linkText(menuName))) {
 				element(By.linkText(menuName)).click();
 				Thread.sleep(1000);
 				checkEntityExist(entityName);
 			}else {
-				logger.log(Level.SEVERE, "the Provided entity isn't existing");
+				logger.log(Level.SEVERE, "the Provi ded entity isn't existing");
 			}	
 		}
 	}
 	
 	/**check if entity is existing the current open menu
 	 * @throws InterruptedException*/
-	public void checkEntityExist(String entityName) throws InterruptedException {
-		if(ispresent(By.linkText(entityName))) {
+	private void checkEntityExist(String entityName) throws InterruptedException {
+		if(isPresent(By.linkText(entityName))) {
 			element(By.linkText(entityName)).click();
 			logger.log(Level.WARNING, "The provided Entity is existing in the current form");
 		}else {
 			Thread.sleep(1000);
-			if(ispresent(By.id("detailActionGroupControl_rightNavContainer"))) {					
+			if(isPresent(By.id("detailActionGroupControl_rightNavContainer"))) {
 			//if not existing and nagivate buttion to right is existing click it
-			    while(ispresent(By.id("detailActionGroupControl_rightNavContainer"))){					
+			    while(isPresent(By.id("detailActionGroupControl_rightNavContainer"))){
 				    element(By.id("detailActionGroupControl_rightNavContainer")).click();
 				//is entity existing in the new screen
 					Thread.sleep(1000);
-				    if(ispresent(By.linkText(entityName))) {
+				    if(isPresent(By.linkText(entityName))) {
 					  element(By.linkText(entityName)).click();
 					   logger.log(Level.WARNING, "The provided Entity is existing in the current form");
 					   break;
@@ -219,8 +220,7 @@ public class CommonParaFun {
 
 	/**
 	 * This will check if page is loaded
-	 * 
-	 * @param driver selenium WebDriver
+
 	 */
 	public Boolean isLoaded() {
 		return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
@@ -242,8 +242,7 @@ public class CommonParaFun {
 	/**
 	 * It will press any button at any form(inside the record)
 	 * It can be used with CRM buttons only.
-	 * @param entity logical name for entity
-	 * @param button button logical name
+	 * @param buttonlogName button logical name
 	 */
 	public void FormCRMButtons(String buttonlogName) {
 		String entityLogName="";
@@ -259,28 +258,28 @@ public class CommonParaFun {
 							+ "\\." + buttonlogName + " > span"))
 					.click();
 			// If button has pop-up go throw this if
-			if (buttonlogName == "Deactivate" || buttonlogName == "Delete") {
+			if (buttonlogName.equals("Deactivate") || buttonlogName.equals("Delete")) {
 				// switching to pop-up frame
 				wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("InlineDialog_Iframe")));
 				switchFrame("InlineDialog_Iframe");
 
-				if (buttonlogName == "Deactivate") {
+				if (buttonlogName.equals("Deactivate")) {
 					wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ok_id")));
 					element(By.id("ok_id")).click();
 					logger.log(Level.WARNING, "Deactivate completed successfully");
-				} else if (buttonlogName == "Delete") {
+				} else if (buttonlogName.equals("Delete")) {
 					wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("butBegin")));
 					element(By.id("butBegin")).click();
 					logger.log(Level.WARNING, "Delete completed successfully");
 				}
 			} else {
-				if (buttonlogName == "Activate") {
+				if (buttonlogName.equals("Activate")) {
 					logger.log(Level.WARNING, "Activating completed successfully");
-				} else if (buttonlogName == "Save") {
+				} else if (buttonlogName.equals("Save")) {
 					logger.log(Level.WARNING, "Saving completed successfully");
-				} else if (buttonlogName == "SaveAndClose") {
+				} else if (buttonlogName.equals("SaveAndClose")) {
 					logger.log(Level.WARNING, "Saving and close completed successfully");
-				} else if (buttonlogName == "NewRecord") {
+				} else if (buttonlogName.equals("NewRecord")) {
 					logger.log(Level.WARNING, "Press new button completed successfully");
 				}else {
 					logger.log(Level.WARNING, "button is pressed successfully");
@@ -297,8 +296,7 @@ public class CommonParaFun {
 	/**
 	 * Pressing any button in entity Home Page
 	 * It can be used only with CRM default buttons
-	 * @param entity entity logical name
-	 * @param button button logical name
+	 * @param buttonLogName button logical name
 	 */
 	public void HomePageCRMButtons(String buttonLogName) {
 		String entityLogName="";
@@ -316,25 +314,25 @@ public class CommonParaFun {
 									+ entityLogName + "\\." + buttonLogName + " > span"))
 					.click();
 			// If button has pop-up go throw this if
-			if (buttonLogName == "Deactivate" || buttonLogName == "DeleteMenu") {
+			if (buttonLogName.equals("Deactivate") || buttonLogName.equals("DeleteMenu")) {
 				// switching to pop-up frame
 				wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("InlineDialog_Iframe")));
 				switchFrame("InlineDialog_Iframe");
-				if (buttonLogName == "Deactivate") {
+				if (buttonLogName.equals("Deactivate")) {
 					wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ok_id")));
 					element(By.id("ok_id")).click();
 					logger.log(Level.WARNING, "Deactivate completed successfully");
-				} else if (buttonLogName == "DeleteMenu") {
+				} else if (buttonLogName.equals("DeleteMenu")) {
 					wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("butBegin")));
 					element(By.id("butBegin")).click();
 					logger.log(Level.WARNING, "Delete completed successfully");
 				}
 			} else {
-				if (buttonLogName == "Activate") {
+				if (buttonLogName.equals("Activate")) {
 					logger.log(Level.WARNING, "Activating completed successfully");
-				} else if (buttonLogName == "NewRecord") {
+				} else if (buttonLogName.equals("NewRecord")) {
 					logger.log(Level.WARNING, "Press new button completed successfully");
-				} else if (buttonLogName == "Edit") {
+				} else if (buttonLogName.equals("Edit")) {
 					logger.log(Level.WARNING, "Press Edit button completed successfully");
 				}else {
 					logger.log(Level.WARNING, "Button is pressed successfully");
@@ -359,9 +357,9 @@ public class CommonParaFun {
 		// will search for frame id existing will switch to, if it contains the search
 		// box will search.
 		for (int i = 0; i < 4; i++) {
-			if (ispresent(By.id("contentIFrame" + i))) {
+			if (isPresent(By.id("contentIFrame" + i))) {
 				switchFrame("contentIFrame" + i);
-				if (ispresent(By.id("crmGrid_findCriteria"))) {
+				if (isPresent(By.id("crmGrid_findCriteria"))) {
 					Thread.sleep(2000);
 					WebElement searchBox = driver.findElement(By.id("crmGrid_findCriteria"));
 					searchBox.clear();
@@ -396,9 +394,9 @@ public class CommonParaFun {
 	 */
 	public void switchView(String viewName) throws InterruptedException {
 		for (int i = 0; i < 4; i++) {
-			if (ispresent(By.id("contentIFrame" + i))) {
+			if (isPresent(By.id("contentIFrame" + i))) {
 				switchFrame("contentIFrame" + i);
-				if (ispresent(By.id("crmGrid_SavedNewQuerySelector"))) {
+				if (isPresent(By.id("crmGrid_SavedNewQuerySelector"))) {
 					Thread.sleep(2000);
 					element(By.id("crmGrid_SavedNewQuerySelector")).click();
 					element(By.linkText(viewName)).click();
@@ -423,7 +421,7 @@ public class CommonParaFun {
 	}
 	
 	/**This will find the element on the page
-	 * @param locator 
+	 * @param locator element locator
 	 * */
 	public WebElement element(By locator) {
 		return driver.findElement(locator);	
@@ -455,7 +453,7 @@ public class CommonParaFun {
 	/**Create new record at any provided page
 	 * @param menu Menu Name that contain the entity
 	 * @param entity entity you want to create record in
-	 * @param entityLogName entity logical name
+	 *
 	 * @throws AWTException 
 	 * @throws InterruptedException 
 	 * */
@@ -467,7 +465,7 @@ public class CommonParaFun {
 	}
 	/**delete any record by provided URL
 	 * @param url URL to the record you want to delete
-	 * @param entityLogName entity logical Name
+	 *
 	 * @throws InterruptedException 
 	 * */
 	public void deleteRecord(String url) throws InterruptedException {
@@ -481,7 +479,7 @@ public class CommonParaFun {
 	 * @param ButtID Button's ID
 	 * */
 	public void pressButt(String ButtID) {
-		if(ispresent(By.id(ButtID))) {
+		if(isPresent(By.id(ButtID))) {
 			element(By.id(ButtID)).click();
 			logger.log(Level.WARNING, "Button is pressed successfully");
 		}else {
@@ -528,9 +526,9 @@ public class CommonParaFun {
 	public void importExcel(String menuName, String ExcelFile, boolean allowDuplication) throws InterruptedException, AWTException {
 		Navigate(menuName, "Data Management");
 		for (int i = 0; i < 4; i++) {
-			if (ispresent(By.id("contentIFrame" + i))) {
+			if (isPresent(By.id("contentIFrame" + i))) {
 				switchFrame("contentIFrame" + i);
-				if (ispresent(By.linkText("Imports"))) {
+				if (isPresent(By.linkText("Imports"))) {
 					Thread.sleep(2000);
 					element(By.linkText("Imports")).click();
 					logger.log(Level.WARNING, "openning import Screen...");
@@ -549,7 +547,7 @@ public class CommonParaFun {
 
 		if(iDAW8(By.id("InlineDialog_Iframe"), 5)){
 			switchFrame("InlineDialog_Iframe");
-			while(ispresent(By.id("DialogLoadingDivImg"))) {
+			while(isPresent(By.id("DialogLoadingDivImg"))) {
 				
 			}
 		}
@@ -575,7 +573,7 @@ public class CommonParaFun {
 		switchToParent();
 		if(iDAW8(By.id("InlineDialog_Iframe"), 5)){
 			switchFrame("InlineDialog_Iframe");
-			while(ispresent(By.id("DialogLoadingDivImg"))) {
+			while(isPresent(By.id("DialogLoadingDivImg"))) {
 				
 			}
 		}
@@ -591,7 +589,7 @@ public class CommonParaFun {
 		switchToParent();
 		if(iDAW8(By.id("InlineDialog_Iframe"), 5)){
 			switchFrame("InlineDialog_Iframe");
-			while(ispresent(By.id("DialogLoadingDivImg"))) {
+			while(isPresent(By.id("DialogLoadingDivImg"))) {
 				
 			}
 		}
@@ -602,9 +600,9 @@ public class CommonParaFun {
 //		}
         //error message
 		switchToParent();
-        if(ispresent(By.id("InlineDialog1_Iframe"))) {
+        if(isPresent(By.id("InlineDialog1_Iframe"))) {
         	switchFrame("InlineDialog1_Iframe");
-        	if(ispresent(By.id("butBegin"))) {
+        	if(isPresent(By.id("butBegin"))) {
         	    logger.log(Level.SEVERE, "An Error has occured on importing");
         	    
         	}
@@ -613,7 +611,7 @@ public class CommonParaFun {
         	switchToParent();
         	switchFrame("InlineDialog_Iframe");
         	switchFrame("wizardpageframe");
-        	if(allowDuplication==true) {       		
+        	if(allowDuplication) {
         		element(By.id("deDupDisabled")).click();
         	}else {
         		element(By.id("deDupEnabled")).click();
@@ -624,7 +622,7 @@ public class CommonParaFun {
         	switchToParent();
         	if(iDAW8(By.id("InlineDialog_Iframe"), 5)){
     			switchFrame("InlineDialog_Iframe");
-    			while(ispresent(By.id("DialogLoadingDivImg"))) {
+    			while(isPresent(By.id("DialogLoadingDivImg"))) {
     				
     			}
     		}
@@ -659,8 +657,7 @@ public class CommonParaFun {
     }
     
     /**This will deactivate any record by provided URL
-     * @param URL Record URL 
-     * @param entityLogName scheme Name
+     * @param URL Record URL
      * @throws InterruptedException */
     public void deactivate(String URL) throws InterruptedException {
     	openURL(URL);
@@ -688,7 +685,7 @@ public class CommonParaFun {
 	    String GUID="";
     	try {
     	    for(int i=0;i<5;i++) {
-    		    if(ispresent(By.id("contentIFrame"+i))) {
+    		    if(isPresent(By.id("contentIFrame"+i))) {
     			   switchFrame("contentIFrame"+i);
     			   GUID=(String)JSCode("return Xrm.Page.data.entity.getId();");
     			   if(GUID!=null) {
@@ -703,7 +700,7 @@ public class CommonParaFun {
     		   GUID=GUID.substring(1, GUID.length()-1);
     		   logger.log(Level.SEVERE, "Record GUID is:"+GUID);
     	    }
-    	}catch(ScriptException|WebDriverException s) {
+    	}catch(ScriptException|NullPointerException|WebDriverException s) {
     		GUID="There's no open record to retrieve its GUID";
  		   logger.log(Level.SEVERE, "There's no open record to retrieve its GUID");
     	}
@@ -732,12 +729,12 @@ public class CommonParaFun {
     /**retrieve entity name
      * @throws  
      * @throws ScriptException */
-    public String entityName() throws InterruptedException{
+    private String entityName() throws InterruptedException{
 		String entityName="";
     	try {
     		switchTodefaultContent();
         	 for(int i=0;i<5;i++) {
-     		    if(ispresent(By.id("contentIFrame"+i))) {
+     		    if(isPresent(By.id("contentIFrame"+i))) {
      			   switchFrame("contentIFrame"+i);
      			   entityName=(String)JSCode("return Xrm.Page.data.entity.getEntityName();");
      			   if(entityName!=null) {
@@ -755,7 +752,7 @@ public class CommonParaFun {
     	}catch(ScriptException|WebDriverException s) {
         	switchTodefaultContent();
         	Thread.sleep(2000);
-    		if(ispresent(By.xpath("/html/body/div[6]/div[2]/div/ul/li[1]"))){
+    		if(isPresent(By.xpath("/html/body/div[6]/div[2]/div/ul/li[1]"))){
     			WebElement firstButton=CommonParaFun.driver.findElement(By.xpath("/html/body/div[6]/div[2]/div/ul/li[1]"));
     			   entityName=firstButton.getAttribute("id");
     			   entityName=entityName.substring(0, entityName.indexOf("|"));
@@ -779,7 +776,7 @@ public class CommonParaFun {
 		switchTodefaultContent();
 		boolean posted=false;
 		for(int i=0;i<5;i++) {
-			if(ispresent(By.id("contentIFrame"+i))) {
+			if(isPresent(By.id("contentIFrame"+i))) {
 				Thread.sleep(1000);
 				switchFrame("contentIFrame"+i);
 				element(By.linkText("NOTES")).click();
@@ -792,9 +789,9 @@ public class CommonParaFun {
 				Thread.sleep(2000);
 				switchTodefaultContent();
 				for(int f=0;f<5;f++) {
-					if(ispresent(By.id("contentIFrame"+f))) {
+					if(isPresent(By.id("contentIFrame"+f))) {
 						switchFrame("contentIFrame"+f);
-						if(ispresent(By.id("postButton"))) {
+						if(isPresent(By.id("postButton"))) {
 //When using the following line it shows the following error: org.openqa.selenium.ElementNotVisibleException: element not interactable
 //so I use interactions.Actions instead
 //							element(By.id("postButton")).click();
@@ -814,7 +811,7 @@ public class CommonParaFun {
 				}
 			}
 		}
-		if(posted==false) {
+		if(!posted) {
 			logger.log(Level.SEVERE, "There's a problem on writting Note");
 		}
 		logger.log(Level.SEVERE, "Your Note has been created successfully");
@@ -842,7 +839,7 @@ public class CommonParaFun {
 			element(By.id("quickCreateActivity4210controlId_description")).sendKeys(callDescription);
 			
 			//Left Voice E-mail
-			if(leftVoice==true) {
+			if(leftVoice) {
 				element(By.id("PhoneCallQuickformleftvoiceCheckBoxContol")).click();
 			}
 			
@@ -914,7 +911,7 @@ public class CommonParaFun {
 //				System.out.println(s);
 //				System.out.println("The element ID is:"+elementList.get(1).get(i).toString());
 				Thread.sleep(2000);
-				if(ispresent(s)) {
+				if(isPresent(s)) {
 					
 					field=element(s);
 					completeAction(field, elementList, i);
@@ -924,11 +921,11 @@ public class CommonParaFun {
                     Thread.sleep(1000);
                 	for(int frame=0;frame<5;frame++) {
                 
-				       if(ispresent(By.id("contentIFrame"+frame))) {
+				       if(isPresent(By.id("contentIFrame"+frame))) {
 				        	Thread.sleep(1000);
 				        	switchFrame("contentIFrame"+frame);
 				        	Thread.sleep(2000);
-				        	if(ispresent(s)) {
+				        	if(isPresent(s)) {
 								field=element(s);
 								completeAction(field, elementList, i);
 						break;
@@ -950,7 +947,7 @@ public class CommonParaFun {
 	/**This will do actions for the field, Clear and sendKeys only
 	 * @param elementList contains list of elements, actions will be done on them, and values if exist
 	 * @param i # of elements in selector list*/
-	public void completeAction(WebElement field,List<ArrayList<Object>> elementList, int i) {
+	private void completeAction(WebElement field,List<ArrayList<Object>> elementList, int i) {
 		if(iDAW8(By.id(elementList.get(1).get(i).toString()), 5)) {
 			if(elementList.get(2).get(i)=="clear") {
 				field.sendKeys(Keys.DELETE);
@@ -971,24 +968,24 @@ public class CommonParaFun {
 	 * @param elementList contains list of elements, actions will be done on them, and values if exist
 	 * @param i # of elements in selector list
 	 * */
-	public By setSelector(List<ArrayList<Object>> elementList, int i) {
+	private By setSelector(List<ArrayList<Object>> elementList, int i) {
 		By selector = null;
 		String selectorValue=elementList.get(0).get(i).toString();
-		if(selectorValue=="id") {
+		if(selectorValue.equals("id")) {
 			selector=By.id(elementList.get(1).get(i).toString());
-		}else if(selectorValue=="className"){
+		}else if(selectorValue.equals("className")){
 			selector=By.className(elementList.get(1).get(i).toString());
 		}
-		else if(selectorValue=="cssSelector"){
+		else if(selectorValue.equals("cssSelector")){
 			selector=By.cssSelector(elementList.get(1).get(i).toString());
 		}
-		else if(selectorValue=="linkText"){
+		else if(selectorValue.equals("linkText")){
 			selector=By.linkText(elementList.get(1).get(i).toString());
 		}
-		else if(selectorValue=="partialLinkText"){
+		else if(selectorValue.equals("partialLinkText")){
 			selector=By.partialLinkText(elementList.get(1).get(i).toString());
 		}
-		else if(selectorValue=="xpath"){
+		else if(selectorValue.equals("xpath")){
 			selector=By.xpath(elementList.get(1).get(i).toString());
 		}
 		return selector;
