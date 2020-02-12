@@ -39,13 +39,13 @@ public class CompareExcel {
 //	Logger logger;
 	/**
 	 * This Function will compare two Excel files and show if the are the same or not.
-	 * created to compare expected values in excel sheet by the one exported from MS dynamcs.
+	 * created to compare expected values in excel sheet by the one exported from MS dynamics.
 	 * It will works only on excel with extension .xlsx (2007-365 extension)
 	 * @param file1 Path to the first Excel file
 	 * @param file2 Path to the second Excel file.
 	 * @param sheet1 Name of sheet in first Excel sheet you want to compare.
 	 * @param sheet2 Name of sheet in second Excel sheet you want to compare.
-	 * @param resultFile Path to .doc field you will write in.
+	 * @param resultFile Path to .doc file you will write in.
 	 * @throws IOException -used to handle FileNotFoundException and InvalidPathException
 	 * **/	
 	public void compareExcelFiles(String file1, String file2, String sheet1, String sheet2, String resultFilePath) throws IOException {

@@ -100,7 +100,7 @@ public class Login{
     		  }
     		  
     	  }catch(NoSuchElementException | InterruptedException e) {
-    		  CommonParaFun.logger.log(Level.SEVERE, "", e);
+    		  CommonParaFun.logger.log(Level.SEVERE, e.getMessage());
     		  }
       }
       
@@ -112,7 +112,7 @@ public class Login{
     		  Runtime.getRuntime().exec(autoit);
     		  CommonParaFun.driver.navigate().to(CommonParaFun.crmUrl);
     	  }catch(NoSuchElementException e) {
-    		  CommonParaFun.logger.log(Level.SEVERE, "", e);
+    		  CommonParaFun.logger.log(Level.SEVERE, e.getMessage());
     		  }
       }
       /**Dismissing pending E-mail message*/
@@ -136,7 +136,7 @@ public class Login{
     	  }
 
       catch(IllegalMonitorStateException | TimeoutException | NoSuchElementException w) {
-    	  CommonParaFun.logger.log(Level.SEVERE, "", w);
+    	  CommonParaFun.logger.log(Level.SEVERE, w.getMessage());
 		  }
       }
       

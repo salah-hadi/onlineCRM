@@ -8,7 +8,7 @@ public class DataGenerator {
 
     /**generating random strings and numbers
      * @param length the generated value length
-     * @param generetorDatatype the data type of the generated value
+     * @param generetorDatatype the data type of the generated value(from "generetorDatatype" Enum)
      * @return generatedValue*/
     public static Object randomValue(int length,generetorDatatype generetorDatatype){
         StringBuilder generatedValue = new StringBuilder();

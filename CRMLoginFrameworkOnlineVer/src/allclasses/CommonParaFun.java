@@ -47,9 +47,9 @@ public class CommonParaFun {
 	/**
 	 * This function configuring Selenium driver and pass website URL
 	 * 
-	 * @param driverPath selenium driver path
-	 * @param browser    name if browser to navigate with, only avilable
-	 *                   browsers(chrome/firefox)
+	 * @param driverPath Selenium driver path
+	 * @param browser    name if browser to navigate with, only available
+	 *                   browsers(Chrome/Firefox)
 	 * @param crmUrl     MS dynamic CRM environment URL
 	 */
 	public final void configDriver(String driverPath, String browser, String crmUrl) {
@@ -62,8 +62,8 @@ public class CommonParaFun {
 	/**
 	 * This pass login parameters and login online CRM version
 	 * 
-	 * @param userName username used to login
-	 * @param passWord username password
+	 * @param userName Username used to login
+	 * @param passWord pPassword used to login
 	 */
 	public void LoginOnline(String userName, String passWord) {
 		logger = Logger.getLogger(CommonParaFun.class.getName());
@@ -74,6 +74,7 @@ public class CommonParaFun {
 	}
 	
 	/**This should login in CRM onpremise
+	 * @param autoit Path to autoit file
 	 * @throws IOException 
 	 * */
 	public void loginOnpremise(String autoit) throws IOException {
@@ -88,19 +89,18 @@ public class CommonParaFun {
 	 * will check if Element is present on the page
 	 * 
 	 * @param selector Element selector
-	 * @return ispresent to show if element is present on page or not
+	 * @return True or false
 	 */
 	public boolean isPresent(By selector) {
 	    boolean present;
-
 		try {
 			element(selector);
 			present = true;
-		} catch (NoSuchElementException|ElementNotVisibleException e) {
+		} catch (NoSuchElementException e) {
 			present = false;
+			logger.log(Level.WARNING, "Element not Present in the current page.");
 		}
 		return present;
-
 	}
 
 	/**
@@ -114,11 +114,13 @@ public class CommonParaFun {
 	}
 
 	/**
-	 * It Will run sikuli script to search for specific provided images That's a
-	 * sample of how input should be: New button
+	 * It Will run sikuli script to search for specific provided image and click on,
+	 *  That's a sample:
 	 * "https://raw.githubusercontent.com/salah-hadi/onlineCRM/master/CRMLoginFrameworkOnlineVer/src/allclasses/new.png"
 	 * 
 	 * @param imagePath Path to the image you want to click
+	 * @throws IOException
+	 * @throws FindFailed
 	 */
 	public void sikuliClickButton(String imagePath) throws IOException, FindFailed {
 		/* find button by its image */
@@ -136,9 +138,7 @@ public class CommonParaFun {
 	/**
 	 * This will open any URL in browser
 	 * 
-	 * @param URL open any page using specific URL (If URL contain GUID OR area, you
-	 *            won't be able to find any element by selector at any language the
-	 *            only way is to use sikuli script )
+	 * @param URL open any page using specific URL
 	 */
 	public void openURL(String URL) {
 		try {
@@ -168,11 +168,15 @@ public class CommonParaFun {
 	/**
 	 * This will open menu and open any screen inside
 	 * 
-	 * @param menuName   menu displayed name
-	 * @param entityName entity displayed name
+	 * @param menuName   Menu displayed name
+	 * @param entityName Entity displayed name
+	 * @throws InterruptedException
+	 * @throws AWTException
 	 */
 	public void Navigate(String menuName, String entityName) throws InterruptedException, AWTException {
 //		String defaultMenuName=element(By.id("TabSFA-main")).getText(); 
+		//get the current opened menu name
+		switchTodefaultContent();
 		String defaultMenuName=element(By.cssSelector(".navTabButton.navTabButtonLeft.AreaNodePadding")).getText();
 		element(By.name("TabHome")).click();
 		if(menuName.equals(defaultMenuName)) {
@@ -185,12 +189,13 @@ public class CommonParaFun {
 				Thread.sleep(1000);
 				checkEntityExist(entityName);
 			}else {
-				logger.log(Level.SEVERE, "the Provi ded entity isn't existing");
+				logger.log(Level.SEVERE, "the Provided entity isn't existing");
 			}	
 		}
 	}
 	
 	/**check if entity is existing the current open menu
+	 * @param entityName Entity displayed name
 	 * @throws InterruptedException*/
 	private void checkEntityExist(String entityName) throws InterruptedException {
 		if(isPresent(By.linkText(entityName))) {
@@ -208,8 +213,6 @@ public class CommonParaFun {
 					  element(By.linkText(entityName)).click();
 					   logger.log(Level.WARNING, "The provided Entity is existing in the current form");
 					   break;
-				    }else {
-				    	logger.log(Level.WARNING, "The provided Entity isn't existing in the current form");
 				    }
 			    }				    
 			}else {
@@ -219,7 +222,7 @@ public class CommonParaFun {
 	}
 
 	/**
-	 * This will check if page is loaded
+	 * This will check if page is loaded by checking if all JS files are loaded
 
 	 */
 	public Boolean isLoaded() {
@@ -242,9 +245,10 @@ public class CommonParaFun {
 	/**
 	 * It will press any button at any form(inside the record)
 	 * It can be used with CRM buttons only.
-	 * @param buttonlogName button logical name
+	 * @param buttonlogName button logical name(you can use "buttonForm" Enum)
 	 */
 	public void FormCRMButtons(String buttonlogName) {
+		switchTodefaultContent();
 		String entityLogName="";
 		try {
 			entityLogName=entityName();
@@ -288,7 +292,7 @@ public class CommonParaFun {
 			}
 
 		} catch (Exception e) {
-			logger.log(Level.WARNING, "", e);
+			logger.log(Level.WARNING,e.getMessage());
 			
 		}
 	}
@@ -296,9 +300,10 @@ public class CommonParaFun {
 	/**
 	 * Pressing any button in entity Home Page
 	 * It can be used only with CRM default buttons
-	 * @param buttonLogName button logical name
+	 * @param buttonLogName button logical name(you can use "buttonsHome" Enum)
 	 */
 	public void HomePageCRMButtons(String buttonLogName) {
+		switchTodefaultContent();
 		String entityLogName="";
 		try {
 			entityLogName=entityName();
@@ -341,7 +346,7 @@ public class CommonParaFun {
 			}
 
 		} catch (Exception e) {
-			logger.log(Level.WARNING, "", e);
+			logger.log(Level.WARNING, e.getMessage());
 			
 		}
 	}
@@ -356,7 +361,8 @@ public class CommonParaFun {
 	public void searchMainscreen(String searchValue) throws AWTException, InterruptedException {
 		// will search for frame id existing will switch to, if it contains the search
 		// box will search.
-		for (int i = 0; i < 4; i++) {
+		switchTodefaultContent();
+		for (int i = 0; i < 6; i++) {
 			if (isPresent(By.id("contentIFrame" + i))) {
 				switchFrame("contentIFrame" + i);
 				if (isPresent(By.id("crmGrid_findCriteria"))) {
@@ -374,7 +380,7 @@ public class CommonParaFun {
 					logger.log(Level.WARNING, "search completed successfully");
 					break;
 				} else {
-					logger.log(Level.WARNING, "field isn't existing");
+					logger.log(Level.WARNING, "field isn't existing in the current frame: contentIFrame"+i);
 					switchToParent();
 				}
 
@@ -393,7 +399,8 @@ public class CommonParaFun {
 	 * @throws InterruptedException
 	 */
 	public void switchView(String viewName) throws InterruptedException {
-		for (int i = 0; i < 4; i++) {
+		switchTodefaultContent();
+		for (int i = 0; i < 6; i++) {
 			if (isPresent(By.id("contentIFrame" + i))) {
 				switchFrame("contentIFrame" + i);
 				if (isPresent(By.id("crmGrid_SavedNewQuerySelector"))) {
@@ -403,14 +410,13 @@ public class CommonParaFun {
 					logger.log(Level.WARNING, "View is changed successfully");
 					break;
 				} else {
-					logger.log(Level.WARNING, "changing views isn't allowed");
+					logger.log(Level.WARNING, "view isn't existing in the current frame: contentIFrame"+i);
 					switchToParent();
 				}
 
 			} else {
-				logger.log(Level.WARNING, "frame which contains views isn't existing");
+				logger.log(Level.WARNING, "frame which contains views isn't existing: contentIFrame"+i);
 			}
-
 		}
 	}
 	
@@ -422,6 +428,7 @@ public class CommonParaFun {
 	
 	/**This will find the element on the page
 	 * @param locator element locator
+	 * @return return a web element
 	 * */
 	public WebElement element(By locator) {
 		return driver.findElement(locator);	
@@ -451,8 +458,8 @@ public class CommonParaFun {
 	}
 	
 	/**Create new record at any provided page
-	 * @param menu Menu Name that contain the entity
-	 * @param entity entity you want to create record in
+	 * @param menu Menu displayed name that contain the entity
+	 * @param entity Entity displayed name you want to create record in
 	 *
 	 * @throws AWTException 
 	 * @throws InterruptedException 
@@ -461,7 +468,7 @@ public class CommonParaFun {
 		Thread.sleep(2000);
 		Navigate(menu, entity);
 		Thread.sleep(1000);
-		HomePageCRMButtons("NewRecord");
+		HomePageCRMButtons(buttonsHome.NewRecord.toString());
 	}
 	/**delete any record by provided URL
 	 * @param url URL to the record you want to delete
@@ -471,11 +478,11 @@ public class CommonParaFun {
 	public void deleteRecord(String url) throws InterruptedException {
 		openURL(url);
 		Thread.sleep(1000);
-		FormCRMButtons("Delete");
+		FormCRMButtons(buttonsForm.Delete.toString());
 		logger.log(Level.WARNING, "Record is deleted successfully");
 	}
 
-	/**Used to press any button not from CRM default buttons
+	/**Used to press any button not from CRM default buttons and don't forget to switch to the iframe
 	 * @param ButtID Button's ID
 	 * */
 	public void pressButt(String ButtID) {
@@ -487,7 +494,7 @@ public class CommonParaFun {
 		}
 	}
 	
-	/**This will wait till the presence of specific element
+	/**This will wait till the presence of specific element or waiting time will over
 	 * @param selector Element locator
 	 * @param WaitingTime time driver will wait in seconds*/
 	public void waitElement(By selector,int WaitingTime) {
@@ -498,6 +505,7 @@ public class CommonParaFun {
 	/**Logout from the current user
 	 * @throws InterruptedException */
 	public void logOut() throws InterruptedException {
+		switchTodefaultContent();
 		element(By.id("navTabButtonChangeProfileImageLink")).click();
 		Thread.sleep(2000);
 		element(By.id("navTabButtonUserInfoSignOutId")).click();
@@ -520,7 +528,7 @@ public class CommonParaFun {
 	/**This will import Excel sheet inside CRM
 	 * @param menuName Menu name which contains "Data management" entity
 	 * @param ExcelFile Path to excel file you want to import
-	 * @param allowDuplication pas True to allow duplication in imported data.
+	 * @param allowDuplication True or false to allow duplication in imported data or not.
 	 * @throws AWTException 
 	 * @throws InterruptedException */
 	public void importExcel(String menuName, String ExcelFile, boolean allowDuplication) throws InterruptedException, AWTException {
