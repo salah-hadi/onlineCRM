@@ -3,7 +3,10 @@ package ngpack;
 
 import allclasses.CommonParaFun;
 import allclasses.DataGenerator;
+import allclasses.UnifiedInterface;
 import allclasses.generetorDatatype;
+
+import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 //import org.junit.Test;
 
@@ -18,25 +21,64 @@ import java.util.ArrayList;
  * */
 public class NewTestOnline{
 	CommonParaFun c=new CommonParaFun();
+	UnifiedInterface ui=new UnifiedInterface();
 	/**This will set all needed configuration to pass login page
 	 * @throws IOException */
 	
   @Test
   public void passParameters() throws IOException {
 	  
-	  c.configDriver("E:\\automation\\chrome driver\\chromedriver.exe", "chrome", "http://barqstaging.crm4.dynamics.com");
 //	  c.configDriver("E:\\automation\\chrome driver\\chromedriver.exe", "chrome", "http://41.41.31.190:6725/barqtest2");
+//	  c.configDriver("C:\\Users\\hp\\Downloads\\chromedriver.exe", "chrome", "http://barqstaging.crm4.dynamics.com");
+	  c.configDriver("C:\\Users\\hp\\Downloads\\chrome driver\\chromedriver.exe", "chrome", "https://banatistaging.crm4.dynamics.com/main.aspx");
 //	  login.launchingbrowser();
 //	  login.dismissEmailmsg();
 //	  c.configDriver("E:\\automation\\chrome driver\\chromedriver.exe", "chrome", "https://efbstaging.crm4.dynamics.com/main.aspx?etn=eme_deliverygenerator&id={C6441715-D0C4-E911-A849-000D3AB2DDD3}&pagetype=entityrecord");
 //	  Assert.assertEquals(commonParaFun.getTitle(), "Dashboards: Marketing Social Dashboard - Microsoft Dynamics 365");
 	  ///
-	//////	c.LoginOnline("crm@barqsystems.com","EME_B@rq");
+//		c.LoginOnline("crm@barqsystems.com","EME_B@rq");
+		c.LoginOnline("cmh@banatifoundation.org","EMEit@123");
 
   }
   
   @Test(dependsOnMethods={"passParameters"})
   public void openURLNew() throws Exception {
+//	  c.UIEntityNav("eme_nationality");
+//	  Thread.sleep(5000);
+	  
+//	  ui.navigateMenuUI("Shelter");
+//	  ui.navigateMenuUI("Settings");
+//	  ui.navigateMenuUI("Case Management");
+//	  ui.navigateMenuUI("Workshops");
+//	  Thread.sleep(5000);
+//	  c.element(By.cssSelector("img[title='Employment']")).click();
+//	  c.HomePageCRMButtonsUI("Email a Link");
+	  //ui.navigateUI("Settings", "Employees");
+//	  ui.createNewRecordUI("Case Management", "Case Management Files");
+//	  ui.crmButtonUI("Save & Close");
+	  //ui.logOutUI();
+	  ui.openURL("https://banatistaging.crm4.dynamics.com/main.aspx?appid=8f729e79-4a14-ea11-a811-000d3ab46f05&forceUCI=1&pagetype=entityrecord&etn=contact&id=520e1c96-fb5d-ea11-a811-000d3ab4688a");
+//	  ui.openURL(ui.recordURL());
+	  ui.crmButtonUI("Unfollow");
+//	  ui.crmButtonUI("Connect");
+//	  ui.searchMainScreenUI("test");
+//	  ui.switchView("Active Case Profiles");
+//	  ui.switchViewUI("Psychologist");
+//	  ui.testButt("Flow");
+//	  c.openURL("https://banatistaging.crm4.dynamics.com/main.aspx?appid=8f729e79-4a14-ea11-a811-000d3ab46f05&forceUCI=1&pagetype=entityrecord&etn=eme_nationality&id=a44f90b5-bc7d-ea11-a811-000d3ab4653d");
+//	  Thread.sleep(10000);
+//	  if(c.isLoaded()) {
+//		  System.out.println("Is present: "+c.isPresent(By.cssSelector("li[aria-label=\"Email a Link Split Button\"]")));
+//		  CommonParaFun.driver.findElement(By.id("ShowChartPane")).click();
+//		  CommonParaFun.driver.findElement(By.id("eme_nationality|NoRelationship|HomePageGrid|Mscrm.HomepageGrid.eme_nationality.Send.Menu0_splitButtonList")).click();
+//		  c.HomePageCRMButtons("Send.Menu0_splitButtonList");
+//		  c.element(By.cssSelector("[title='Show Chart']")).click();
+//		  c.HomePageCRMButtonsUI("Export to Excel");
+//		  c.formCRMButtonsUI("Email a Link");
+//		  c.searchMainScreenUI("test");
+
+
+//	  }
 //	  c.quit();
 //	  commonParaFun.openURL("https://barqstaging.crm4.dynamics.com/main.aspx?etn=contact&id={ADC5E89B-6E07-E911-A963-000D3ABA21E5}&pagetype=entityrecord");
 //	  commonParaFun.createNew();
@@ -219,31 +261,31 @@ public class NewTestOnline{
 //	  ad.addAppointment("subject", "12/12/2019", "12/12/2019");
 //	  List<ArrayList<Object>> o=new ArrayList<>();
 	  
-	  ArrayList<Object> selector=new ArrayList<Object>();
-	  selector.add("id");
-	  selector.add("id");
-	  selector.add("id");
-	  selector.add("id");
-	  
-	  ArrayList<Object> selectorValue=new ArrayList<Object>();
-	  selectorValue.add("new_landline1");
-	  selectorValue.add("new_noofemployees");
+//	  ArrayList<Object> selector=new ArrayList<Object>();
+//	  selector.add("id");
+//	  selector.add("id");
+//	  selector.add("id");
+//	  selector.add("id");
+//	  
+//	  ArrayList<Object> selectorValue=new ArrayList<Object>();
+//	  selectorValue.add("new_landline1");
 //	  selectorValue.add("new_noofemployees");
-	  selectorValue.add("websiteurl");
+////	  selectorValue.add("new_noofemployees");
 //	  selectorValue.add("websiteurl");
-	  selectorValue.add("test");
-	  
-	  ArrayList<Object> action=new ArrayList<Object>();
-	  action.add("sendKeys");
-	  action.add("sendKeys");
-//	  action.add("click");
-	  action.add("clear");
-//	  action.add("");
-//	  action.add("bugg");
-	  
-	  ArrayList<Object> fieldValue=new ArrayList<Object>();
-	  fieldValue.add("triplex");
-	  fieldValue.add("33");
+////	  selectorValue.add("websiteurl");
+//	  selectorValue.add("test");
+//	  
+//	  ArrayList<Object> action=new ArrayList<Object>();
+//	  action.add("sendKeys");
+//	  action.add("sendKeys");
+////	  action.add("click");
+//	  action.add("clear");
+////	  action.add("");
+////	  action.add("bugg");
+//	  
+//	  ArrayList<Object> fieldValue=new ArrayList<Object>();
+//	  fieldValue.add("triplex");
+//	  fieldValue.add("33");
 //	  fieldValue.add("test2C");
 //	  fieldValue.add("test3f");
 //	  
@@ -259,8 +301,8 @@ public class NewTestOnline{
 //	  c.switchFrame("contentIFrame0");
 //	  Thread.sleep(2000);
 //	  c.element(By.id("websiteurl")).clear();
-	  System.out.println(DataGenerator.randomValue(200, generetorDatatype.number));
-	  System.err.println("starting string generating... \n");
-	  System.out.println(DataGenerator.randomValue(300, generetorDatatype.string));
+//	  System.out.println(DataGenerator.randomValue(200, generetorDatatype.number));
+//	  System.err.println("starting string generating... \n");
+//	  System.out.println(DataGenerator.randomValue(300, generetorDatatype.string));
   }
 }

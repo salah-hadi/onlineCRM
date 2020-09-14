@@ -96,7 +96,9 @@ public class Login{
     		  }else {
     			  CommonParaFun.logger.log(Level.SEVERE, "That isn't a CRM Website");
     			  CommonParaFun.driver.quit();
-    			  System.exit(0);
+//    			  System.exit(0);
+//    			  return;
+    			  System.exit(1);
     		  }
     		  
     	  }catch(NoSuchElementException | InterruptedException e) {

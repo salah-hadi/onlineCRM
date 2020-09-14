@@ -101,12 +101,12 @@ public class creatingActivities extends CommonParaFun {
 						switchFrame("descriptionEditIFrame");
 						element(By.xpath("/html/body")).sendKeys(body);
 						//save
-						FormCRMButtons(buttonsForm.Save.toString());
+						formCRMButtons(buttonsForm.Save.toString());
 						logger.log(Level.SEVERE, "E-mail is created successfully");
 						Thread.sleep(2000);
 						if(send) {
 							//send
-							FormCRMButtons(buttonsForm.Send.toString());
+							formCRMButtons(buttonsForm.Send.toString());
 							logger.log(Level.SEVERE, "E-mail is Sent successfully");
 						}
 						

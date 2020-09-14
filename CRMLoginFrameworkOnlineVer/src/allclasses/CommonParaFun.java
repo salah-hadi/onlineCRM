@@ -98,20 +98,12 @@ public class CommonParaFun {
 			present = true;
 		} catch (NoSuchElementException e) {
 			present = false;
-			logger.log(Level.WARNING, "Element not Present in the current page.");
+			logger.log(Level.WARNING, "Element located "+selector+" not Present in the current page.");
 		}
 		return present;
 	}
 
-	/**
-	 * will get any page title
-	 * 
-	 * @return current page title
-	 */
-	public String getTitle() {
-		screenTitle = driver.getTitle();
-		return screenTitle;
-	}
+	
 
 	/**
 	 * It Will run sikuli script to search for specific provided image and click on,
@@ -158,7 +150,6 @@ public class CommonParaFun {
 	public Object JSCode(String JS) throws ScriptException {
 		JavascriptExecutor js1 = (JavascriptExecutor) driver;
 		if(js1 instanceof WebDriver) {
-			
 			return js1.executeScript(JS);
 		}else {
 			return 0;
@@ -167,7 +158,7 @@ public class CommonParaFun {
 
 	/**
 	 * This will open menu and open any screen inside
-	 * 
+	 * (will not work with unified interface, use NavigateUI(String entityLogName) instead)
 	 * @param menuName   Menu displayed name
 	 * @param entityName Entity displayed name
 	 * @throws InterruptedException
@@ -247,7 +238,7 @@ public class CommonParaFun {
 	 * It can be used with CRM buttons only.
 	 * @param buttonlogName button logical name(you can use "buttonForm" Enum)
 	 */
-	public void FormCRMButtons(String buttonlogName) {
+	public void formCRMButtons(String buttonlogName) {
 		switchTodefaultContent();
 		String entityLogName="";
 		try {
@@ -296,13 +287,15 @@ public class CommonParaFun {
 			
 		}
 	}
+	
+	
 
 	/**
 	 * Pressing any button in entity Home Page
 	 * It can be used only with CRM default buttons
 	 * @param buttonLogName button logical name(you can use "buttonsHome" Enum)
 	 */
-	public void HomePageCRMButtons(String buttonLogName) {
+	public void homePageCRMButtons(String buttonLogName) {
 		switchTodefaultContent();
 		String entityLogName="";
 		try {
@@ -350,6 +343,8 @@ public class CommonParaFun {
 			
 		}
 	}
+	
+	
 
 	/**
 	 * Will search in main entity
@@ -391,6 +386,8 @@ public class CommonParaFun {
 		}
 
 	}
+
+	
 
 	/**
 	 * this will switch view as you want
@@ -451,11 +448,7 @@ public class CommonParaFun {
 	public void switchTodefaultContent() {
 		driver.switchTo().defaultContent();
 	}
-	/**Will refresh the current page
-	 * */
-	public void refresh() {
-		driver.navigate().refresh();
-	}
+
 	
 	/**Create new record at any provided page
 	 * @param menu Menu displayed name that contain the entity
@@ -468,33 +461,13 @@ public class CommonParaFun {
 		Thread.sleep(2000);
 		Navigate(menu, entity);
 		Thread.sleep(1000);
-		HomePageCRMButtons(buttonsHome.NewRecord.toString());
-	}
-	/**delete any record by provided URL
-	 * @param url URL to the record you want to delete
-	 *
-	 * @throws InterruptedException 
-	 * */
-	public void deleteRecord(String url) throws InterruptedException {
-		openURL(url);
-		Thread.sleep(1000);
-		FormCRMButtons(buttonsForm.Delete.toString());
-		logger.log(Level.WARNING, "Record is deleted successfully");
-	}
-
-	/**Used to press any button not from CRM default buttons and don't forget to switch to the iframe
-	 * @param ButtID Button's ID
-	 * */
-	public void pressButt(String ButtID) {
-		if(isPresent(By.id(ButtID))) {
-			element(By.id(ButtID)).click();
-			logger.log(Level.WARNING, "Button is pressed successfully");
-		}else {
-			logger.log(Level.WARNING, "Button isn't existing");
-		}
+		homePageCRMButtons(buttonsHome.NewRecord.toString());
 	}
 	
-	/**This will wait till the presence of specific element or waiting time will over
+
+	
+	
+	/**This will wait till the visibility of specific element or waiting time will over
 	 * @param selector Element locator
 	 * @param WaitingTime time driver will wait in seconds*/
 	public void waitElement(By selector,int WaitingTime) {
@@ -550,7 +523,7 @@ public class CommonParaFun {
 			}
 
 		}
-		HomePageCRMButtons("Import");
+		homePageCRMButtons("Import");
 		//loader
 
 		if(iDAW8(By.id("InlineDialog_Iframe"), 5)){
@@ -664,15 +637,7 @@ public class CommonParaFun {
     	return afterW8;
     }
     
-    /**This will deactivate any record by provided URL
-     * @param URL Record URL
-     * @throws InterruptedException */
-    public void deactivate(String URL) throws InterruptedException {
-    	openURL(URL);
-		Thread.sleep(1000);
-    	FormCRMButtons("Deactivate");
-    	logger.log(Level.SEVERE, "Record is Deactivated successfully");
-    }
+
     
     /**check if there's any allert is displayed*/
     public boolean isAlertPresent() 
@@ -689,9 +654,11 @@ public class CommonParaFun {
     /**Get record GUID
      * @throws ScriptException */
     public String recordGUID(){
-    	switchTodefaultContent();
-	    String GUID="";
+    	String GUID="";
     	try {
+	    	Thread.sleep(5000);
+	    	switchTodefaultContent();
+    	
     	    for(int i=0;i<5;i++) {
     		    if(isPresent(By.id("contentIFrame"+i))) {
     			   switchFrame("contentIFrame"+i);
@@ -703,14 +670,20 @@ public class CommonParaFun {
     	   }
     	   if("".equals(GUID)) {
 			   GUID=(String)JSCode("return Xrm.Page.data.entity.getId();");
-    		   logger.log(Level.SEVERE, "Record GUID is:"+GUID);
-    	    }else {
+    		  // logger.log(Level.SEVERE, "Record GUID is:"+GUID);
+    	    }
+//    	   else {
+//    		   GUID=GUID.substring(1, GUID.length()-1);
+//    		   logger.log(Level.SEVERE, "Record GUID is:"+GUID);
+//    	    }
+    	   if(!GUID.isEmpty()) {
     		   GUID=GUID.substring(1, GUID.length()-1);
     		   logger.log(Level.SEVERE, "Record GUID is:"+GUID);
-    	    }
-    	}catch(ScriptException|NullPointerException|WebDriverException s) {
+    	   }
+    	}catch(ScriptException|NullPointerException|WebDriverException | InterruptedException s) {
     		GUID="There's no open record to retrieve its GUID";
  		   logger.log(Level.SEVERE, "There's no open record to retrieve its GUID");
+ 		   logger.log(Level.SEVERE, "Error on retrive GUID:"+s);
     	}
     	return GUID;
     }
@@ -721,20 +694,21 @@ public class CommonParaFun {
     	String URL="";
     	try {
     		switchTodefaultContent();
+    		String recordID=recordGUID();
         	String orgURL = (String)JSCode("return Xrm.Page.context.getClientUrl();");
-        	String recordID=recordGUID();
         	String entityName = (String)JSCode("return Xrm.Page.data.entity.getEntityName();");
         	URL=orgURL  + "/main.aspx?etn="+entityName+
         			"&id=%7b" + recordID + "%7d&pagetype=entityrecord";
     	}catch(ScriptException|WebDriverException s) {
     		logger.log(Level.SEVERE, "There's no open record to retriev its URL");
+    		logger.log(Level.SEVERE, "Error:"+s);
     		URL="There's no open record to retriev its URL";
     	}
     	return URL;
 
     }
     
-    /**retrieve entity name
+    /**retrieve entity name(not work)
      * @throws  
      * @throws ScriptException */
     private String entityName() throws InterruptedException{
@@ -752,26 +726,17 @@ public class CommonParaFun {
         	 }
         	 if("".equals(entityName)) {
    			   entityName=(String)JSCode("return Xrm.Page.data.entity.getEntityName();");
-      		 logger.log(Level.SEVERE, "entity name is "+entityName);
+      		   logger.log(Level.SEVERE, "entity name is "+entityName);
         	 }else {
         		 logger.log(Level.SEVERE, "entity name is "+entityName);
         	 }
         	 
     	}catch(ScriptException|WebDriverException s) {
-        	switchTodefaultContent();
-        	Thread.sleep(2000);
-    		if(isPresent(By.xpath("/html/body/div[6]/div[2]/div/ul/li[1]"))){
-    			WebElement firstButton=CommonParaFun.driver.findElement(By.xpath("/html/body/div[6]/div[2]/div/ul/li[1]"));
-    			   entityName=firstButton.getAttribute("id");
-    			   entityName=entityName.substring(0, entityName.indexOf("|"));
-          		 logger.log(Level.SEVERE, "entity name is "+entityName);
-    		}else {
-    		       logger.log(Level.SEVERE, "Couldn't retrive entity name from the current page");
-    		       entityName="Couldn't retrive entity name from the current page";
-    		}
+    		  logger.log(Level.SEVERE, "Couldn't retrive entity name from the current page");
+    		  logger.log(Level.SEVERE, "Error: "+s);
+    		  entityName="Couldn't retrive entity name from the current page";	
     	}
     	return entityName;
-    	
     }
 
 	

@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"allclasses"},{"l":"All Packages","url":"allpackages-index.html"},{"l":"ngpack"}]
+packageSearchIndex = [{"l":"allclasses"},{"l":"All Packages","url":"allpackages-index.html"}]
