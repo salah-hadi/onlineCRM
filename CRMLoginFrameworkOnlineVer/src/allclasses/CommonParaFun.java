@@ -633,6 +633,7 @@ public class CommonParaFun {
 		afterW8=true;
     	}catch(Exception e) {
     		afterW8=false;
+    		logger.log(Level.SEVERE, "Element located by:"+selector+", has an error:"+e);
     	}
     	return afterW8;
     }

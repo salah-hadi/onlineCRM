@@ -46,6 +46,20 @@ public class UnifiedInterface extends CommonParaFun{
 		
 	}
 
+	public void openSidebar() {
+		try {
+			WebDriverWait areaWait=new WebDriverWait(driver, 10);
+			areaWait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("button[title='Site Map']")));
+			element(By.cssSelector("button[title='Site Map']")).click();
+			logger.log(Level.SEVERE, "sidebar expand/collapse button was clicked.");
+			
+		}catch(Exception e) {
+			logger.log(Level.SEVERE, "sidebar located by cssSelector'button[title='Site Map']' has error: "+e);
+			
+		}
+		
+	}
+	
 	
 	public void crmButtonUI(String title) {
 			try {
@@ -83,6 +97,7 @@ public class UnifiedInterface extends CommonParaFun{
 		}		
 	}
 	
+	//not working on onprime
 	public void switchViewUI(String viewName) {
 		switchTodefaultContent();
 		try {
@@ -103,8 +118,29 @@ public class UnifiedInterface extends CommonParaFun{
 		}
 		
 	}
+	// still not worked
+	public void switchViewUIOnPrime(String viewName) {
+		switchTodefaultContent();
+		try {
+//			System.out.println(iDAW8(By.cssSelector("span[title='Select a view']"), 20));
+			if(iDAW8(By.cssSelector("div[title='Select a view']"), 20)) {
+	//			WebDriverWait buttWait=new WebDriverWait(driver, 20);
+	//			buttWait.until(ExpectedConditions.presenceOfElementLocated(By.id("ViewSelector_0_00000000-0000-0000-00aa-000010001003_17cfefbd-6ef6-4b8b-8a4e-18c850479c65")));
+				element(By.cssSelector("div[title='Select a view']")).click();
+//				Thread.sleep(2000);
+//				element(By.xpath("//span[contains(.,'"+viewName+"')]")).click();
+				if(iDAW8(By.xpath("//span[text()='"+viewName+"']"), 5)) {
+					element(By.xpath("//span[text()='"+viewName+"']")).click();
+					logger.log(Level.SEVERE,"View has been changed successfully");
+				}		
+			}
+		}catch(Exception e) {
+			logger.log(Level.SEVERE,"can't open views list: "+e.getMessage());
+		}
+		
+	}
 	
-	
+	//not working on onprime
 	public void createNewRecordUI(String menuName, String entityName) {
 		navigateUI(menuName, entityName);
 		crmButtonUI("New");
