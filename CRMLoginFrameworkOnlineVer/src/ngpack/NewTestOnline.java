@@ -31,6 +31,7 @@ public class NewTestOnline{
 //	  c.configDriver("E:\\automation\\chrome driver\\chromedriver.exe", "chrome", "http://41.41.31.190:6725/barqtest2");
 //	  c.configDriver("C:\\Users\\hp\\Downloads\\chromedriver.exe", "chrome", "http://barqstaging.crm4.dynamics.com");
 //	  c.configDriver("C:\\Users\\hp\\Downloads\\chrome driver\\chromedriver.exe", "chrome", "https://banatistaging.crm4.dynamics.com/main.aspx");
+//	  c.configDriver("E:\\automation\\chrome driver\\chromedriver.exe", "chrome", "https://banatistaging.crm4.dynamics.com/main.aspx");
 	  c.configDriver("E:\\automation\\chrome driver\\chromedriver.exe", "chrome", "http://10.0.0.72:5555/QNBTest/main.aspx?appid=a2f91f12-dec1-ea11-8b9f-000c298a9dbc&pagetype=entitylist&etn=incident");
 //	  login.launchingbrowser();
 //	  login.dismissEmailmsg();
@@ -49,9 +50,9 @@ public class NewTestOnline{
 //	  c.UIEntityNav("eme_nationality");
 //	  Thread.sleep(5000);
 //	  ui.openSidebar();
-//	  ui.searchMainScreenUI("testing case");
+	  ui.searchMainScreenUI("testing case");
 //	  ui.switchViewUI("All Cases");
-	  ui.switchViewUIOnPrime("All Cases");
+//	  ui.switchViewUI("My Active Case Profiles","Inactive Case Profiles");
 //	  ui.navigateMenuUI("Shelter");
 //	  ui.navigateMenuUI("Settings");
 //	  ui.navigateMenuUI("Case Management");

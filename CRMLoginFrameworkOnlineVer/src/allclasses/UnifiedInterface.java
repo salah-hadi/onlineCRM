@@ -1,8 +1,6 @@
 package allclasses;
 
 import java.awt.AWTException;
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
 import java.util.logging.Level;
 
 import org.openqa.selenium.By;
@@ -13,15 +11,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class UnifiedInterface extends CommonParaFun{
 	
+	/**opening navigation menu in online version
+	 * @param menuName menu you want to navigate*/
 	private void navigateMenuUI(String menuName) {
 		try {
-			switchTodefaultContent();
-					
-			element(By.id("areaSwitcherId")).click();
-			
+			switchTodefaultContent();					
+			element(By.id("areaSwitcherId")).click();			
 			WebDriverWait wait=new WebDriverWait(driver, 5);
-			wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[contains(.,'"+menuName+"')]")));
-			
+			wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[contains(.,'"+menuName+"')]")));			
 			element(By.xpath("//span[contains(.,'"+menuName+"')]")).click();
 			logger.log(Level.SEVERE, " "+menuName+" has been expanded...");
 		}catch(Exception e) {
@@ -30,11 +27,15 @@ public class UnifiedInterface extends CommonParaFun{
 		
 	}
 	
+	/**Navigate to specific entity which is inside specific menu.
+	 * for online version(Unified interface.
+	 * @param menuName Menu name which contains the entity
+	 * @param entityName the entity you want to navigate to
+	 * */
 	public void navigateUI(String menuName, String entityName) {
 		switchTodefaultContent();
 		WebDriverWait areaWait=new WebDriverWait(driver, 10);
-		areaWait.until(ExpectedConditions.presenceOfElementLocated(By.id("areaSwitcherId")));
-		
+		areaWait.until(ExpectedConditions.presenceOfElementLocated(By.id("areaSwitcherId")));		
 		if(!element(By.xpath("//*[@id=\"areaSwitcherId\"]/span[1]")).getText().equals(menuName)) {
 			navigateMenuUI(menuName);
 		}		
@@ -46,6 +47,7 @@ public class UnifiedInterface extends CommonParaFun{
 		
 	}
 
+	/**will open and close the side bar*/
 	public void openSidebar() {
 		try {
 			WebDriverWait areaWait=new WebDriverWait(driver, 10);
@@ -60,12 +62,12 @@ public class UnifiedInterface extends CommonParaFun{
 		
 	}
 	
-	
+	/**It will click on any CRM button
+	 * @param title The button displayed name*/
 	public void crmButtonUI(String title) {
 			try {
 				switchTodefaultContent();
 				WebDriverWait buttWait=new WebDriverWait(driver, 20);
-//				buttWait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("button[title*='"+title+"']")));
 				buttWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[aria-label='"+title+"']")));//need to reworked, It clicked the new quick create
 				element(By.cssSelector("button[aria-label='"+title+"']")).click();
 				logger.log(Level.SEVERE,"Button with label: "+title+", has been clicked");
@@ -80,55 +82,51 @@ public class UnifiedInterface extends CommonParaFun{
 	public void searchMainScreenUI(String searchValue) {
 		switchTodefaultContent();
 		try {
-			if(iDAW8(By.id("quickFind_text_0"), 10)) {
+			if(iDAW8(By.id("quickFind_text_0"), 20)) {
 				element(By.id("quickFind_text_0")).sendKeys(searchValue);
-				Robot r= new Robot();
-				//the following two lines should be commented on converting to c#
-				r.keyPress(KeyEvent.VK_ENTER);
-				r.keyRelease(KeyEvent.VK_ENTER);
+				element(By.cssSelector("button[title='Start search']")).click();
 				logger.log(Level.WARNING, "search has been completed successfully");
 			}else {
 				logger.log(Level.WARNING, "quickFind_text_0 isn't displayed after waiting.");
 			}
 			
-		} catch (AWTException e) {
+		} catch (Exception e) {
 			logger.log(Level.WARNING, "an error has been occured during searching:"+e.getMessage());
 
 		}		
 	}
 	
-	//not working on onprime
-	public void switchViewUI(String viewName) {
+	/**It will change the view (online version)
+	 * @param viewName the view name you want to switch to*/
+//	public void switchViewUI(String viewName) {
+//		switchTodefaultContent();
+//		try {
+////			System.out.println(iDAW8(By.cssSelector("span[title='Select a view']"), 20));
+//			if(iDAW8(By.cssSelector("span[title='Select a view']"), 20)) {
+//	//			WebDriverWait buttWait=new WebDriverWait(driver, 20);
+//	//			buttWait.until(ExpectedConditions.presenceOfElementLocated(By.id("ViewSelector_0_00000000-0000-0000-00aa-000010001003_17cfefbd-6ef6-4b8b-8a4e-18c850479c65")));
+//				element(By.cssSelector("span[title='Select a view']")).click();
+////				Thread.sleep(2000);
+////				element(By.xpath("//span[contains(.,'"+viewName+"')]")).click();
+//				if(iDAW8(By.xpath("//span[text()='"+viewName+"']"), 5)) {
+//					element(By.xpath("//span[text()='"+viewName+"']")).click();
+//					logger.log(Level.SEVERE,"View has been changed successfully");
+//				}		
+//			}
+//		}catch(Exception e) {
+//			logger.log(Level.SEVERE,"can't open views list: "+e.getMessage());
+//		}
+//		
+//	}
+	
+	/**It will change the view 
+	 * @param currentViewName the current selected view name
+	 * @param viewName the view name you want to switch to*/
+	public void switchViewUI(String currentViewName,String viewName) {
 		switchTodefaultContent();
 		try {
-//			System.out.println(iDAW8(By.cssSelector("span[title='Select a view']"), 20));
-			if(iDAW8(By.cssSelector("span[title='Select a view']"), 20)) {
-	//			WebDriverWait buttWait=new WebDriverWait(driver, 20);
-	//			buttWait.until(ExpectedConditions.presenceOfElementLocated(By.id("ViewSelector_0_00000000-0000-0000-00aa-000010001003_17cfefbd-6ef6-4b8b-8a4e-18c850479c65")));
-				element(By.cssSelector("span[title='Select a view']")).click();
-//				Thread.sleep(2000);
-//				element(By.xpath("//span[contains(.,'"+viewName+"')]")).click();
-				if(iDAW8(By.xpath("//span[text()='"+viewName+"']"), 5)) {
-					element(By.xpath("//span[text()='"+viewName+"']")).click();
-					logger.log(Level.SEVERE,"View has been changed successfully");
-				}		
-			}
-		}catch(Exception e) {
-			logger.log(Level.SEVERE,"can't open views list: "+e.getMessage());
-		}
-		
-	}
-	// still not worked
-	public void switchViewUIOnPrime(String viewName) {
-		switchTodefaultContent();
-		try {
-//			System.out.println(iDAW8(By.cssSelector("span[title='Select a view']"), 20));
-			if(iDAW8(By.cssSelector("div[title='Select a view']"), 20)) {
-	//			WebDriverWait buttWait=new WebDriverWait(driver, 20);
-	//			buttWait.until(ExpectedConditions.presenceOfElementLocated(By.id("ViewSelector_0_00000000-0000-0000-00aa-000010001003_17cfefbd-6ef6-4b8b-8a4e-18c850479c65")));
-				element(By.cssSelector("div[title='Select a view']")).click();
-//				Thread.sleep(2000);
-//				element(By.xpath("//span[contains(.,'"+viewName+"')]")).click();
+			if(iDAW8(By.xpath("//span[contains(.,'"+currentViewName+"')]"), 20)) {
+				element(By.xpath("//span[contains(.,'"+currentViewName+"')]")).click();
 				if(iDAW8(By.xpath("//span[text()='"+viewName+"']"), 5)) {
 					element(By.xpath("//span[text()='"+viewName+"']")).click();
 					logger.log(Level.SEVERE,"View has been changed successfully");
@@ -140,14 +138,17 @@ public class UnifiedInterface extends CommonParaFun{
 		
 	}
 	
-	//not working on onprime
+	/** open new record from specific entity
+	 * @param menuName Menu name which contains the entity
+	 * @param entityName the entity you want to navigate to*/
 	public void createNewRecordUI(String menuName, String entityName) {
 		navigateUI(menuName, entityName);
 		crmButtonUI("New");
 	}
 	
+	/**It will log out from the current user (online version only)*/
 	public void logOutUI() throws InterruptedException{
-	//	#userInformationLauncher_buttoncrm_header_global_me-control
+
 		switchTodefaultContent();
 		try {
 			if(iDAW8(By.id("userInformationLauncher_buttoncrm_header_global_me-control"), 10)) {
