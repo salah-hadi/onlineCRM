@@ -4,13 +4,16 @@ package ngpack;
 import allclasses.CommonParaFun;
 import allclasses.DataGenerator;
 import allclasses.UnifiedInterface;
+import allclasses.WriteTcsExcel;
 import allclasses.generetorDatatype;
 
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
 //import org.junit.Test;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 //import org.sikuli.script.Pattern;
@@ -32,7 +35,7 @@ public class NewTestOnline{
 //	  c.configDriver("C:\\Users\\hp\\Downloads\\chromedriver.exe", "chrome", "http://barqstaging.crm4.dynamics.com");
 //	  c.configDriver("C:\\Users\\hp\\Downloads\\chrome driver\\chromedriver.exe", "chrome", "https://banatistaging.crm4.dynamics.com/main.aspx");
 //	  c.configDriver("E:\\automation\\chrome driver\\chromedriver.exe", "chrome", "https://banatistaging.crm4.dynamics.com/main.aspx");
-	  c.configDriver("E:\\automation\\chrome driver\\chromedriver.exe", "chrome", "http://10.0.0.72:5555/QNBTest/main.aspx?appid=a2f91f12-dec1-ea11-8b9f-000c298a9dbc&pagetype=entitylist&etn=incident");
+//	  c.configDriver("E:\\automation\\chrome driver\\chromedriver.exe", "chrome", "http://10.0.0.72:5555/QNBTest/main.aspx?appid=a2f91f12-dec1-ea11-8b9f-000c298a9dbc&pagetype=entitylist&etn=incident");
 //	  login.launchingbrowser();
 //	  login.dismissEmailmsg();
 //	  c.configDriver("E:\\automation\\chrome driver\\chromedriver.exe", "chrome", "https://efbstaging.crm4.dynamics.com/main.aspx?etn=eme_deliverygenerator&id={C6441715-D0C4-E911-A849-000D3AB2DDD3}&pagetype=entityrecord");
@@ -40,7 +43,7 @@ public class NewTestOnline{
 	  ///
 //		c.LoginOnline("crm@barqsystems.com","EME_B@rq");
 //		c.LoginOnline("cmh@banatifoundation.org","EMEit@123");
-		c.loginOnpremise("C:\\Users\\Salah\\git\\onlineCRM\\CRMLoginFrameworkOnlineVer\\Autoit\\Autoit.exe");
+//		c.loginOnpremise("C:\\Users\\Salah\\git\\onlineCRM\\CRMLoginFrameworkOnlineVer\\Autoit\\Autoit.exe");
 
 
   }
@@ -50,7 +53,7 @@ public class NewTestOnline{
 //	  c.UIEntityNav("eme_nationality");
 //	  Thread.sleep(5000);
 //	  ui.openSidebar();
-	  ui.searchMainScreenUI("testing case");
+//	  ui.searchMainScreenUI("testing case");
 //	  ui.switchViewUI("All Cases");
 //	  ui.switchViewUI("My Active Case Profiles","Inactive Case Profiles");
 //	  ui.navigateMenuUI("Shelter");
@@ -311,5 +314,11 @@ public class NewTestOnline{
 //	  System.out.println(DataGenerator.randomValue(200, generetorDatatype.number));
 //	  System.err.println("starting string generating... \n");
 //	  System.out.println(DataGenerator.randomValue(300, generetorDatatype.string));
+	  WriteTcsExcel tc=new WriteTcsExcel();
+//	  Path path = new File(getClass()
+//			  .getResource("C:\\Users\\hp\\Desktop\\Book1.xlsx")
+//			  .getFile()).toPath();
+	  tc.readData("C:\\Users\\hp\\Desktop\\Book3.xlsx", "Sheet1", 2, 7,8);
+	  
   }
 }
